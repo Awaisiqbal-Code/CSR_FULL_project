@@ -1,0 +1,95 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>Scholarshiphive CSR — Admin</title><link rel="stylesheet" href="/admin-assets/styles.css?v=4.17"></head>
+<body class="login-view">
+<header class="bar"><div class="brand"><span class="mark">☏</span><div><strong>scholarshiphive.</strong><small>CSR INTELLIGENCE</small></div></div><nav id="top-tabs" class="tabs hidden" aria-label="Admin sections"><button data-tab="overview" class="selected">◫ &nbsp; Overview</button><button data-tab="chats">♧ &nbsp; Conversations</button><button data-tab="reports">▤ &nbsp; Audit reports</button><button data-tab="team">♧ &nbsp; Team management</button></nav><div id="nav-actions" class="hidden"><span class="admin-label">Admin · <span id="admin-name"></span></span><span class="admin-avatar">LA</span><button id="logout" class="subtle">Sign out</button></div></header>
+<main>
+ <section id="login-pane" class="login-shell" aria-label="Admin sign in">
+   <div class="login-hero">
+     <div class="login-hero-content">
+       <div class="hero-brand"><span class="hero-brand-mark" aria-hidden="true">SH</span><span>scholarshiphive.<small>CSR INTELLIGENCE</small></span></div>
+       <div class="hero-story">
+         <div class="hero-eyebrow">STUDY-ABROAD OPERATIONS</div>
+         <h1>CSR<br><span>Intelligence</span></h1>
+         <p>One workspace for counselor conversations, response insights, and quality audits.</p>
+         <div class="hero-features">
+           <div class="hero-feature"><span class="feature-dot" aria-hidden="true"></span><div><strong>Counselor visibility</strong><small>Review synchronized team conversations</small></div></div>
+           <div class="hero-feature"><span class="feature-dot" aria-hidden="true"></span><div><strong>Conversation analytics</strong><small>Follow message activity and response trends</small></div></div>
+           <div class="hero-feature"><span class="feature-dot" aria-hidden="true"></span><div><strong>Audit reports</strong><small>Generate and review counselor QA reports</small></div></div>
+         </div>
+       </div>
+       <div class="hero-bottom">SCHOLARSHIPHIVE · INTERNAL WORKSPACE</div>
+     </div>
+   </div>
+   <div class="login-right">
+     <div class="login-form-wrap">
+       <span class="form-eyebrow">WELCOME BACK</span>
+       <h2>Sign in to continue</h2>
+       <p class="login-description">Use your CSR administrator credentials to access conversations, analytics, and audit reports.</p>
+       <form id="login-form" class="admin-login-form">
+         <label for="email">EMAIL ADDRESS</label>
+         <input type="email" id="email" placeholder="Enter your email address" required autocomplete="username" spellcheck="false">
+         <label for="password">PASSWORD</label>
+         <div class="password-field"><input type="password" id="password" placeholder="Enter password" required autocomplete="current-password"><button type="button" id="toggle-password" class="password-toggle" aria-label="Show password" aria-pressed="false">Show</button></div>
+         <button class="login-submit" type="submit">Enter workspace</button>
+       </form>
+       <p class="login-security">Protected access for authorized CSR administrators only.</p>
+     </div>
+   </div>
+ </section>
+ <section id="app-pane" class="hidden">
+   <div id="main-heading" class="heading"><div><h1>CSR Admin Overview</h1><p class="muted">Connected to the same PostgreSQL backend as the employee extension.</p></div></div>
+   <section id="global-filters" class="panel filters overview-filters" aria-label="Dashboard filters">
+     <div class="filter-search-field"><label for="employee-search">Search counselor</label><input id="employee-search" type="search" placeholder="Search by employee name or ID…" autocomplete="off"></div>
+     <div><label for="employee">Counselor</label><select id="employee"><option value="">All counselors</option></select></div>
+     <div><label for="range">Calendar · Date range</label><select id="range"><option value="all" selected>All Time</option><option value="today">Today</option><option value="7days">Last 7 days</option><option value="month">Current month</option><option value="lastmonth">Previous month</option><option value="custommonths">Custom months</option><option value="customdates">Custom dates</option></select></div>
+     <div id="month-controls" class="range-additional hidden"><label>From month<input type="month" id="from-month"></label><label>To month<input type="month" id="to-month"></label></div>
+     <div id="date-controls" class="range-additional hidden"><label>From date<input type="date" id="from-date"></label><label>To date<input type="date" id="to-date"></label></div>
+     <div class="filter-button"><button id="apply" class="primary">Apply filter</button></div>
+     <div class="filter-button"><button id="reset-overview" class="secondary">Reset all</button></div>
+   </section>
+   <section id="overview" class="tab-section">
+     <div class="overview-section-heading">
+       <div><h2>Counselors</h2><p class="muted">Select a counselor to filter every dashboard visualization. Use Show chats to open their inbox.</p></div>
+       <span id="counselor-count-pill" class="overview-count-pill">Loading counselors…</span>
+     </div>
+     <div id="employee-cards" class="counselor-grid" aria-live="polite"><p class="muted">Loading employee cards…</p></div>
+     <div class="overview-section-heading kpi-heading"><div><h2>Key metrics</h2><p class="muted">Live database totals and selected-period results. Latest unread and sync data are snapshots.</p></div></div>
+     <div class="metrics"><div class="metric"><small id="a-conv-label">Conversations (all saved)</small><strong id="a-conv">—</strong><small class="metric-hint" id="a-conv-hint"></small></div><div class="metric"><small id="a-msg-label">Messages saved (all time)</small><strong id="a-msg">—</strong><small class="metric-hint" id="a-msg-hint"></small></div><div class="metric"><small>Unread excluded (latest sync)</small><strong id="a-unread">—</strong></div><div id="call-event-metric" class="metric metric-action" role="button" tabindex="0" aria-label="View call events"><small id="a-call-label">Call events (all time)</small><strong id="a-call">—</strong><small class="metric-hint" id="a-call-hint">Open saved call events</small></div><div class="metric"><small>Voice notes</small><strong id="a-voice">—</strong><small class="metric-hint">Chats with detected voice</small></div><div class="metric"><small>Median response time</small><strong id="a-avg-response" class="small-value">—</strong><small class="metric-hint" id="a-avg-response-hint">Typical reply speed</small></div><div class="metric"><small>Chats replied (period)</small><strong id="a-replied">—</strong><small class="metric-hint">≥1 timestamped reply</small></div><div class="metric"><small>No reply observed</small><strong id="a-noreply">—</strong><small class="metric-hint">Not a proven SLA breach</small></div><div class="metric"><small>Last completed sync (PKT)</small><strong id="a-last-sync" class="small-value">—</strong></div></div>
+     <p class="muted snapshot-note">Unread excluded aur Last completed sync latest sync snapshots hain; historical date filter unhe change nahi karta.</p>
+     <p class="muted snapshot-note">Call placeholders (separate from Messages): <strong id="call-count">—</strong>. <span id="call-note"></span></p>
+     <div class="overview-section-heading charts-heading"><div><h2>Pipeline &amp; activity</h2><p class="muted">Charts use verified message timestamps. Missing values are not estimated. Lead classification lives in the Audit report.</p></div><div class="status-grouping"><label for="bucket">Chart grouping</label><select id="bucket"><option value="day">Daily</option><option value="month" selected>Monthly</option></select></div></div>
+     <div class="columns dashboard-chart-grid"><div class="panel"><div class="chart-heading-row"><h2>Message Activity</h2><small id="activity-scope" class="muted">Selected range</small></div><div id="bar-chart" class="bar-chart"></div></div><div class="panel"><h2>Response coverage</h2><p class="muted">Only timestamp-supported replies; no reply observed ≠ SLA failure.</p><div id="response-pie-chart" class="pie-wrap"></div><p id="response-coverage-note" class="muted"></p></div></div>
+     <div class="panel"><h2>Sync &amp; Report Activity <span class="range-descriptor">(all time)</span></h2><div class="activity-summary"><p>Completed sync runs: <strong id="a-sync">—</strong></p><p>Completed reports: <strong id="a-reports">—</strong></p></div></div>
+     <div class="panel"><h2>Unread excluded — latest snapshot by employee</h2><div id="unread-breakdown"></div></div>
+     <div class="panel"><h2>Report Status</h2><div id="report-status" class="status-row"></div></div>
+     <p id="analytics-note" class="muted caution"></p>
+   </section>
+   <section id="chats" class="tab-section hidden">
+     <div class="crumbs">Workspace <span>›</span> Conversations <em>Light workspace</em></div>
+     <div class="chat-heading"><div><div class="eyebrow">SCHOLARSHIPHIVE / CSR OPERATIONS</div><h1>Saved conversations</h1><p class="muted">Select an employee to browse chats, or explore analytics across the team. Press Esc to close a conversation.</p></div>
+     <div class="chat-heading-actions"><button id="refresh-chats" class="secondary">↻ Refresh preview</button><button id="chats-create-audit" class="primary">＋ Create audit</button></div></div>
+     <div class="workspace-toolbar"><div><strong>Conversation workspace</strong><small id="chat-list-summary" class="muted">Loading synchronized conversations…</small></div>
+       <div class="workspace-filters"><select id="chats-employee" aria-label="Employee"><option value="">All employees</option></select>
+       <select id="chats-activity" aria-label="Chat activity"><option value="">All activity</option><option value="calls">With calls</option><option value="voice">With voice notes</option><option value="replied">Counselor replied</option><option value="no_reply">No reply observed</option></select>
+       <select id="chats-range" aria-label="Chat date range"><option value="all">All Time</option><option value="month">Current month</option><option value="7days">Last 7 days</option><option value="custom">Custom dates</option></select>
+       <div id="chats-custom-dates" class="hidden"><input id="chats-from" type="date" aria-label="Chat start date"><input id="chats-to" type="date" aria-label="Chat end date"></div>
+       </div></div>
+     <div id="conversation-workspace" class="conversation-workspace workspace-all-employees">
+       <aside class="inbox-pane"><div class="inbox-heading"><strong>Inbox</strong><span id="chat-count-pill" class="count-pill">0 visible</span></div>
+       <div class="inbox-search"><span>⌕</span><input id="chat-search" type="search" placeholder="Search contacts or messages…" aria-label="Search saved conversations"></div>
+       <div id="chat-list" class="inbox-list" role="listbox" aria-label="Conversations"></div>
+       <button id="load-more-chats" class="load-more hidden">Load more conversations</button></aside>
+       <section class="conversation-pane"><div id="chat-detail" class="chat-detail-pane"><div class="chat-empty"><span>☏</span><h2>Chats overview</h2><p>Analytics load here. Choose an employee to browse saved conversations.</p></div></div></section>
+     </div>
+     <div class="workspace-footer"><span>Messages and available media are retrieved from the company database, not directly from WhatsApp.</span><span>Access restricted to authenticated admins</span></div>
+   </section>
+   <section id="reports" class="tab-section hidden">
+     <div class="panel"><h2>Generate QA report</h2><p class="muted">Choose an employee. When processing finishes, the full report will open here. PDF download is optional.</p><div class="row"><label>Employee<select id="report-employee"></select></label><label>Reporting window<select id="report-period"><option value="last_25h">Last 25 hours</option><option value="last_7d">Last 7 days</option><option value="last_15d">Last 15 days</option><option value="last_30d">Last 30 days</option><option value="current_month">Current month</option><option value="previous_month">Previous month</option><option value="custom">Custom dates</option></select></label><label id="report-from-label" class="hidden">From<input type="date" id="report-from"></label><label id="report-to-label" class="hidden">To<input type="date" id="report-to"></label><button id="generate" class="primary">Generate Audit</button></div><h2>Report History</h2><div id="report-list"></div></div>
+     <section id="audit-viewer" class="panel audit-viewer hidden" aria-label="Audit report preview" tabindex="-1">
+       <div class="audit-viewer-toolbar"><div><span class="audit-eyebrow">SCHOLARSHIPHIVE / AUDIT REPORT</span><h2 id="audit-viewer-title">Audit Report</h2><p id="audit-viewer-state" class="muted" role="status" aria-live="polite">Loading…</p></div><div class="audit-viewer-actions"><button type="button" id="audit-refresh" class="secondary">Refresh status</button><button type="button" id="audit-download" class="primary hidden">Download PDF</button><button type="button" id="audit-close" class="subtle">Close preview</button></div></div>
+       <div id="audit-preview-content" class="audit-preview-content"></div>
+     </section>
+   </section>
+   <section id="team" class="tab-section hidden"><div class="panel"><h2>Employee Accounts</h2><div id="team-list"></div></div></section>
+ </section>
+ <div class="toast hidden" role="status" aria-live="polite" id="toast"></div>
+</main><script defer src="/admin-assets/admin.js?v=4.17"></script></body></html>

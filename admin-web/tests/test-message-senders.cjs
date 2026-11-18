@@ -1,0 +1,18 @@
+'use strict';
+const fs=require('fs');
+const vm=require('vm');
+const assert=require('assert/strict');
+const code=fs.readFileSync(require('path').join(__dirname,'../admin.js'),'utf8');
+const start=code.indexOf('function actualSenderName(');
+const end=code.indexOf('function renderMessage(',start);
+assert(start>=0&&end>start,'sender labels helper is present');
+const sandbox={employeeLabel:()=> 'Abdullah (001)'};
+vm.runInNewContext(code.slice(start,end)+'\nthis.getSender=actualSenderName;',sandbox);
+const c={employee_id:2,title:'Waleed Ijaz',contact_number:'+923001112222'};
+assert.equal(sandbox.getSender({from_me:true,sender:'You'},c),'Abdullah (001)');
+assert.equal(sandbox.getSender({from_me:false,sender:'Waleed Ijaz'},c),'Waleed Ijaz');
+assert.equal(sandbox.getSender({from_me:false,sender:'Umar Awais RIU'},c),'Umar Awais RIU');
+assert.equal(sandbox.getSender({from_me:false,sender:''},c),'+923001112222');
+assert.equal(sandbox.getSender({from_me:false,sender:''},{...c,contact_number:''}),'Waleed Ijaz');
+assert(code.includes('renderMessage(msg,c)')&&code.includes('area.append(rendered)'));
+console.log('PASS counselor identity / individual or group inbound sender / fallback');

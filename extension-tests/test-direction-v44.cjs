@@ -1,0 +1,13 @@
+const fs=require('fs'),path=require('path'),vm=require('vm'),assert=require('assert/strict');
+const script=fs.readFileSync(path.join(__dirname,'../extension/content.js'),'utf8');
+const a=script.indexOf('function __csrTrustedMessageId(');
+const b=script.indexOf('function __lovStampMs(',a);
+assert(a>0&&b>a,'Corrected WhatsApp message direction helper exists');
+const context={__wceFindDataId:row=>row.id||'',Error};
+vm.runInNewContext(script.slice(a,b)+'\nthis.detect=__csrOutgoingRow;',context);
+const row=(id,cls)=>({id,matches:()=>cls==='out'||cls==='in',classList:{contains:key=>key===(cls==='out'?'message-out':'message-in')},closest:()=>null,querySelector:()=>null});
+assert.equal(context.detect(row('true_923@c.us_ABC','none')),true);
+assert.equal(context.detect(row('false_923@c.us_ABC','out')),false);
+assert.equal(context.detect(row('', 'out')),true);
+assert.equal(context.detect(row('', 'in')),false);
+console.log('PASS v4.4 sender direction: trusted WhatsApp ID then wrapper class fallback');

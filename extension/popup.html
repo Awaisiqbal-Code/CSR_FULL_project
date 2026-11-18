@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Scholarshiphive CSR — Employee</title>
+  <link rel="stylesheet" href="ui.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><img src="icons/icon-48.png" alt="Scholarshiphive" width="34" height="34"><div><strong>Scholarshiphive CSR</strong><span>Employee WhatsApp Sync</span></div></div>
+    <button id="fullpage" class="icon-btn" title="Open extension full page" aria-label="Open extension full page">⤢</button>
+  </header>
+  <main>
+    <section id="setup" class="screen hidden">
+      <div class="hero-icon">⚙</div><h1>Connect your workspace</h1>
+      <p class="muted">Your company backend connection. For local VS Code testing: http://127.0.0.1:8000</p>
+      <form id="setup-form" class="stack">
+        <label for="api-base">Backend API URL</label><input id="api-base" type="url" placeholder="http://127.0.0.1:8000" required>
+        <button class="primary" type="submit">Save connection</button>
+      </form>
+    </section>
+    <section id="auth" class="screen hidden">
+      <div class="auth-heading"><div class="hero-icon">◈</div><h1>Welcome to CSR</h1><p class="muted">Secure access to your company WhatsApp sync workspace.</p></div>
+      <div class="pill-tabs" role="tablist"><button id="mode-login" type="button" class="selected">Sign in</button><button id="mode-signup" type="button">First-time signup</button></div>
+      <form id="login-form" class="stack">
+        <label for="login-email">Company email</label><input id="login-email" type="email" autocomplete="username" required>
+        <label for="login-password">Password</label><input id="login-password" type="password" autocomplete="current-password" required>
+        <button type="submit" class="primary">Sign in securely</button>
+      </form>
+      <form id="signup-form" class="stack hidden">
+        <label for="sign-name">Full name</label><input id="sign-name" required minlength="2">
+        <p class="hint">Your employee ID will be assigned automatically.</p>
+        <label for="sign-email">Company email</label><input id="sign-email" type="email" required>
+        <label for="sign-phone">Contact number (optional)</label><input id="sign-phone" placeholder="+92...">
+        <label for="sign-wa">Company-authorized WhatsApp number</label><input id="sign-wa" required placeholder="+923001234567">
+        <div class="two"><div><label for="sign-dept">Department</label><input id="sign-dept" value="Counseling"></div><div><label for="sign-designation">Designation</label><input id="sign-designation" value="Counselor"></div></div>
+        <label for="sign-password">Create password (8+ characters)</label><input id="sign-password" type="password" minlength="8" autocomplete="new-password" required>
+        <p class="hint">Company-authorized WhatsApp chats and accessible voice notes are synchronized periodically to the company workspace while Chrome and WhatsApp Web are available. Images/documents and call events are identified but their files/recordings are not saved. Confirmed unread chats are excluded. An admin must approve your registration.</p>
+        <button type="submit" class="primary">Request account approval</button>
+      </form>
+      <button id="change-api" class="subtle-btn" type="button">Change connection address</button>
+    </section>
+    <section id="workspace" class="screen hidden">
+      <div class="identity"><div><h1 id="hello">My sync</h1><p id="identity-line" class="muted"></p></div><button id="logout" class="outline tiny" type="button">Log out</button></div>
+      <h2>WhatsApp Sync</h2><p class="muted small">Your authorized conversations are saved securely to your company workspace.</p>
+      <div class="metrics employee-metrics">
+        <div class="metric"><span>Conversations</span><strong id="metric-chats">—</strong></div>
+        <div class="metric"><span>Messages saved</span><strong id="metric-messages">—</strong></div>
+        <div class="metric"><span>Unread excluded</span><strong id="metric-unread">—</strong></div>
+      </div>
+      <div class="card stack">
+        <button id="sync-now" class="primary" type="button">Sync Chats</button>
+        <button id="refresh-dashboard" class="outline" type="button">Refresh statistics</button>
+        <p class="hint" id="sync-summary">Connect to WhatsApp Web in Chrome before synchronizing.</p>
+      </div>
+    </section>
+    <div id="notice" class="notice hidden" role="status" aria-live="polite"></div>
+  </main>
+  <footer>Scholarshiphive · Employee Workspace</footer>
+  <script src="ui.js" defer></script>
+</body>
+</html>
