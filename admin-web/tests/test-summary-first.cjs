@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const root=path.resolve(__dirname,'..');
+const js=fs.readFileSync(path.join(root,'admin.js'),'utf8');
+const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const css=fs.readFileSync(path.join(root,'styles.css'),'utf8');
+assert.match(js,/const onlySummary=!chosen/,'All employees only summary branch');
+assert.match(js,/if\(onlySummary\)/,'Summary-only behavior');
+assert.doesNotMatch(js,/if\(found\)await openConversation\(found\)/);
+assert.match(js,/event\.key==='Escape'/,'Esc closes chat');
+assert.match(js,/selectOverview\(\)/,'Return to analytics action');
+assert.doesNotMatch(js,/Correct contact name or number/,'No contact-edit UI');
+assert.match(js,/\/admin\/chats\/summary\?/,'Admin analytics endpoint');
+assert.match(html,/workspace-all-employees/,'Default All Employees graph-only layout');
+assert.match(html,/admin\.js\?v=4\.17/);
+assert.match(css,/\.workspace-all-employees \.inbox-pane\{display:none\}/);
+console.log('PASS Chat overview first, All Employees no list, Esc to graphs, no contact edit, v3.9 assets');
