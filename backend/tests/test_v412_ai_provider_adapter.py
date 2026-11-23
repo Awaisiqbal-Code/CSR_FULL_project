@@ -61,6 +61,9 @@ def test_claude_request_and_json_response(monkeypatch):
     assert headers['x-api-key'] == 'MOCK_TEST_KEY'
     assert 'anthropic-version' in headers
     assert body['messages'][0]['content'] == '{"synthetic":true}'
+    # Current Claude models reject a non-default temperature with HTTP 400, so it
+    # must NOT be sent (regression guard for the "No AI summary" bug).
+    assert 'temperature' not in body
 
 
 def test_openai_previous_provider_remains_supported(monkeypatch):

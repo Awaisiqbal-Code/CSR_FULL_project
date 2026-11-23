@@ -368,3 +368,66 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
     # NOT be summed into this total (spec 2 INTERPRETATION RULE).
     summary['counts_reconciled'] = (total == summary['potential_leads']+summary['possible_internal']+summary['unclassified'])
     return summary
+
+
+# AI audit categories -> the three business categories that drive the headline
+# counts. A lead that inquired, a dead cold-contact, and a replied prospect are all
+# Clients; only clear staff/admin threads are Internal; empty/unclear stay Unclassified.
+_AI_CATEGORY_TO_BUSINESS = {
+    'responsive': 'potential_lead',
+    'consultant_no_reply': 'potential_lead',
+    'dead': 'potential_lead',
+    'internal_staff': 'internal_staff',
+    'empty': 'unclassified',
+    'unclassified': 'unclassified',
+}
+_AI_TIERS = ('very_hot', 'hot', 'average', 'cold')
+
+
+def apply_ai_classification(summary: dict) -> dict:
+    """Make the AI's per-chat category + lead tier authoritative (old n8n/Gemini
+    approach). Only rows the AI actually evaluated are overridden; chats where AI was
+    unavailable keep their deterministic classification/tier (safe fallback). All
+    classification-derived headline counts are recomputed from the overridden rows.
+    Call this AFTER evaluate_conversations has populated audit_category/audit_tier."""
+    rows = summary.get('conversations') or []
+    overridden = 0
+    for r in rows:
+        if r.get('audit_analysis_status') != 'evaluated':
+            continue  # AI did not evaluate this chat -> keep deterministic result
+        business = _AI_CATEGORY_TO_BUSINESS.get(r.get('audit_category'))
+        if not business:
+            continue
+        r['classification'] = business
+        # AI only tiers responsive leads; a lead with no AI tier shows "Not assessed".
+        r['lead_tier'] = r.get('audit_tier') if (business == 'potential_lead' and r.get('audit_tier') in _AI_TIERS) else None
+        overridden += 1
+    if not overridden:
+        return summary
+    counts = Counter(r['classification'] for r in rows)
+    total = len(rows)
+    summary['potential_leads'] = counts['potential_lead']
+    summary['possible_internal'] = counts['internal_staff']
+    summary['unclassified'] = counts['unclassified']
+    summary['possible_no_reply'] = sum(r.get('possible_consultant_no_reply', 0) for r in rows if r['classification'] == 'potential_lead')
+    summary['possible_dead'] = sum(r.get('possible_dead', 0) for r in rows if r['classification'] == 'potential_lead')
+    summary['old_client_follow_up'] = sum(1 for r in rows if r.get('is_follow_up') and r['classification'] == 'potential_lead')
+    tier_counts = Counter(r['lead_tier'] for r in rows if r.get('lead_tier') in _AI_TIERS)
+    summary['lead_tiers'] = {k: tier_counts.get(k, 0) for k, _ in am.TIER_THRESHOLDS}
+    country = Counter(); multi = 0; unknown = 0
+    for r in rows:
+        if r['classification'] != 'potential_lead':
+            continue
+        cs = r.get('countries') or []
+        if not cs:
+            unknown += 1; continue
+        if len(cs) > 1:
+            multi += 1
+        for c in cs:
+            country[c] += 1
+    summary['country_leads'] = dict(sorted(country.items()))
+    summary['multi_country_leads'] = multi
+    summary['unknown_country_leads'] = unknown
+    summary['classification_source'] = 'ai'
+    summary['counts_reconciled'] = (total == summary['potential_leads'] + summary['possible_internal'] + summary['unclassified'])
+    return summary

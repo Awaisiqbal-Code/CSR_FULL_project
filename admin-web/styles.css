@@ -361,3 +361,9 @@ body.admin-view .inbox-kind{display:flex;gap:6px;padding:0 2px 8px}
 body.admin-view .kind-btn{flex:1;background:#eef5f1;color:#55736a;padding:7px 8px;font-size:12px;border-radius:8px}
 body.admin-view .kind-btn.selected{background:#179b72;color:#fff}
 body.admin-view .team-pw-input{width:auto;max-width:180px;margin:0;padding:8px 10px;font-size:12px}
+body.admin-view .team-pw-wrap{display:inline-flex;align-items:center;gap:4px}
+body.admin-view .team-pw-eye{padding:8px 10px;font-size:12px}
+body.admin-view .danger{background:#fbe3e3;color:#9d3030}
+body.admin-view .danger:hover{background:#f6cccc}
+body.admin-view .team-search-field{max-width:360px;margin:0 0 12px}
+body.admin-view .team-search-field input{margin:4px 0 0}

@@ -31,9 +31,13 @@ function stamp(value){return value?new Intl.DateTimeFormat('en-GB',{timeZone:'As
 function showApp(user){document.body.classList.remove('login-view');document.body.classList.add('admin-view');$('login-pane').classList.add('hidden');$('app-pane').classList.remove('hidden');$('nav-actions').classList.remove('hidden');$('top-tabs').classList.remove('hidden');$('admin-name').textContent=user.name;}
 function setTab(name){if(name!=='reports')stopAuditPolling();activeTab=name;$('global-filters').classList.toggle('hidden',name==='team'||name==='chats');$('main-heading').classList.toggle('hidden',name==='chats');document.querySelectorAll('.tab-section').forEach(el=>el.classList.toggle('hidden',el.id!==name));document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('selected',b.dataset.tab===name));if(name==='chats'){selectedConversationId=null;clearVoicePlayback();refreshChats();}if(name==='reports'){refreshReports();if(activeAuditJobId!==null)openAuditReport(activeAuditJobId,false);}if(name==='team')refreshTeam();}
 async function init(){if(!token)return;try{const me=await api('/auth/me');if(me.role!=='admin')throw Error('Admin access only');showApp(me);await loadEmployees();setDates();await refreshAnalytics();await Promise.all([refreshEmployeeCards(),refreshOverviewResponse()]);}catch(err){token='';sessionStorage.removeItem('csr-admin-token');$('login-pane').classList.remove('hidden');$('app-pane').classList.add('hidden');}}
-async function loadEmployees(){const r=await api('/admin/employees');employees=r.employees.filter(x=>x.role==='employee');for(const id of ['employee','report-employee','chats-employee']){
+async function loadEmployees(){const r=await api('/admin/employees');employees=r.employees.filter(x=>x.role==='employee');
+ // Dashboard dropdowns list only APPROVED counsellors; the Team tab still uses the
+ // full `employees` list so pending/disabled accounts can be managed.
+ const approved=employees.filter(u=>u.approved);
+ for(const id of ['employee','report-employee','chats-employee']){
  const el=$(id);const old=el.value;el.replaceChildren();if(id==='employee'||id==='chats-employee'){const op=e('option','All employees');op.value='';el.append(op);}
- for(const u of employees){const op=e('option',`${u.name} (${formatId(u)})`);op.value=u.id;el.append(op);}
+ for(const u of approved){const op=e('option',`${u.name} (${formatId(u)})`);op.value=u.id;el.append(op);}
  if([...el.options].some(o=>o.value===old))el.value=old;
 }}
 const today=()=>{const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Karachi',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());const v=Object.fromEntries(parts.map(p=>[p.type,p.value]));return `${v.year}-${v.month}-${v.day}`;};
@@ -585,22 +589,17 @@ function renderManagementAnalytics(out,summary,C){
  auditMetricGrid(mgmt,[
   ['New Leads',summary.new_leads,nl],
   ['New Lead Responded',summary.new_lead_responded,c=>nl(c)&&c.new_lead_responded],
-  ['Overall Follow-up',summary.follow_up_conversations,c=>!!c.is_follow_up],
-  ['Old Client Follow-up',summary.old_client_follow_up,c=>!!c.is_follow_up&&C(c)==='potential_lead'],
   ['NR From Lead',summary.nr_from_lead,c=>c.reply_state==='replied'],
   ['NR From Conseller',summary.nr_from_counsellor,c=>c.reply_state==='awaiting_counselor_reply'],
+  ['Overall Follow-up',summary.follow_up_conversations,c=>!!c.is_follow_up],
+  ['Old Client Follow-up',summary.old_client_follow_up,c=>!!c.is_follow_up&&C(c)==='potential_lead'],
   ['No Response on Old Follow up from consellers',summary.old_followup_awaiting,c=>c.is_follow_up&&c.reply_state==='awaiting_counselor_reply'],
  ]);
  auditParagraph(mgmt,'NR From Conseller = the customer wrote last and the counseller has not replied yet (also shown as "Awaiting reply from counsellers"). NR From Lead = the counseller replied and the lead/customer has gone silent. Both are overall (new + follow-up). Old Client Follow-up counts follow-up chats that are Clients.','audit-footnote');
 
- const resp=auditSection(out,'Response Time');
- auditMetricGrid(resp,[
-  ['Avg New-Lead First Response',fmtDuration(summary.avg_new_lead_first_response_seconds),c=>nl(c)&&c.first_response_seconds!=null],
-  ['Median Overall Response',fmtDuration(summary.median_overall_response_seconds),c=>(c.response_pairs||0)>0],
- ],'audit-stat-grid audit-stat-grid-small');
- auditParagraph(resp,`Median overall response is the typical reply speed (robust to overnight waits) · avg ${fmtDuration(summary.avg_overall_response_seconds)} · p90 ${fmtDuration(summary.p90_overall_response_seconds)}. New-lead first-response sample: ${summary.new_lead_first_response_samples??0} pair(s), ${summary.new_lead_first_response_missing??0} missing/invalid. Overall-response sample: ${summary.overall_response_samples??0} completed turn pair(s). Missing or invalid pairs are shown as N/A, never 0.`,'audit-footnote');
-
- const states=[['replied','Replied'],['awaiting_counselor_reply','Awaiting Counselor Reply'],['no_reply_observed','No Reply Observed'],['no_action_required','No Action Required'],['unknown','Unknown']];
+ // "Awaiting Counselor Reply" is intentionally omitted here: it is the same number
+ // as "NR From Conseller" in Management Metrics above, shown there instead.
+ const states=[['replied','Replied'],['no_reply_observed','No Reply Observed'],['no_action_required','No Action Required'],['unknown','Unknown']];
  const rs=summary.reply_states||{};
  const stateSection=auditSection(out,'Conversation Reply State');
  auditMetricGrid(stateSection,states.map(([key,label])=>[label,rs[key]||0,c=>c.reply_state===key]));
@@ -628,6 +627,21 @@ function renderManagementAnalytics(out,summary,C){
   auditParagraph(country,'A lead considering several countries is counted once per country here, but only once in the distinct global lead total. Primary country is set only when the customer states one explicitly.','audit-footnote');
  }
 }
+function renderResponseTime(out,summary){
+ const nl=c=>!!c.is_new_lead;
+ const resp=auditSection(out,'Response Time');
+ auditMetricGrid(resp,[
+  ['Avg New-Lead First Response',fmtDuration(summary.avg_new_lead_first_response_seconds),c=>nl(c)&&c.first_response_seconds!=null],
+  ['Median Overall Response',fmtDuration(summary.median_overall_response_seconds),c=>(c.response_pairs||0)>0],
+ ],'audit-stat-grid audit-stat-grid-small');
+ auditParagraph(resp,`Median overall response is the typical reply speed (robust to overnight waits) · avg ${fmtDuration(summary.avg_overall_response_seconds)} · p90 ${fmtDuration(summary.p90_overall_response_seconds)}. New-lead first-response sample: ${summary.new_lead_first_response_samples??0} pair(s), ${summary.new_lead_first_response_missing??0} missing/invalid. Overall-response sample: ${summary.overall_response_samples??0} completed turn pair(s). Missing or invalid pairs are shown as N/A, never 0.`,'audit-footnote');
+}
+function renderVoiceEvidence(out,summary){
+ const evidence=auditSection(out,'Voice, Calls & Response Evidence');const evidenceGrid=e('div','','audit-stat-grid audit-stat-grid-small');
+ const evDefs=[['Voice Received','voice_notes_received',c=>(c.voice_received??0)>0],['Voice Sent','voice_notes_sent',c=>(c.voice_sent??0)>0],['Known Voice Seconds','known_voice_duration_seconds',c=>(c.voice_seconds??0)>0],['Call Events','call_placeholders',c=>(c.call_events??0)>0],['Possible No Reply','possible_no_reply',c=>c.possible_consultant_no_reply&&c.classification==='potential_lead'],['Possible Dead Chats','possible_dead',c=>c.possible_dead&&c.classification==='potential_lead']];
+ for(const [label,key,pred] of evDefs)evidenceGrid.append(auditStat(label,summary[key],pred));
+ evidence.append(evidenceGrid);auditParagraph(evidence,'Audio and call content cannot be evaluated unless verified transcripts are available. Reply gaps and dead chats are possible indicators, not proven violations.','audit-footnote');
+}
 function renderAuditPreview(item){
  const out=$('audit-preview-content');out.replaceChildren();
  const summary=item.summary&&typeof item.summary==='object'?item.summary:{};
@@ -635,7 +649,7 @@ function renderAuditPreview(item){
  const C=auditCategoryOf; // per-chat effective category (AI audit_category or deterministic classification)
  const header=e('div','','audit-report-header');header.append(e('span','CONFIDENTIAL · INTERNAL REVIEW','audit-eyebrow'));
  header.append(e('h3','WhatsApp Sales & CSR Audit'));
- auditParagraph(header,`${employeeLabel(item.employee_id)} · Last ${item.hours} hours · Created ${stamp(item.created_at)}`,'audit-report-subtitle');out.append(header);
+ auditParagraph(header,`${employeeLabel(item.employee_id)} · ${item.period_label||('Last '+item.hours+' hours')} · Generated ${stamp(item.scheduled_for||item.created_at)}`,'audit-report-subtitle');out.append(header);
  const stats=e('div','','audit-stat-grid');
  // Headline is DETERMINISTIC (hybrid): always the rule-based business categories so
  // it matches the chat data and never collapses to 0 when AI is unavailable. AI
@@ -645,10 +659,7 @@ function renderAuditPreview(item){
  out.append(stats);
  auditParagraph(out,'Tip: click any highlighted box, pipeline tier or evidence card below to see only its matching conversations and their saved evidence.','audit-footnote');
  const drill=e('section','','audit-drill hidden');drill.id='audit-drill';out.append(drill);
- renderManagementAnalytics(out,summary,C);
- const executive=auditSection(out,'Executive Summary');
- auditParagraph(executive,summary.executive_summary||'No AI executive analysis available. Review the evidence-based indicators below.');
- auditParagraph(executive,summary.ai_status||'Rule-based analysis; human review required','audit-footnote');
+ // Lead Pipeline is shown first (before Management Metrics).
  const pipeline=auditSection(out,'Lead Pipeline — Retained Tiers');const tiers=e('div','','audit-tiers');
  for(const [key,label] of AUDIT_LEAD_TIERS){
   const matches=auditDrillConversations.filter(c=>c.lead_tier===key);
@@ -663,6 +674,13 @@ function renderAuditPreview(item){
  }else{
   auditParagraph(pipeline,'Lead tiers have not been AI-evaluated; unassessed values are not shown as zero.','audit-footnote');
  }
+ renderManagementAnalytics(out,summary,C);
+ const executive=auditSection(out,'Executive Summary');
+ auditParagraph(executive,summary.executive_summary||'No AI executive analysis available. Review the evidence-based indicators below.');
+ auditParagraph(executive,summary.ai_status||'Rule-based analysis; human review required','audit-footnote');
+ // Voice/calls evidence, then Response Time, shown before the Lead Register.
+ renderVoiceEvidence(out,summary);
+ renderResponseTime(out,summary);
  const register=auditSection(out,'Lead Register / Conversation Classification');
  if(!Array.isArray(summary.conversations)||!summary.conversations.length)auditParagraph(register,'No synchronized conversations in this reporting window.','muted');
  else{
@@ -700,10 +718,6 @@ function renderAuditPreview(item){
  for(const [key,label] of Object.entries(AUDIT_QA_LABELS)){
   const card=e('div','','audit-qa-card');card.append(e('strong',label));auditParagraph(card,auditField(summary.qa_dimensions?.[key]),'audit-qa-finding');qaGrid.append(card);
  }qa.append(qaGrid);
- const evidence=auditSection(out,'Voice, Calls & Response Evidence');const evidenceGrid=e('div','','audit-stat-grid audit-stat-grid-small');
- const evDefs=[['Voice Received','voice_notes_received',c=>(c.voice_received??0)>0],['Voice Sent','voice_notes_sent',c=>(c.voice_sent??0)>0],['Known Voice Seconds','known_voice_duration_seconds',c=>(c.voice_seconds??0)>0],['Call Events','call_placeholders',c=>(c.call_events??0)>0],['Possible No Reply','possible_no_reply',c=>c.possible_consultant_no_reply&&c.classification==='potential_lead'],['Possible Dead Chats','possible_dead',c=>c.possible_dead&&c.classification==='potential_lead']];
- for(const [label,key,pred] of evDefs)evidenceGrid.append(auditStat(label,summary[key],pred));
- evidence.append(evidenceGrid);auditParagraph(evidence,'Audio and call content cannot be evaluated unless verified transcripts are available. Reply gaps and dead chats are possible indicators, not proven violations.','audit-footnote');
  const next=auditSection(out,'Management Actions');auditList(next,summary.top_actions,'No specific actions provided.');
  const quality=auditSection(out,'Data Quality & Verification');auditList(quality,summary.quality_notes,'No additional quality notes.');
  auditParagraph(quality,summary.coverage_note||'This report covers available synchronized data only.','audit-footnote');
@@ -721,13 +735,13 @@ async function downloadAuditPdf(jobId){
 async function openAuditReport(jobId,scroll=true){
  activeAuditJobId=Number(jobId);const serial=++auditRequestSerial;stopAuditPolling();
  const viewer=$('audit-viewer');viewer.classList.remove('hidden');$('audit-preview-content').replaceChildren();
- $('audit-viewer-title').textContent=`Audit #${jobId}`;$('audit-viewer-state').textContent='Loading report status…';$('audit-download').classList.add('hidden');
+ $('audit-viewer-title').textContent='Loading report…';$('audit-viewer-state').textContent='Loading report status…';$('audit-download').classList.add('hidden');
  if(scroll)viewer.scrollIntoView({behavior:'smooth',block:'start'});
  try{
   const item=await api(`/audits/${jobId}`);if(serial!==auditRequestSerial||activeAuditJobId!==Number(jobId))return;
-  $('audit-viewer-title').textContent=`Report #${jobId} · ${employeeLabel(item.employee_id)}`;
+  $('audit-viewer-title').textContent=`${employeeLabel(item.employee_id)} · ${stamp(item.scheduled_for||item.created_at)}`;
   if(item.status==='completed'){
-    $('audit-viewer-state').textContent=`Completed · ${stamp(item.created_at)} · View the full report below. PDF is optional.`;
+    $('audit-viewer-state').textContent=`Completed · ${stamp(item.scheduled_for||item.created_at)} · View the full report below. PDF is optional.`;
     renderAuditPreview(item);$('audit-download').classList.remove('hidden');
   }else if(item.status==='failed'){
     $('audit-viewer-state').textContent='Audit failed';
@@ -739,17 +753,42 @@ async function openAuditReport(jobId,scroll=true){
   }
  }catch(err){if(serial!==auditRequestSerial)return;$('audit-viewer-state').textContent='Could not load audit';auditParagraph($('audit-preview-content'),err.message,'audit-error');}
 }
+let reportJobs=[];
 async function refreshReports(){try{
- const c=$('report-list');c.replaceChildren();const dates=rangeDates();const q=new URLSearchParams();
+ const dates=rangeDates();const q=new URLSearchParams();
  if(dates){q.set('start',dates[0]);q.set('end',dates[1]);}if($('employee').value)q.set('employee_id',$('employee').value);
- const rows=(await api('/audits?'+q)).jobs;
+ reportJobs=(await api('/audits?'+q)).jobs||[];
+ renderReportList();
+ }catch(err){toast(err.message,true);}}
+// Client-side filter of the loaded reports by the "Search counselor" box (name / ID),
+// so typing a counsellor's name narrows Report History without a round-trip.
+function renderReportList(){
+ const c=$('report-list');if(!c)return;c.replaceChildren();
+ const query=String($('employee-search').value||'').trim().toLowerCase();
+ const match=job=>{
+  if(!query)return true;
+  const user=(employees||[]).find(u=>Number(u.id)===Number(job.employee_id));
+  return [employeeLabel(job.employee_id),user?.name||'',user?.employee_code||'',formatId(user||{employee_code:'',id:job.employee_id})]
+    .some(v=>String(v).toLowerCase().includes(query));
+ };
+ const rows=reportJobs.filter(match);
  for(const job of rows){
   const actions=[['View report',()=>openAuditReport(job.id)]];
-  row(c,`Report #${job.id} — ${job.status}`,`${employeeLabel(job.employee_id)} · ${job.period_label||('Last '+job.hours+' hours')} · ${stamp(job.created_at)}`,actions);
- }if(!rows.length)c.append(e('p','No reports yet.','muted'));
- }catch(err){toast(err.message,true);}}
+  const when=stamp(job.scheduled_for||job.created_at);
+  const kind=job.auto_generated?'Auto':'Manual';
+  row(c,`${employeeLabel(job.employee_id)} — ${job.status}`,`${job.period_label||('Last '+job.hours+' hours')} · ${when} · ${kind}`,actions);
+ }
+ if(!reportJobs.length)c.append(e('p','No reports yet.','muted'));
+ else if(!rows.length)c.append(e('p','No reports match this search.','muted'));
+}
 
-async function refreshTeam(){try{await loadEmployees();const c=$('team-list');c.replaceChildren();for(const user of employees){
+async function refreshTeam(){try{await loadEmployees();renderTeamList();}catch(err){toast(err.message,true);}}
+function renderTeamList(){
+ const c=$('team-list');if(!c)return;c.replaceChildren();
+ const query=String(($('team-search')||{}).value||'').trim().toLowerCase();
+ const list=employees.filter(u=>!query||[u.name,u.email,u.employee_code,formatId(u)].some(v=>String(v||'').toLowerCase().includes(query)));
+ if(!list.length){c.append(e('p',employees.length?'No employees match this search.':'No employees yet.','muted'));return;}
+ for(const user of list){
  const r=e('div','','list-row');
  const left=e('div');left.append(e('strong',`${user.name} (${formatId(user)})`),e('p',`${user.email} · ${user.approved?'Approved':'Pending approval'} · ${user.active?'Active':'Disabled'}`));
  const rights=e('div','','list-actions');
@@ -757,11 +796,23 @@ async function refreshTeam(){try{await loadEmployees();const c=$('team-list');c.
  approveBtn.onclick=()=>api(`/admin/employees/${user.id}`,'PATCH',{approved:!user.approved}).then(refreshTeam).catch(err=>toast(err.message,true));
  const activeBtn=e('button',user.active?'Disable':'Enable','secondary');
  activeBtn.onclick=()=>api(`/admin/employees/${user.id}`,'PATCH',{active:!user.active}).then(refreshTeam).catch(err=>toast(err.message,true));
+ // Password field with an eye toggle to reveal/hide what is typed.
+ const pwWrap=e('div','','team-pw-wrap');
  const pw=e('input','','team-pw-input');pw.type='password';pw.placeholder='New password (8+)';pw.autocomplete='new-password';
+ const eye=e('button','Show','subtle team-pw-eye');eye.type='button';eye.setAttribute('aria-label','Show password');
+ eye.onclick=()=>{const show=pw.type==='password';pw.type=show?'text':'password';eye.textContent=show?'Hide':'Show';eye.setAttribute('aria-label',(show?'Hide':'Show')+' password');};
+ pwWrap.append(pw,eye);
  const setBtn=e('button','Set password','secondary');
- setBtn.onclick=async()=>{const v=pw.value;if(v.length<8){toast('Password must be at least 8 characters',true);return;}try{await api(`/admin/employees/${user.id}/password`,'POST',{password:v});pw.value='';toast('Password updated for '+user.name);}catch(err){toast(err.message,true);}};
- rights.append(approveBtn,activeBtn,pw,setBtn);r.append(left,rights);c.append(r);
-}}catch(err){toast(err.message,true);}}
+ setBtn.onclick=async()=>{const v=pw.value;if(v.length<8){toast('Password must be at least 8 characters',true);return;}try{await api(`/admin/employees/${user.id}/password`,'POST',{password:v});pw.value='';pw.type='password';eye.textContent='Show';toast('Password updated for '+user.name);}catch(err){toast(err.message,true);}};
+ rights.append(approveBtn,activeBtn,pwWrap,setBtn);
+ // Delete is offered only for a disabled or not-yet-approved account.
+ if(!(user.approved&&user.active)){
+  const delBtn=e('button','Delete','danger');
+  delBtn.onclick=async()=>{if(!confirm(`Delete ${user.name} (${formatId(user)}) and all of their synced data? This cannot be undone.`))return;try{await api(`/admin/employees/${user.id}`,'DELETE');toast('Deleted '+user.name);await refreshTeam();}catch(err){toast(err.message,true);}};
+  rights.append(delBtn);
+ }
+ r.append(left,rights);c.append(r);
+}}
 $('login-form').onsubmit=async event=>{event.preventDefault();try{const r=await api('/auth/login','POST',{email:$('email').value,password:$('password').value});if(r.user.role!=='admin')throw Error('Admin access required');token=r.access_token;sessionStorage.setItem('csr-admin-token',token);$('password').value='';showApp(r.user);await loadEmployees();setDates();await refreshAnalytics();await Promise.all([refreshEmployeeCards(),refreshOverviewResponse()]);}catch(err){token='';toast(err.message,true);}};
 $('toggle-password').onclick=()=>{
   const input=$('password');
@@ -774,7 +825,8 @@ $('toggle-password').onclick=()=>{
 $('logout').onclick=()=>{sessionStorage.removeItem('csr-admin-token');token='';location.reload();};
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
 $('range').onchange=updateRangeVisibility;
-$('employee-search').oninput=renderCounselorCards;
+$('employee-search').oninput=()=>{renderCounselorCards();if(activeTab==='reports')renderReportList();};
+$('team-search').oninput=renderTeamList;
 $('employee').onchange=async()=>{renderCounselorCards();await Promise.all([refreshAnalytics(),refreshOverviewResponse()]);};
 $('bucket').onchange=refreshAnalytics;
 $('call-event-metric').onclick=()=>{

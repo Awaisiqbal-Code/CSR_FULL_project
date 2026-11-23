@@ -16,7 +16,7 @@
       <div class="pill-tabs" role="tablist"><button id="mode-login" type="button" class="selected">Sign in</button><button id="mode-signup" type="button">First-time signup</button></div>
       <form id="login-form" class="stack">
         <label for="login-email">Company email</label><input id="login-email" type="email" autocomplete="username" required>
-        <label for="login-password">Password</label><input id="login-password" type="password" autocomplete="current-password" required>
+        <label for="login-password">Password</label><div class="pw-field"><input id="login-password" type="password" autocomplete="current-password" required><button type="button" id="login-eye" class="pw-eye" aria-label="Show password">Show</button></div>
         <button type="submit" class="primary">Sign in securely</button>
       </form>
       <form id="signup-form" class="stack hidden">
@@ -26,7 +26,7 @@
         <label for="sign-phone">Contact number (optional)</label><input id="sign-phone" placeholder="+92...">
         <label for="sign-wa">Company-authorized WhatsApp number</label><input id="sign-wa" required placeholder="+923001234567">
         <div class="two"><div><label for="sign-dept">Department</label><input id="sign-dept" value="Counseling"></div><div><label for="sign-designation">Designation</label><input id="sign-designation" value="Counselor"></div></div>
-        <label for="sign-password">Create password (8+ characters)</label><input id="sign-password" type="password" minlength="8" autocomplete="new-password" required>
+        <label for="sign-password">Create password (8+ characters)</label><div class="pw-field"><input id="sign-password" type="password" minlength="8" autocomplete="new-password" required><button type="button" id="sign-eye" class="pw-eye" aria-label="Show password">Show</button></div>
         <p class="hint">Company-authorized WhatsApp chats and accessible voice notes are synchronized periodically to the company workspace while Chrome and WhatsApp Web are available. Images/documents and call events are identified but their files/recordings are not saved. Confirmed unread chats are excluded. An admin must approve your registration.</p>
         <button type="submit" class="primary">Request account approval</button>
       </form>

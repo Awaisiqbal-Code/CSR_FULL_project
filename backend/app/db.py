@@ -30,6 +30,10 @@ def create_tables():
         # Voice audio now stored in Postgres so playback survives redeploys (ephemeral
         # container disk previously wiped saved voices). Additive, nullable.
         conn.execute(text("ALTER TABLE voice_assets ADD COLUMN IF NOT EXISTS audio_data BYTEA"))
+        # Scheduled daily auto-audits (additive, nullable; manual audits keep NULL).
+        conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS scheduled_for TIMESTAMPTZ"))
+        conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS auto_generated BOOLEAN DEFAULT FALSE"))
+        conn.execute(text("CREATE INDEX IF NOT EXISTS ix_audit_jobs_scheduled_for ON audit_jobs (scheduled_for)"))
 
 def get_db():
     with SessionLocal() as db:

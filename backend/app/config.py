@@ -32,6 +32,18 @@ CLAUDE_MODEL = os.getenv('CLAUDE_MODEL', 'claude-sonnet-5-5').strip()
 # AI-only throughput settings; four chats per request follows the old n8n batches.
 AUDIT_AI_BATCH_SIZE = int(os.getenv('AUDIT_AI_BATCH_SIZE', '4'))
 AUDIT_AI_BATCH_DELAY_SECONDS = float(os.getenv('AUDIT_AI_BATCH_DELAY_SECONDS', '4.5'))
+# When true (and AI ran), the AI's per-chat category + lead tier become the
+# authoritative business classification (old n8n/Gemini approach: AI-judged,
+# CGPA-anchored). Chats the AI could not evaluate keep the deterministic result.
+AUDIT_AI_CLASSIFY = os.getenv('AUDIT_AI_CLASSIFY', 'true').lower() == 'true'
+
+# Automatic daily audit scheduling (worker). Each eligible employee (>=1 non-group
+# chat) gets one audit per day starting at AUDIT_SCHEDULE_HOUR local time, A-Z by
+# name, staggered AUDIT_SCHEDULE_GAP_MINUTES apart. Manual generation is unaffected.
+AUDIT_SCHEDULE_ENABLED = os.getenv('AUDIT_SCHEDULE_ENABLED', 'true').lower() == 'true'
+AUDIT_SCHEDULE_HOUR = int(os.getenv('AUDIT_SCHEDULE_HOUR', '18'))          # 18:00 = 6 PM
+AUDIT_SCHEDULE_GAP_MINUTES = int(os.getenv('AUDIT_SCHEDULE_GAP_MINUTES', '20'))
+AUDIT_SCHEDULE_TZ = os.getenv('AUDIT_SCHEDULE_TZ', 'Asia/Karachi')
 
 
 

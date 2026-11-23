@@ -3,7 +3,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 from datetime import datetime, timezone, timedelta, date, time
 from contextlib import asynccontextmanager
-from sqlalchemy import select, func, distinct, and_, or_, not_
+from sqlalchemy import select, func, distinct, and_, or_, not_, delete, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, Depends, HTTPException, Response, Query
@@ -141,7 +141,9 @@ def admin_employee_cards(start:date|None=None,end:date|None=None,
     unread=dict(db.execute(
         select(models.SyncLog.employee_id,models.SyncLog.unread_excluded)
         .join(latest_ids,models.SyncLog.id==latest_ids.c.latest_id)).all())
-    people=db.scalars(select(models.User).where(models.User.role=='employee').order_by(models.User.id)).all()
+    # Main dashboard shows only APPROVED counsellors (pending/unapproved accounts are
+    # managed from the Team tab, which lists everyone).
+    people=db.scalars(select(models.User).where(models.User.role=='employee',models.User.approved.is_(True)).order_by(models.User.id)).all()
     items=[{'employee_id':u.id,'name':u.full_name,'employee_code':u.employee_code,
             'conversations':conversation_counts.get(u.id,0),'messages':message_counts.get(u.id,0),
             'unread_excluded':unread.get(u.id,0)} for u in people]
@@ -172,6 +174,33 @@ def set_employee_password(employee_id:int,data:AdminPasswordSet,user:models.User
     target.token_version+=1
     log_event(db,user.id,'employee_password_reset',target.id);db.commit()
     return {'ok':True,'employee_id':target.id}
+
+@app.delete('/admin/employees/{employee_id}')
+def delete_employee(employee_id:int,user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    # Permanently remove a NON-active or UNAPPROVED employee and all of their synced
+    # data. An approved+active employee must be disabled or have approval revoked first
+    # (guards against deleting a live account by mistake). Admins are never deletable.
+    target=db.get(models.User,employee_id)
+    if not target:raise HTTPException(404,'Employee not found')
+    if target.role=='admin':raise HTTPException(403,'Admin accounts cannot be deleted here')
+    if target.approved and target.active:
+        raise HTTPException(409,'Disable the account or revoke approval before deleting it')
+    uid=target.id
+    conv_ids=select(models.Conversation.id).where(models.Conversation.employee_id==uid)
+    msg_ids=select(models.Message.id).where(models.Message.conversation_id.in_(conv_ids))
+    db.execute(delete(models.VoiceAsset).where(models.VoiceAsset.message_id.in_(msg_ids)))
+    db.execute(delete(models.Message).where(models.Message.conversation_id.in_(conv_ids)))
+    db.execute(delete(models.Conversation).where(models.Conversation.employee_id==uid))
+    db.execute(delete(models.SyncLog).where(models.SyncLog.employee_id==uid))
+    db.execute(delete(models.SyncCheckpoint).where(models.SyncCheckpoint.employee_id==uid))
+    db.execute(delete(models.SyncRun).where(models.SyncRun.employee_id==uid))
+    db.execute(delete(models.AuditJob).where(or_(models.AuditJob.employee_id==uid,models.AuditJob.requested_by==uid)))
+    # Keep the audit trail but detach the actor reference so the user row can go.
+    db.execute(update(models.SecurityEvent).where(models.SecurityEvent.actor_id==uid).values(actor_id=None))
+    log_event(db,user.id,'employee_deleted',uid)
+    db.delete(target)
+    db.commit()
+    return {'ok':True,'deleted':uid}
 
 @app.get('/dashboard')
 def dashboard(employee_id:int|None=None,user:models.User=Depends(current_user),db:Session=Depends(get_db)):
@@ -932,14 +961,14 @@ def audits(employee_id:int|None=None,start:date|None=None,end:date|None=None,
         stop=datetime.combine(end+timedelta(days=1),time.min,tzinfo=tz).astimezone(timezone.utc)
         q=q.where(models.AuditJob.created_at>=begin,models.AuditJob.created_at<stop)
     rows=db.scalars(q).all()
-    return {'jobs':[{'id':a.id,'employee_id':a.employee_id,'hours':a.hours,'period_label':a.period_label or f'Last {a.hours} hours','status':a.status,'created_at':a.created_at.isoformat(),'error':a.error} for a in rows]}
+    return {'jobs':[{'id':a.id,'employee_id':a.employee_id,'hours':a.hours,'period_label':a.period_label or f'Last {a.hours} hours','status':a.status,'created_at':a.created_at.isoformat(),'scheduled_for':a.scheduled_for.isoformat() if a.scheduled_for else None,'auto_generated':bool(a.auto_generated),'error':a.error} for a in rows]}
 
 @app.get('/audits/{job_id}')
 def audit_details(job_id:int,user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
     job=db.get(models.AuditJob,job_id)
     if not job:raise HTTPException(404,'Audit not found')
     assert_scope(user,job.employee_id)
-    return {'id':job.id,'employee_id':job.employee_id,'hours':job.hours,'period_label':job.period_label or f'Last {job.hours} hours','status':job.status,'created_at':job.created_at.isoformat(),'error':job.error,'summary':json.loads(job.summary_json or '{}')}
+    return {'id':job.id,'employee_id':job.employee_id,'hours':job.hours,'period_label':job.period_label or f'Last {job.hours} hours','status':job.status,'created_at':job.created_at.isoformat(),'scheduled_for':job.scheduled_for.isoformat() if job.scheduled_for else None,'auto_generated':bool(job.auto_generated),'error':job.error,'summary':json.loads(job.summary_json or '{}')}
 
 @app.get('/audits/{job_id}/pdf')
 def audit_pdf(job_id:int,user:models.User=Depends(admin_only),db:Session=Depends(get_db)):

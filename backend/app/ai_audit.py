@@ -81,4 +81,11 @@ def run_optional_ai(db: Session, summary: dict):
     elif summary.get('audit_evaluated', 0):
         summary['ai_provider'] = provider
         summary['ai_model'] = model
+        # AI-authoritative classification + lead tier (opt-out via AUDIT_AI_CLASSIFY).
+        # Chats the AI could not evaluate keep their deterministic result.
+        if config.AUDIT_AI_CLASSIFY:
+            from .analysis import apply_ai_classification
+            apply_ai_classification(summary)
+            summary.setdefault('quality_notes', []).append(
+                'Business category and lead tier are AI-judged for evaluated chats (CGPA-anchored); unevaluated chats keep rule-based values.')
     return summary

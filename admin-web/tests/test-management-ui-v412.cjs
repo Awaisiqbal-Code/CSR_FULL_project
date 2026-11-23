@@ -72,9 +72,9 @@ assert.ok(d.includes('Follow Up')&&!d.includes('Chatter'),'NR From Conseller dri
 // Country Italy -> only the lead considering Italy.
 d=click('Italy');
 assert.ok(d.includes('New Lead')&&!d.includes('Follow Up'),'Italy drill shows only Italy lead');
-// Reply state Awaiting Counselor Reply -> only the follow-up.
-d=click('Awaiting Counselor Reply');
-assert.ok(d.includes('Follow Up')&&!d.includes('Chatter'),'reply-state drill scoped correctly');
+// "Awaiting Counselor Reply" was removed from the Reply State section (it is shown
+// as "NR From Conseller" in Management Metrics, tested above).
+assert.ok(!page.includes('Awaiting Counselor Reply'),'Awaiting Counselor Reply no longer shown in reply-state breakdown');
 // Follow-up Calls -> only the follow-up (it had the call event).
 d=click('Follow-up Calls');
 assert.ok(d.includes('Follow Up')&&!d.includes('New Lead'),'follow-up calls drill scoped correctly');

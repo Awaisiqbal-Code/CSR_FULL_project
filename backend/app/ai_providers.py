@@ -62,8 +62,11 @@ def request_ai_report(provider: str, key: str, model: str, instructions: str, pa
     elif provider == 'claude':
         url = 'https://api.anthropic.com/v1/messages'
         headers.update({'x-api-key': key, 'anthropic-version': '2023-06-01'})
+        # NOTE: do NOT send `temperature` here. Current Claude models (e.g.
+        # claude-sonnet-5-5) reject any non-default temperature with HTTP 400,
+        # which previously made every audit AI call fail -> "No AI summary".
         request = {
-            'model': model, 'max_tokens': 8192, 'temperature': 0,
+            'model': model, 'max_tokens': 8192,
             'system': instructions,
             'messages': [{'role': 'user', 'content': payload}],
         }

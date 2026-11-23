@@ -27,6 +27,10 @@ async function init(){try{
 }catch(e){visible('auth');notice(e.message,true);}}
 function mode(signup){$('login-form').classList.toggle('hidden',signup);$('signup-form').classList.toggle('hidden',!signup);$('mode-signup').classList.toggle('selected',signup);$('mode-login').classList.toggle('selected',!signup);}
 $('mode-login').onclick=()=>mode(false);$('mode-signup').onclick=()=>mode(true);
+// Eye toggle: reveal/hide the typed password on the login and signup forms.
+function wirePasswordEye(inputId,btnId){const input=$(inputId),btn=$(btnId);if(!input||!btn)return;
+ btn.onclick=()=>{const show=input.type==='password';input.type=show?'text':'password';btn.textContent=show?'Hide':'Show';btn.setAttribute('aria-label',(show?'Hide':'Show')+' password');};}
+wirePasswordEye('login-password','login-eye');wirePasswordEye('sign-password','sign-eye');
 $('login-form').addEventListener('submit',e=>{e.preventDefault();withBusy($('login-form').querySelector('button'),async()=>{
   const r=await ask('CSR_LOGIN',{data:{email:$('login-email').value.trim(),password:$('login-password').value}});
   $('login-password').value='';await workspace(r.user);

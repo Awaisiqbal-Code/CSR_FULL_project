@@ -18,12 +18,14 @@ let running=false;
 
 chrome.runtime.onInstalled.addListener(async()=>{
   await chrome.sidePanel.setPanelBehavior({openPanelOnActionClick:true});
-  chrome.alarms.create(ALARM,{periodInMinutes:15});
-  chrome.alarms.create(VOICE_ALARM,{periodInMinutes:1});
+  // delayInMinutes makes the first background sync run ~1 min after install/startup
+  // instead of waiting a full period, so it resumes promptly after a restart or wake.
+  chrome.alarms.create(ALARM,{delayInMinutes:1,periodInMinutes:15});
+  chrome.alarms.create(VOICE_ALARM,{delayInMinutes:1,periodInMinutes:1});
   // Old user-controlled autoSync preference intentionally retired.
   await chrome.storage.local.remove('csr.autoSync');
 });
-chrome.runtime.onStartup.addListener(()=>{chrome.alarms.create(ALARM,{periodInMinutes:15});chrome.alarms.create(VOICE_ALARM,{periodInMinutes:1});});
+chrome.runtime.onStartup.addListener(()=>{chrome.alarms.create(ALARM,{delayInMinutes:1,periodInMinutes:15});chrome.alarms.create(VOICE_ALARM,{delayInMinutes:1,periodInMinutes:1});});
 function isUI(sender){return !!sender.url && sender.url.startsWith(chrome.runtime.getURL(''));}
 function allowedBase(value){
   const url=String(value||'').trim().replace(/\/+$/,'');
@@ -32,12 +34,12 @@ function allowedBase(value){
   return url;
 }
 async function base(){const cfg=await chrome.storage.local.get([BASE_KEY]);return allowedBase(cfg[BASE_KEY]||DEFAULT_API_BASE);}
-async function auth(){return (await chrome.storage.session.get([SESSION_KEY]))[SESSION_KEY]||null;}
+async function auth(){return (await chrome.storage.local.get([SESSION_KEY]))[SESSION_KEY]||null;}
 async function api(path,method='GET',body){
   const a=await auth();
   const response=await fetch((await base())+path,{method,headers:{...(body?{'Content-Type':'application/json'}:{}),...(a?.token?{Authorization:'Bearer '+a.token}:{})},body:body?JSON.stringify(body):undefined,cache:'no-store'});
   let data;try{data=await response.json();}catch{throw new Error(`Invalid server response (HTTP ${response.status})`);}
-  if(!response.ok){if(response.status===401)await chrome.storage.session.remove(SESSION_KEY);throw new Error(typeof data.detail==='string'?data.detail:`Server error (${response.status})`);}
+  if(!response.ok){if(response.status===401)await chrome.storage.local.remove(SESSION_KEY);throw new Error(typeof data.detail==='string'?data.detail:`Server error (${response.status})`);}
   return data;
 }
 function sendToTab(id,msg){return new Promise((resolve,reject)=>chrome.tabs.sendMessage(id,msg,r=>{
@@ -205,7 +207,7 @@ chrome.runtime.onMessage.addListener((msg,sender,respond)=>{
     switch(msg.type){
       case 'CSR_CONFIG':{
         if(msg.apiBase){const url=allowedBase(msg.apiBase);const prior=await chrome.storage.local.get([BASE_KEY]);
-          if(prior[BASE_KEY]&&prior[BASE_KEY]!==url)await chrome.storage.session.remove(SESSION_KEY);
+          if(prior[BASE_KEY]&&prior[BASE_KEY]!==url)await chrome.storage.local.remove(SESSION_KEY);
           await chrome.storage.local.set({[BASE_KEY]:url});}
         const stored=await chrome.storage.local.get([BASE_KEY,LAST_KEY]);
         return {apiBase:stored[BASE_KEY]||DEFAULT_API_BASE,lastSync:stored[LAST_KEY]||null};
@@ -214,22 +216,24 @@ chrome.runtime.onMessage.addListener((msg,sender,respond)=>{
       case 'CSR_LOGIN':{
         const result=await api('/auth/login','POST',msg.data);
         if(result.user?.role!=='employee')throw new Error('Admin accounts use the separate Admin Portal.');
-        await chrome.storage.session.set({[SESSION_KEY]:{token:result.access_token,user:result.user}});
-        // Re-arm after Chrome/extension restarts; voice transfers stay separate
-        // from the successful text sync and retry only while WhatsApp is open.
-        chrome.alarms.create(VOICE_ALARM,{periodInMinutes:1});
+        await chrome.storage.local.set({[SESSION_KEY]:{token:result.access_token,user:result.user}});
+        // Re-arm the background sync + voice alarms on login so periodic syncing runs
+        // on schedule without the panel open. The token now persists in local storage,
+        // so auto-sync keeps working across Chrome restarts until the token expires.
+        chrome.alarms.create(ALARM,{delayInMinutes:1,periodInMinutes:15});
+        chrome.alarms.create(VOICE_ALARM,{delayInMinutes:1,periodInMinutes:1});
         chrome.alarms.create(VOICE_KICK,{when:Date.now()+2000});
         return {user:result.user};
       }
       case 'CSR_ME':{
         const a=await auth();if(!a)return {user:null};
         try{const user=await api('/auth/me');
-          if(user.role!=='employee'){await chrome.storage.session.remove(SESSION_KEY);return {user:null};}
-          await chrome.storage.session.set({[SESSION_KEY]:{token:a.token,user}});return {user};}
+          if(user.role!=='employee'){await chrome.storage.local.remove(SESSION_KEY);return {user:null};}
+          await chrome.storage.local.set({[SESSION_KEY]:{token:a.token,user}});return {user};}
         catch(e){if(/expired|invalid/i.test(e.message))return {user:null};throw e;}
       }
       case 'CSR_LOGOUT':{try{await api('/auth/logout','POST',{});}catch{}
-        await chrome.storage.session.remove(SESSION_KEY);return {done:true};}
+        await chrome.storage.local.remove(SESSION_KEY);return {done:true};}
       case 'CSR_DASHBOARD':return await api('/dashboard');
       case 'CSR_SYNC':{
         const result=await collectAndSync();

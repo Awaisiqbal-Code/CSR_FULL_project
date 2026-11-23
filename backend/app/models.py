@@ -122,6 +122,10 @@ class AuditJob(Base):
     range_end: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     period_label: Mapped[str] = mapped_column(String(60), default='')
     status: Mapped[str] = mapped_column(String(25), default='pending', index=True)
+    # Scheduled auto-audits: scheduled_for gates when the worker may process the job
+    # (NULL = process immediately, i.e. manual). auto_generated marks the daily batch.
+    scheduled_for: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True, index=True)
+    auto_generated: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     summary_json: Mapped[str] = mapped_column(Text, default='{}')

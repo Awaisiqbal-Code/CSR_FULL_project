@@ -5,6 +5,21 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Tabl
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.units import inch
 from xml.sax.saxutils import escape
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+_PKT = ZoneInfo('Asia/Karachi')
+
+def _generated_line(summary: dict):
+    """Report generation date/time in PKT, matching what the dashboard shows."""
+    raw = summary.get('generated_at')
+    if not raw:
+        return None
+    try:
+        dt = datetime.fromisoformat(raw).astimezone(_PKT)
+    except (ValueError, TypeError):
+        return None
+    return f'<b>Generated:</b> {dt.strftime("%d/%m/%Y, %H:%M:%S")} PKT'
 
 # Display labels for the stored business categories (internal keys are unchanged).
 _CATEGORY_LABEL = {'potential_lead': 'Client', 'internal_staff': 'Internal / Staff',
@@ -21,7 +36,10 @@ def generate_pdf(name: str, summary: dict) -> bytes:
     scope_line=f'<b>Counselor:</b> {escape(name)}  |  <b>Period:</b> {period}'
     if analyzed is not None:
         scope_line+=f'  |  <b>Eligible chats:</b> {summary.get("eligible_chats",summary["total_chats"])}  |  <b>Messages analyzed:</b> {analyzed}'
-    story=[Paragraph('WhatsApp Lead Conversation Audit',styles['HeadingGreen']),Paragraph('CONFIDENTIAL - INTERNAL USE ONLY',styles['SmallTextCSR']),Paragraph(scope_line,styles['BodyText']),Spacer(1,16)]
+    story=[Paragraph('WhatsApp Lead Conversation Audit',styles['HeadingGreen']),Paragraph('CONFIDENTIAL - INTERNAL USE ONLY',styles['SmallTextCSR']),Paragraph(scope_line,styles['BodyText'])]
+    gen_line=_generated_line(summary)
+    if gen_line:story.append(Paragraph(gen_line,styles['BodyText']))
+    story.append(Spacer(1,16))
     # Headline leads are DETERMINISTIC (rule-based potential_lead), independent of
     # AI, so this count always matches the Conversations section and never blanks
     # to 0 when AI is unavailable.
@@ -43,47 +61,7 @@ def generate_pdf(name: str, summary: dict) -> bytes:
     if summary.get('executive_summary'):
         story.append(Paragraph('AI-Assisted Executive Analysis',styles['Heading2']))
         story.append(Paragraph(escape(summary['executive_summary']),styles['SmallTextCSR']))
-    # Management analytics (spec 18 Nov 2026) — deterministic, event-time metrics.
-    # Shown only when the report carries these keys; legacy reports are unaffected.
-    if summary.get('new_leads') is not None:
-        def _dur(s):
-            if s is None:return 'N/A'
-            s=int(round(s));return (f'{s//60}m {s%60}s') if s>=60 else f'{s}s'
-        story.append(Paragraph('Management Metrics',styles['Heading2']))
-        mlabel=ParagraphStyle(name='MLabel',parent=styles['BodyText'],fontSize=8,leading=9.5,alignment=TA_CENTER,fontName='Helvetica-Bold')
-        def _ml(txt):return Paragraph(txt,mlabel)
-        mg=[[_ml('New Leads'),_ml('New Lead Responded'),_ml('Overall Follow-up'),_ml('Old Client Follow-up')],
-            [str(summary.get('new_leads',0)),str(summary.get('new_lead_responded',0)),
-             str(summary.get('follow_up_conversations',0)),str(summary.get('old_client_follow_up',0))],
-            [_ml('NR From Lead'),_ml('NR From Conseller'),_ml('No Response on Old Follow up from consellers'),_ml('')],
-            [str(summary.get('nr_from_lead',0)),str(summary.get('nr_from_counsellor',0)),
-             str(summary.get('old_followup_awaiting',0)),'']]
-        mt=Table(mg,colWidths=[120]*4)
-        mt.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#ecf8f0')),('BACKGROUND',(0,2),(-1,2),colors.HexColor('#ecf8f0')),
-                                ('FONTNAME',(0,0),(-1,0),'Helvetica-Bold'),('FONTNAME',(0,2),(-1,2),'Helvetica-Bold'),
-                                ('FONTSIZE',(0,0),(-1,-1),8.5),('ALIGN',(0,0),(-1,-1),'CENTER'),
-                                ('BOX',(0,0),(-1,-1),0.5,colors.HexColor('#ccddd5')),('INNERGRID',(0,0),(-1,-1),0.3,colors.HexColor('#ccddd5')),
-                                ('TOPPADDING',(0,0),(-1,-1),7),('BOTTOMPADDING',(0,0),(-1,-1),7)]))
-        story.extend([mt,Spacer(1,8)])
-        story.append(Paragraph(f"<b>Avg new-lead first response:</b> {_dur(summary.get('avg_new_lead_first_response_seconds'))} "
-                               f"(sample {summary.get('new_lead_first_response_samples',0)}, {summary.get('new_lead_first_response_missing',0)} missing). "
-                               f"<b>Median overall response:</b> {_dur(summary.get('median_overall_response_seconds'))} (typical) "
-                               f"&middot; avg {_dur(summary.get('avg_overall_response_seconds'))} &middot; p90 {_dur(summary.get('p90_overall_response_seconds'))} "
-                               f"(sample {summary.get('overall_response_samples',0)}). Median is robust to overnight waits; missing/invalid pairs shown as N/A, never 0.",styles['SmallTextCSR']))
-        rs=summary.get('reply_states') or {}
-        story.append(Paragraph("<b>Reply state:</b> "+escape(', '.join(f"{k.replace('_',' ').title()}: {v}" for k,v in rs.items()) or 'None'),styles['SmallTextCSR']))
-        story.append(Paragraph(f"<b>Responses by channel:</b> Text/Voice replied {summary.get('responded_text_voice',0)}; "
-                               f"All-channel (incl. outbound call) {summary.get('responded_all_channel',0)}. "
-                               f"Calls inbound {summary.get('calls_inbound',0)}, outbound {summary.get('calls_outbound',0)} "
-                               f"(new-lead {summary.get('new_lead_calls',0)}, follow-up {summary.get('follow_up_calls',0)}). "
-                               "Answered calls are not merged into the text/voice reply count.",styles['SmallTextCSR']))
-        cl=summary.get('country_leads') or {}
-        country_line=', '.join(f'{k}: {v}' for k,v in cl.items()) or 'No destination evidence'
-        story.append(Paragraph(f"<b>Country pipeline (potential leads):</b> {escape(country_line)}. "
-                               f"Multi-country {summary.get('multi_country_leads',0)}; Unknown {summary.get('unknown_country_leads',0)}. "
-                               "Each multi-country lead is counted once per country but once in the global total; country is never guessed.",styles['SmallTextCSR']))
-    # Retain legacy lead tier headings without fabricating an assignment: numeric
-    # tier counts become available only after explicit qualification rules exist.
+    # Lead Pipeline is shown before Management Metrics.
     story.append(Paragraph('Lead Pipeline - Retained Tiers',styles['Heading2']))
     tiers=summary.get('lead_tiers') or {}
     tier_rows=[['Close to Conversion','Very Hot','Hot','Average','Cold'],
@@ -99,6 +77,48 @@ def generate_pdf(name: str, summary: dict) -> bytes:
                '(Very Hot 3.7+, Hot 3.1-3.69, Average 2.6-3.09, Cold below 2.6); otherwise an engagement point '
                'model is used. AI, when configured, may add a tier opinion but does not change these counts.')
     story.extend([tier_table, Spacer(1,7),Paragraph(escape(tier_note),styles['SmallTextCSR'])])
+    # Management analytics (spec 18 Nov 2026) — deterministic, event-time metrics.
+    # Shown only when the report carries these keys; legacy reports are unaffected.
+    if summary.get('new_leads') is not None:
+        def _dur(s):
+            if s is None:return 'N/A'
+            s=int(round(s));return (f'{s//60}m {s%60}s') if s>=60 else f'{s}s'
+        story.append(Paragraph('Management Metrics',styles['Heading2']))
+        mlabel=ParagraphStyle(name='MLabel',parent=styles['BodyText'],fontSize=8,leading=9.5,alignment=TA_CENTER,fontName='Helvetica-Bold')
+        def _ml(txt):return Paragraph(txt,mlabel)
+        mg=[[_ml('New Leads'),_ml('New Lead Responded'),_ml('NR From Lead'),_ml('NR From Conseller')],
+            [str(summary.get('new_leads',0)),str(summary.get('new_lead_responded',0)),
+             str(summary.get('nr_from_lead',0)),str(summary.get('nr_from_counsellor',0))],
+            [_ml('Overall Follow-up'),_ml('Old Client Follow-up'),_ml('No Response on Old Follow up from consellers'),_ml('')],
+            [str(summary.get('follow_up_conversations',0)),str(summary.get('old_client_follow_up',0)),
+             str(summary.get('old_followup_awaiting',0)),'']]
+        mt=Table(mg,colWidths=[120]*4)
+        mt.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#ecf8f0')),('BACKGROUND',(0,2),(-1,2),colors.HexColor('#ecf8f0')),
+                                ('FONTNAME',(0,0),(-1,0),'Helvetica-Bold'),('FONTNAME',(0,2),(-1,2),'Helvetica-Bold'),
+                                ('FONTSIZE',(0,0),(-1,-1),8.5),('ALIGN',(0,0),(-1,-1),'CENTER'),
+                                ('BOX',(0,0),(-1,-1),0.5,colors.HexColor('#ccddd5')),('INNERGRID',(0,0),(-1,-1),0.3,colors.HexColor('#ccddd5')),
+                                ('TOPPADDING',(0,0),(-1,-1),7),('BOTTOMPADDING',(0,0),(-1,-1),7)]))
+        story.extend([mt,Spacer(1,8)])
+        story.append(Paragraph(f"<b>Avg new-lead first response:</b> {_dur(summary.get('avg_new_lead_first_response_seconds'))} "
+                               f"(sample {summary.get('new_lead_first_response_samples',0)}, {summary.get('new_lead_first_response_missing',0)} missing). "
+                               f"<b>Median overall response:</b> {_dur(summary.get('median_overall_response_seconds'))} (typical) "
+                               f"&middot; avg {_dur(summary.get('avg_overall_response_seconds'))} &middot; p90 {_dur(summary.get('p90_overall_response_seconds'))} "
+                               f"(sample {summary.get('overall_response_samples',0)}). Median is robust to overnight waits; missing/invalid pairs shown as N/A, never 0.",styles['SmallTextCSR']))
+        # "Awaiting Counselor Reply" is shown as "NR From Conseller" in Management
+        # Metrics above, so it is omitted from this reply-state breakdown to avoid
+        # showing the same number twice.
+        rs={k:v for k,v in (summary.get('reply_states') or {}).items() if k!='awaiting_counselor_reply'}
+        story.append(Paragraph("<b>Reply state:</b> "+escape(', '.join(f"{k.replace('_',' ').title()}: {v}" for k,v in rs.items()) or 'None'),styles['SmallTextCSR']))
+        story.append(Paragraph(f"<b>Responses by channel:</b> Text/Voice replied {summary.get('responded_text_voice',0)}; "
+                               f"All-channel (incl. outbound call) {summary.get('responded_all_channel',0)}. "
+                               f"Calls inbound {summary.get('calls_inbound',0)}, outbound {summary.get('calls_outbound',0)} "
+                               f"(new-lead {summary.get('new_lead_calls',0)}, follow-up {summary.get('follow_up_calls',0)}). "
+                               "Answered calls are not merged into the text/voice reply count.",styles['SmallTextCSR']))
+        cl=summary.get('country_leads') or {}
+        country_line=', '.join(f'{k}: {v}' for k,v in cl.items()) or 'No destination evidence'
+        story.append(Paragraph(f"<b>Country pipeline (potential leads):</b> {escape(country_line)}. "
+                               f"Multi-country {summary.get('multi_country_leads',0)}; Unknown {summary.get('unknown_country_leads',0)}. "
+                               "Each multi-country lead is counted once per country but once in the global total; country is never guessed.",styles['SmallTextCSR']))
     story.append(Paragraph('Lead Register / Conversation Classification',styles['Heading2']))
     if summary['conversations']:
         for row in summary['conversations'][:120]:
