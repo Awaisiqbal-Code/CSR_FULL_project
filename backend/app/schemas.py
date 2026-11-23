@@ -18,6 +18,9 @@ class Approval(BaseModel):
     approved: bool | None = None
     active: bool | None = None
 
+class AdminPasswordSet(BaseModel):
+    password: str = Field(min_length=8,max_length=128)
+
 class MessageIn(BaseModel):
     sender: str = Field(default='',max_length=160)
     fromMe: bool = False

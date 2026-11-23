@@ -18,9 +18,10 @@ class Node {
 const nodes=new Map();function el(id){if(!nodes.has(id))nodes.set(id,new Node());return nodes.get(id);}
 for(const id of ['audit-preview-content','audit-drill','range','employee'])el(id);
 el('range').value='all';el('employee').value='';
-const summary={employee_id:2,hours:25,total_chats:3,active_conversations:3,worked_on_chats:2,
+const summary={employee_id:2,hours:25,total_chats:3,
  new_leads:1,new_lead_responded:1,new_lead_awaiting_counselor:0,nnr_awaiting_customer:0,
- follow_up_conversations:1,follow_up_touches:1,old_followup_awaiting:0,
+ nr_from_lead:2,nr_from_counsellor:1,
+ follow_up_conversations:1,follow_up_touches:1,old_followup_awaiting:0,old_client_follow_up:1,
  avg_new_lead_first_response_seconds:360,new_lead_first_response_samples:1,new_lead_first_response_missing:0,
  avg_overall_response_seconds:420,median_overall_response_seconds:120,p90_overall_response_seconds:900,overall_response_samples:2,
  reply_states:{replied:2,awaiting_counselor_reply:1},
@@ -46,8 +47,9 @@ function flatten(n){return [n.textContent,...n.children.flatMap(c=>flatten(c))].
 
 ctx.__test.renderAuditPreview({id:9,employee_id:2,hours:25,created_at:'2026-11-17T10:00:00Z',status:'completed',summary});
 const page=flatten(el('audit-preview-content'));
-for(const s of ['Management Metrics','New Leads','Follow-up Conversations','Response Time','Conversation Reply State','Responses by Channel','Country Pipeline','Avg New-Lead First Response','6m 0s','Italy','France','Multi-country'])
+for(const s of ['Management Metrics','New Leads','Overall Follow-up','Old Client Follow-up','NR From Lead','NR From Conseller','No Response on Old Follow up from consellers','Response Time','Conversation Reply State','Responses by Channel','Country Pipeline','Avg New-Lead First Response','6m 0s','Italy','France','Multi-country'])
  assert.ok(page.includes(s),'missing section/label: '+s);
+assert.ok(!page.includes('Active Conversations')&&!page.includes('Worked-on Chats'),'deleted metrics must not render');
 
 const all=walk(el('audit-preview-content'));
 const clickable=all.filter(n=>n.tagName==='button'&&String(n.className).includes('audit-stat-clickable'));
@@ -58,9 +60,15 @@ function click(label){
 // New Leads -> only the new lead.
 let d=click('New Leads');
 assert.ok(d.includes('New Lead')&&!d.includes('Follow Up')&&!d.includes('Chatter'),'New Leads drill shows only the new lead');
-// Follow-up Conversations -> only the follow-up.
-d=click('Follow-up Conversations');
+// Overall Follow-up -> only the follow-up.
+d=click('Overall Follow-up');
 assert.ok(d.includes('Follow Up')&&!d.includes('New Lead'),'Follow-up drill shows only follow-up');
+// Old Client Follow-up -> only the follow-up that is a Client.
+d=click('Old Client Follow-up');
+assert.ok(d.includes('Follow Up')&&!d.includes('Chatter'),'Old Client Follow-up drill scoped to client follow-ups');
+// NR From Conseller -> only the chat awaiting counsellor reply.
+d=click('NR From Conseller');
+assert.ok(d.includes('Follow Up')&&!d.includes('Chatter'),'NR From Conseller drill scoped correctly');
 // Country Italy -> only the lead considering Italy.
 d=click('Italy');
 assert.ok(d.includes('New Lead')&&!d.includes('Follow Up'),'Italy drill shows only Italy lead');

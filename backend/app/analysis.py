@@ -3,9 +3,9 @@ from datetime import datetime, timedelta, timezone
 from collections import Counter
 import re
 import statistics
-from sqlalchemy import select
+from sqlalchemy import select, func, or_, and_, not_, distinct
 from sqlalchemy.orm import Session, selectinload
-from .models import Conversation, Message, SyncLog
+from .models import Conversation, Message, SyncLog, User
 from . import audit_metrics as am
 
 # Rules spec v1.0 (2026-11-17): business category is ONE of three values and is
@@ -52,6 +52,60 @@ def is_internal_conversation(title):
     company group (never a customer lead). Title-only on purpose: 1:1 customer
     chats are titled with the contact's name and won't match these markers."""
     return bool(_INTERNAL_TITLE_RE.search(' '.join(str(title or '').split())))
+
+
+def group_conversation_condition():
+    """SQLAlchemy boolean, True when a Conversation is a WhatsApp GROUP, derived from
+    already-stored data (no schema change / no re-sync -- works on old and new syncs):
+      - a group JID (@g.us) appears in any message's source id, OR
+      - there are >= 2 distinct CUSTOMER-side participant names (a group has multiple
+        inbound senders; a 1:1 chat has exactly one contact).
+
+    The inbound-participant count MUST mirror ``resolve_from_me`` (chat_overview):
+    the stored ``from_me`` flag is unreliable (the extension's DOM scrape can flip
+    direction), so a counselor's own reply is frequently saved as inbound -- under
+    the counselor's own display name, or carrying an authoritative ``true_`` WhatsApp
+    id. Counting those as a second "participant" is exactly what makes a 1:1 chat
+    leak into the Groups tab, so they are excluded here with the same authority rules
+    used everywhere else for display and audit.
+
+    Used to split the Chats inbox (chats vs groups) and to keep groups OUT of the audit."""
+    has_gjid = select(Message.id).where(
+        Message.conversation_id == Conversation.id,
+        Message.source_message_id.ilike('%@g.us%')).exists()
+
+    # The counselor's display name comes from the owning User, joined directly into
+    # the counting subquery below. A nested correlated scalar subquery for it works on
+    # SQLite but raises a CardinalityViolation on PostgreSQL (its correlation is lost
+    # two levels deep), so we join instead and correlate only the outer Conversation.
+    owner = func.lower(func.trim(func.coalesce(User.full_name, '')))
+    src = func.lower(func.coalesce(Message.source_message_id, ''))
+    name = func.lower(func.trim(func.coalesce(Message.sender, '')))
+
+    # Authoritative WhatsApp ids: ``true_...`` = counselor (out), ``false_...`` = customer (in).
+    authoritative_out = src.startswith('true_')
+    authoritative_in = src.startswith('false_')
+    # The counselor's own message: exact display-name match, or -- when the account
+    # name is 2+ words -- the account name as the LEADING part of the sender
+    # (e.g. "Talha Ahmad Scholarshiphive"). Same rule as resolve_from_me.
+    is_counselor = or_(name == owner,
+                       and_(owner.like('% %'), name.like(owner.concat(' %'))))
+    # A customer-side (inbound) message that reveals a distinct participant.
+    inbound = and_(
+        not_(authoritative_out),
+        name != '',
+        name.notin_(('you', 'me')),
+        not_(is_counselor),
+        or_(authoritative_in, Message.from_me.is_(False)),
+    )
+    distinct_inbound = (
+        select(func.count(distinct(name)))
+        .select_from(Message)
+        .join(User, User.id == Conversation.employee_id, isouter=True)
+        .where(Message.conversation_id == Conversation.id, inbound)
+        .correlate(Conversation)
+        .scalar_subquery())
+    return or_(has_gjid, distinct_inbound >= 2)
 
 
 def classify(text, needs_review=False, staff_verified=False, manual_category=None):
@@ -108,8 +162,12 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
     # or not the counselor replied -- "no reply" is reported as its own metric, never
     # by dropping the chat from the total. (The older last_seen/first_seen pre-filter
     # could diverge from message dates and silently drop chats.)
+    # The audit is CHAT-only (18 Nov 2026 change): WhatsApp GROUPS are excluded from
+    # the whole report (not counted, tiered, or registered). Everything else about the
+    # per-chat logic is unchanged.
     conversations = db.scalars(select(Conversation).where(
         Conversation.employee_id==employee_id,
+        not_(group_conversation_condition()),
         select(Message.id).where(
             Message.conversation_id==Conversation.id,
             Message.occurred_at>=begin, Message.occurred_at<end
@@ -187,7 +245,6 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
         tier=am.lead_tier(hist,full_text,kind,end)
         countries,primary_country=am.extract_countries(full_text)
         calls=am.call_breakdown(window_norm,nl['is_new_lead'])
-        worked_on=has_outbound
         is_follow_up=(not nl['is_new_lead']) and has_outbound and bool(hist) and (hist[0]['dt']<begin)
         follow_up_touches=sum(1 for m in window_norm if m['from_me']) if is_follow_up else 0
         # Exclude echo duplicates so a mirrored message never fabricates a reply
@@ -195,7 +252,7 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
         pair_secs=am.response_pairs(am.drop_echoes(window_norm))
         row={'id':chat.id,'title':chat.display_name_override or chat.title,'messages':len(msgs),'classification':kind,'needs_review':chat.needs_review,'review_reason':chat.review_reason,'possible_consultant_no_reply':no_reply,'possible_dead':dead,
              'voice_sent':c_voice_sent,'voice_received':c_voice_received,'voice_seconds':c_voice_seconds,'call_events':c_call_events,
-             'reply_state':rstate,'worked_on':worked_on,'is_new_lead':nl['is_new_lead'],'is_follow_up':is_follow_up,
+             'reply_state':rstate,'is_new_lead':nl['is_new_lead'],'is_follow_up':is_follow_up,
              'new_lead_responded':nl['responded'],'new_lead_awaiting_counselor':nl['new_lead_awaiting_counselor'],
              'nnr_awaiting_customer':nl['nnr_awaiting_customer'],'first_response_seconds':nl['first_response_seconds'],
              'lead_tier':tier,'countries':countries,'primary_country':primary_country,
@@ -212,7 +269,6 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
     needs_review_total=sum(1 for r in rows if r['needs_review'])
     window_hours = hours if hours is not None else max(1, round((end-begin).total_seconds()/3600))
     # --- Management-analytics aggregates (spec 18 Nov 2026) -----------------
-    worked_on_chats=sum(1 for r in rows if r['worked_on'])
     new_leads=[r for r in rows if r['is_new_lead']]
     new_lead_responded=sum(1 for r in new_leads if r['new_lead_responded'])
     new_lead_awaiting_counselor=sum(1 for r in new_leads if r['new_lead_awaiting_counselor'])
@@ -222,6 +278,13 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
     # Old follow-ups that are currently awaiting a counselor reply — flagged
     # SEPARATELY from the new-lead NNR number (spec 5.2).
     old_followup_awaiting=sum(1 for r in rows if r['is_follow_up'] and r['reply_state']=='awaiting_counselor_reply')
+    # Overall (new + follow-up) no-response split by who owes the next reply:
+    #   NR from counsellor -> customer wrote last, counsellor has not replied (awaiting_counselor_reply)
+    #   NR from lead       -> counsellor replied last, the lead/customer has gone silent (replied)
+    nr_from_counsellor=sum(1 for r in rows if r['reply_state']=='awaiting_counselor_reply')
+    nr_from_lead=sum(1 for r in rows if r['reply_state']=='replied')
+    # Old clients the counsellor followed up: follow-up chats classified as Clients.
+    old_client_follow_up=sum(1 for r in rows if r['is_follow_up'] and r['classification']=='potential_lead')
     first_resp_samples=[r['first_response_seconds'] for r in new_leads if r['first_response_seconds'] is not None]
     avg_new_lead_first_response=round(sum(first_resp_samples)/len(first_resp_samples)) if first_resp_samples else None
     all_pairs=[s for r in rows for s in r['_pair_secs']]
@@ -269,11 +332,11 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
         'possible_dead':sum(r['possible_dead'] for r in rows if r['classification']=='potential_lead'),
         'voice_notes_sent':voice_sent,'voice_notes_received':voice_received,'known_voice_duration_seconds':voice_seconds,'call_placeholders':call_events,
         # --- Management-analytics summary (spec 18 Nov 2026; deterministic) ---
-        'active_conversations':total,'worked_on_chats':worked_on_chats,
         'new_leads':len(new_leads),'new_lead_responded':new_lead_responded,
         'new_lead_awaiting_counselor':new_lead_awaiting_counselor,'nnr_awaiting_customer':nnr_awaiting_customer,
+        'nr_from_counsellor':nr_from_counsellor,'nr_from_lead':nr_from_lead,
         'follow_up_conversations':follow_up_conversations,'follow_up_touches':follow_up_touches,
-        'old_followup_awaiting':old_followup_awaiting,
+        'old_followup_awaiting':old_followup_awaiting,'old_client_follow_up':old_client_follow_up,
         'avg_new_lead_first_response_seconds':avg_new_lead_first_response,
         'new_lead_first_response_samples':len(first_resp_samples),
         'new_lead_first_response_missing':len(new_leads)-len(first_resp_samples),

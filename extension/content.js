@@ -2993,6 +2993,14 @@ return __wceFinalChats;
     //      leaking "You:"), so the first sender-colon label belongs to the row.
     if (row.querySelector?.('[data-icon="tail-out"]')) return { fromMe: true, proof: 'tail_out' };
     if (row.querySelector?.('[data-icon="tail-in"]')) return { fromMe: false, proof: 'tail_in' };
+    // Delivery / read status ticks (clock, single-, double-check) render ONLY on the
+    // counselor's OWN outgoing messages -- never on an incoming one. This is the most
+    // reliable group signal when tails are absent: in a group only the first message of
+    // a run carries a tail, so grouped outgoing replies otherwise fall through to the
+    // aria/geometry fallbacks and get mis-read as incoming (the sender/receiver swap).
+    // Icon-based, so language-independent. Incoming messages carry no status icon.
+    if (row.querySelector?.('[data-icon="msg-dblcheck"],[data-icon="msg-check"],[data-icon="msg-time"]'))
+      return { fromMe: true, proof: 'status_tick' };
     try {
       var ariaNodes = row.querySelectorAll?.('[aria-label]') || [];
       for (var ai = 0; ai < ariaNodes.length && ai < 24; ai++) {

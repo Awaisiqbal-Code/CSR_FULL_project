@@ -6,6 +6,10 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.units import inch
 from xml.sax.saxutils import escape
 
+# Display labels for the stored business categories (internal keys are unchanged).
+_CATEGORY_LABEL = {'potential_lead': 'Client', 'internal_staff': 'Internal / Staff',
+                   'unclassified': 'Unclassified'}
+
 def generate_pdf(name: str, summary: dict) -> bytes:
     buf=io.BytesIO()
     doc=SimpleDocTemplate(buf,pagesize=(595,842),leftMargin=42,rightMargin=42,topMargin=48,bottomMargin=48)
@@ -21,7 +25,7 @@ def generate_pdf(name: str, summary: dict) -> bytes:
     # Headline leads are DETERMINISTIC (rule-based potential_lead), independent of
     # AI, so this count always matches the Conversations section and never blanks
     # to 0 when AI is unavailable.
-    data=[['Total Chats','Potential Leads','Needs Review','Unread Excluded'],
+    data=[['Total Chats','Clients','Needs Review','Unread Excluded'],
           [str(summary['total_chats']),str(summary['potential_leads']),
            str(summary['needs_review']),str(summary['unread_excluded'])]]
     t=Table(data,colWidths=[120]*4)
@@ -41,17 +45,19 @@ def generate_pdf(name: str, summary: dict) -> bytes:
         story.append(Paragraph(escape(summary['executive_summary']),styles['SmallTextCSR']))
     # Management analytics (spec 18 Nov 2026) — deterministic, event-time metrics.
     # Shown only when the report carries these keys; legacy reports are unaffected.
-    if summary.get('active_conversations') is not None or summary.get('new_leads') is not None:
+    if summary.get('new_leads') is not None:
         def _dur(s):
             if s is None:return 'N/A'
             s=int(round(s));return (f'{s//60}m {s%60}s') if s>=60 else f'{s}s'
         story.append(Paragraph('Management Metrics',styles['Heading2']))
-        mg=[['Active Conversations','Worked-on Chats','New Leads','New Lead Responded'],
-            [str(summary.get('active_conversations',summary.get('total_chats',0))),str(summary.get('worked_on_chats',0)),
-             str(summary.get('new_leads',0)),str(summary.get('new_lead_responded',0))],
-            ['New Lead Awaiting Reply','NNR Awaiting Customer','Follow-up Conversations','Old Follow-up Awaiting'],
-            [str(summary.get('new_lead_awaiting_counselor',0)),str(summary.get('nnr_awaiting_customer',0)),
-             str(summary.get('follow_up_conversations',0)),str(summary.get('old_followup_awaiting',0))]]
+        mlabel=ParagraphStyle(name='MLabel',parent=styles['BodyText'],fontSize=8,leading=9.5,alignment=TA_CENTER,fontName='Helvetica-Bold')
+        def _ml(txt):return Paragraph(txt,mlabel)
+        mg=[[_ml('New Leads'),_ml('New Lead Responded'),_ml('Overall Follow-up'),_ml('Old Client Follow-up')],
+            [str(summary.get('new_leads',0)),str(summary.get('new_lead_responded',0)),
+             str(summary.get('follow_up_conversations',0)),str(summary.get('old_client_follow_up',0))],
+            [_ml('NR From Lead'),_ml('NR From Conseller'),_ml('No Response on Old Follow up from consellers'),_ml('')],
+            [str(summary.get('nr_from_lead',0)),str(summary.get('nr_from_counsellor',0)),
+             str(summary.get('old_followup_awaiting',0)),'']]
         mt=Table(mg,colWidths=[120]*4)
         mt.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#ecf8f0')),('BACKGROUND',(0,2),(-1,2),colors.HexColor('#ecf8f0')),
                                 ('FONTNAME',(0,0),(-1,0),'Helvetica-Bold'),('FONTNAME',(0,2),(-1,2),'Helvetica-Bold'),
@@ -89,14 +95,14 @@ def generate_pdf(name: str, summary: dict) -> bytes:
                                    ('ALIGN',(0,0),(-1,-1),'CENTER'),('FONTSIZE',(0,0),(-1,-1),9),
                                    ('BOX',(0,0),(-1,-1),0.4,colors.HexColor('#ccdde9')),
                                    ('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8)]))
-    tier_note=('Lead tiers are rule-based (Potential Leads only): an explicit CGPA uses the original n8n bands '
+    tier_note=('Lead tiers are rule-based (Clients only): an explicit CGPA uses the standard CGPA bands '
                '(Very Hot 3.7+, Hot 3.1-3.69, Average 2.6-3.09, Cold below 2.6); otherwise an engagement point '
                'model is used. AI, when configured, may add a tier opinion but does not change these counts.')
     story.extend([tier_table, Spacer(1,7),Paragraph(escape(tier_note),styles['SmallTextCSR'])])
     story.append(Paragraph('Lead Register / Conversation Classification',styles['Heading2']))
     if summary['conversations']:
         for row in summary['conversations'][:120]:
-            title=escape(row['title'][:70]);kind=escape(str(row['classification']).replace('_',' ').title())
+            title=escape(row['title'][:70]);kind=escape(_CATEGORY_LABEL.get(str(row['classification']),str(row['classification']).replace('_',' ').title()))
             reason=escape((row.get('audit_reason') or row.get('review_reason') or '')[:150])
             tier=row.get('lead_tier');status=row.get('audit_status')
             parts=[f'<b>{title}</b>',kind]

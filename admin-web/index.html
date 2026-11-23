@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>Scholarshiphive CSR — Admin</title><link rel="stylesheet" href="/admin-assets/styles.css?v=4.17"></head>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>Scholarshiphive CSR — Admin</title><link rel="stylesheet" href="/admin-assets/styles.css?v=4.18"></head>
 <body class="login-view">
 <header class="bar"><div class="brand"><span class="mark">☏</span><div><strong>scholarshiphive.</strong><small>CSR INTELLIGENCE</small></div></div><nav id="top-tabs" class="tabs hidden" aria-label="Admin sections"><button data-tab="overview" class="selected">◫ &nbsp; Overview</button><button data-tab="chats">♧ &nbsp; Conversations</button><button data-tab="reports">▤ &nbsp; Audit reports</button><button data-tab="team">♧ &nbsp; Team management</button></nav><div id="nav-actions" class="hidden"><span class="admin-label">Admin · <span id="admin-name"></span></span><span class="admin-avatar">LA</span><button id="logout" class="subtle">Sign out</button></div></header>
 <main>
@@ -36,7 +36,7 @@
    </div>
  </section>
  <section id="app-pane" class="hidden">
-   <div id="main-heading" class="heading"><div><h1>CSR Admin Overview</h1><p class="muted">Connected to the same PostgreSQL backend as the employee extension.</p></div></div>
+   <div id="main-heading" class="heading"><div><h1>CSR Admin Overview</h1><p class="muted">Connected to the same backend as the employee extension.</p></div></div>
    <section id="global-filters" class="panel filters overview-filters" aria-label="Dashboard filters">
      <div class="filter-search-field"><label for="employee-search">Search counselor</label><input id="employee-search" type="search" placeholder="Search by employee name or ID…" autocomplete="off"></div>
      <div><label for="employee">Counselor</label><select id="employee"><option value="">All counselors</option></select></div>
@@ -76,6 +76,7 @@
      <div id="conversation-workspace" class="conversation-workspace workspace-all-employees">
        <aside class="inbox-pane"><div class="inbox-heading"><strong>Inbox</strong><span id="chat-count-pill" class="count-pill">0 visible</span></div>
        <div class="inbox-search"><span>⌕</span><input id="chat-search" type="search" placeholder="Search contacts or messages…" aria-label="Search saved conversations"></div>
+       <div class="inbox-kind" role="tablist" aria-label="Show chats or groups"><button id="kind-all" class="kind-btn selected" type="button">All</button><button id="kind-chats" class="kind-btn" type="button">Chats</button><button id="kind-groups" class="kind-btn" type="button">Groups</button></div>
        <div id="chat-list" class="inbox-list" role="listbox" aria-label="Conversations"></div>
        <button id="load-more-chats" class="load-more hidden">Load more conversations</button></aside>
        <section class="conversation-pane"><div id="chat-detail" class="chat-detail-pane"><div class="chat-empty"><span>☏</span><h2>Chats overview</h2><p>Analytics load here. Choose an employee to browse saved conversations.</p></div></div></section>
@@ -92,4 +93,4 @@
    <section id="team" class="tab-section hidden"><div class="panel"><h2>Employee Accounts</h2><div id="team-list"></div></div></section>
  </section>
  <div class="toast hidden" role="status" aria-live="polite" id="toast"></div>
-</main><script defer src="/admin-assets/admin.js?v=4.17"></script></body></html>
+</main><script defer src="/admin-assets/admin.js?v=4.18"></script></body></html>

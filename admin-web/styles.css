@@ -356,3 +356,8 @@ body.admin-view .audit-register th,body.admin-view .audit-register td{padding:10
 body.admin-view .audit-bullets{margin:8px 0;padding-left:23px;font-size:13px;line-height:1.7;}
 @media(max-width:720px){body.admin-view .audit-stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));}body.admin-view .audit-tiers,body.admin-view .audit-qa-grid{grid-template-columns:1fr 1fr;}body.admin-view .audit-viewer{padding:14px;}}
 @media(max-width:460px){body.admin-view .audit-stat-grid,body.admin-view .audit-tiers,body.admin-view .audit-qa-grid{grid-template-columns:1fr;}}
+/* v4.18: Chats/Groups inbox filter + Team change-password control */
+body.admin-view .inbox-kind{display:flex;gap:6px;padding:0 2px 8px}
+body.admin-view .kind-btn{flex:1;background:#eef5f1;color:#55736a;padding:7px 8px;font-size:12px;border-radius:8px}
+body.admin-view .kind-btn.selected{background:#179b72;color:#fff}
+body.admin-view .team-pw-input{width:auto;max-width:180px;margin:0;padding:8px 10px;font-size:12px}

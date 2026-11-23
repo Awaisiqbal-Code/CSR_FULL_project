@@ -5,6 +5,10 @@
 'use strict';
 const SESSION_KEY='csr.auth';
 const BASE_KEY='csr.apiBase';
+// Hardcoded backend URL so counselors never enter or see it. BEFORE distributing the
+// extension, replace the subdomain below with your real Railway API service URL.
+// Must be a https://<name>.up.railway.app host (or http://127.0.0.1:8000 for local dev).
+const DEFAULT_API_BASE='http://127.0.0.1:8000';
 const LAST_KEY='csr.lastSync';
 const ALARM='csr-sync-15m';
 const VOICE_ALARM='csr-voice-1m';
@@ -27,7 +31,7 @@ function allowedBase(value){
     throw new Error('Enter your local http://127.0.0.1:8000 or Railway HTTPS API URL.');
   return url;
 }
-async function base(){const cfg=await chrome.storage.local.get([BASE_KEY]);if(!cfg[BASE_KEY])throw new Error('Connect backend API first.');return allowedBase(cfg[BASE_KEY]);}
+async function base(){const cfg=await chrome.storage.local.get([BASE_KEY]);return allowedBase(cfg[BASE_KEY]||DEFAULT_API_BASE);}
 async function auth(){return (await chrome.storage.session.get([SESSION_KEY]))[SESSION_KEY]||null;}
 async function api(path,method='GET',body){
   const a=await auth();
@@ -204,7 +208,7 @@ chrome.runtime.onMessage.addListener((msg,sender,respond)=>{
           if(prior[BASE_KEY]&&prior[BASE_KEY]!==url)await chrome.storage.session.remove(SESSION_KEY);
           await chrome.storage.local.set({[BASE_KEY]:url});}
         const stored=await chrome.storage.local.get([BASE_KEY,LAST_KEY]);
-        return {apiBase:stored[BASE_KEY]||'',lastSync:stored[LAST_KEY]||null};
+        return {apiBase:stored[BASE_KEY]||DEFAULT_API_BASE,lastSync:stored[LAST_KEY]||null};
       }
       case 'CSR_SIGNUP':return await api('/auth/signup','POST',msg.data);
       case 'CSR_LOGIN':{

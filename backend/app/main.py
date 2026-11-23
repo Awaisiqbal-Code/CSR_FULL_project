@@ -3,7 +3,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 from datetime import datetime, timezone, timedelta, date, time
 from contextlib import asynccontextmanager
-from sqlalchemy import select, func, distinct, and_, or_
+from sqlalchemy import select, func, distinct, and_, or_, not_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from fastapi import FastAPI, Depends, HTTPException, Response, Query
@@ -12,8 +12,8 @@ from fastapi.staticfiles import StaticFiles
 from . import models
 from .db import get_db, create_tables
 from .security import hash_password, check_password, token_for, current_user, admin_only, assert_scope
-from .schemas import SignUp, Login, Approval, SyncIn, AuditRequest, ContactCorrection, VoiceUpload, VoiceFailure
-from .analysis import classify, build_summary
+from .schemas import SignUp, Login, Approval, SyncIn, AuditRequest, ContactCorrection, VoiceUpload, VoiceFailure, AdminPasswordSet
+from .analysis import classify, build_summary, group_conversation_condition
 from .config import production_check
 from .sync_windows import since_for_sync
 from .media_recovery import can_promote_image_to_voice, can_promote_call_placeholder
@@ -160,6 +160,18 @@ def change_employee(employee_id:int,change:Approval,user:models.User=Depends(adm
     target.token_version+=1
     log_event(db,user.id,'employee_status_changed',target.id);db.commit()
     return {'ok':True,'employee':person(target)}
+
+@app.post('/admin/employees/{employee_id}/password')
+def set_employee_password(employee_id:int,data:AdminPasswordSet,user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    # Admin sets a counselor's password from the Team tab. Only employee accounts can
+    # be changed here (never another admin). Existing employee sessions are invalidated.
+    target=db.get(models.User,employee_id)
+    if not target:raise HTTPException(404,'Employee not found')
+    if target.role!='employee':raise HTTPException(403,'Only employee passwords can be changed here')
+    target.password_hash=hash_password(data.password)
+    target.token_version+=1
+    log_event(db,user.id,'employee_password_reset',target.id);db.commit()
+    return {'ok':True,'employee_id':target.id}
 
 @app.get('/dashboard')
 def dashboard(employee_id:int|None=None,user:models.User=Depends(current_user),db:Session=Depends(get_db)):
@@ -671,7 +683,7 @@ def admin_call_events(employee_id:int|None=None,start:date|None=None,end:date|No
 @app.get('/conversations')
 def conversations(employee_id:int|None=None,start:date|None=None,end:date|None=None,
                   search:str=Query('',max_length=100),state:str=Query('',max_length=40),
-                  activity:str=Query('',max_length=30),
+                  activity:str=Query('',max_length=30),kind:str=Query('',max_length=10),
                   limit:int=Query(100,ge=1,le=200),offset:int=Query(0,ge=0),
                   user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
     # Admin-only; apply employee scope before COUNT, pagination, or fetching messages.
@@ -736,6 +748,13 @@ def conversations(employee_id:int|None=None,start:date|None=None,end:date|None=N
             q=q.where(models.Conversation.id.in_(result['response_chat_ids'][activity]))
         else:
             q=q.where(False)
+    # Chats vs Groups split (derived from stored data; no re-sync needed).
+    if kind not in ('','chats','groups'):
+        raise HTTPException(422,'Unknown kind filter')
+    if kind=='groups':
+        q=q.where(group_conversation_condition())
+    elif kind=='chats':
+        q=q.where(not_(group_conversation_condition()))
     total=db.scalar(select(func.count()).select_from(q.order_by(None).subquery())) or 0
     # WhatsApp-like newest-first inbox: message event time takes priority.
     # DB last_seen_at is sync/import time and changes when old conversations
@@ -1020,4 +1039,4 @@ def admin_analytics(start:date|None=None,end:date|None=None,
             'dated_messages_outside_selected_range':(total_all-total_undated-len(events)) if filtered else 0,
             'reports':reports,'lead_states':classes,'series':series,
             'note':('Messages exclude WhatsApp call-event placeholders. Call events remain saved separately; undated calls are not assigned an event month.'
-                    if not filtered else 'Message counts exclude call placeholders. Charts use WhatsApp message event dates. Conversation count includes chats saved/updated in PostgreSQL; undated calls are never assigned an event month.')}
+                    if not filtered else 'Message counts exclude call placeholders. Charts use WhatsApp message event dates. Conversation count includes chats saved/updated in the system; undated calls are never assigned an event month.')}

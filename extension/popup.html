@@ -11,14 +11,6 @@
     <button id="fullpage" class="icon-btn" title="Open extension full page" aria-label="Open extension full page">⤢</button>
   </header>
   <main>
-    <section id="setup" class="screen hidden">
-      <div class="hero-icon">⚙</div><h1>Connect your workspace</h1>
-      <p class="muted">Your company backend connection. For local VS Code testing: http://127.0.0.1:8000</p>
-      <form id="setup-form" class="stack">
-        <label for="api-base">Backend API URL</label><input id="api-base" type="url" placeholder="http://127.0.0.1:8000" required>
-        <button class="primary" type="submit">Save connection</button>
-      </form>
-    </section>
     <section id="auth" class="screen hidden">
       <div class="auth-heading"><div class="hero-icon">◈</div><h1>Welcome to CSR</h1><p class="muted">Secure access to your company WhatsApp sync workspace.</p></div>
       <div class="pill-tabs" role="tablist"><button id="mode-login" type="button" class="selected">Sign in</button><button id="mode-signup" type="button">First-time signup</button></div>
@@ -38,7 +30,6 @@
         <p class="hint">Company-authorized WhatsApp chats and accessible voice notes are synchronized periodically to the company workspace while Chrome and WhatsApp Web are available. Images/documents and call events are identified but their files/recordings are not saved. Confirmed unread chats are excluded. An admin must approve your registration.</p>
         <button type="submit" class="primary">Request account approval</button>
       </form>
-      <button id="change-api" class="subtle-btn" type="button">Change connection address</button>
     </section>
     <section id="workspace" class="screen hidden">
       <div class="identity"><div><h1 id="hello">My sync</h1><p id="identity-line" class="muted"></p></div><button id="logout" class="outline tiny" type="button">Log out</button></div>

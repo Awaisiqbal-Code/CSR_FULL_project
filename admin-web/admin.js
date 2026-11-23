@@ -9,6 +9,7 @@ let latestOverviewClasses={};
 let overviewCardsSerial=0;
 let overviewSummarySerial=0;
 let activeTab='overview';
+let chatsKind='';  // '' = all, 'chats' = 1:1 only, 'groups' = groups only
 let chatOffset=0;
 let selectedConversationId=null;
 let displayedConversations=[];
@@ -66,7 +67,7 @@ function renderPie(classes,targetId='pie-chart'){const el=$(targetId);el.replace
 
 function humanNumber(value){return Number(value||0).toLocaleString('en-US');}
 function statusDisplay(state){
- const titles={unclassified:'Unclassified',needs_review:'Needs review',potential_lead:'Potential lead',internal:'Internal / Staff',internal_staff:'Internal / Staff'};
+ const titles={unclassified:'Unclassified',needs_review:'Needs review',potential_lead:'Client',internal:'Internal / Staff',internal_staff:'Internal / Staff'};
  return titles[state]||String(state).replaceAll('_',' ').replace(/\b\w/g,c=>c.toUpperCase());
 }
 function renderCounselorCards(){
@@ -278,7 +279,7 @@ function renderChatOverview(data){
  const host=$('chat-detail');host.replaceChildren();
  const wrap=e('div','','workspace-analytics');const title=e('div','','workspace-analytics-heading');
  const scope=$('chats-employee').value?employeeLabel($('chats-employee').value):'All employees';
- title.append(e('div','CONVERSATION INTELLIGENCE','eyebrow'),e('h2',scope+' — Chats overview'),e('p',data.scope==='all_time'?'All saved history · PostgreSQL':'Chats saved/updated in selected dates; messages counted by source event date','muted'));wrap.append(title);
+ title.append(e('div','CONVERSATION INTELLIGENCE','eyebrow'),e('h2',scope+' — Chats overview'),e('p',data.scope==='all_time'?'All saved history':'Chats saved/updated in selected dates; messages counted by source event date','muted'));wrap.append(title);
  const stats=e('div','','workspace-stats');
  stats.append(overviewStat('Conversations',data.total_conversations,'Saved chats in selected scope',()=>filterChatInsight()));
  stats.append(overviewStat(data.scope==='date_range'?'Dated messages':'Messages saved',data.messages,'Call events are separate',()=>filterChatInsight()));
@@ -477,6 +478,7 @@ async function refreshChats(append=false){
  try{
   const q=new URLSearchParams({limit:String(CHAT_PAGE_SIZE),offset:String(chatOffset),employee_id:chosen});
   if($('chats-activity').value)q.set('activity',$('chats-activity').value);
+  if(chatsKind)q.set('kind',chatsKind);
   if($('chat-search').value.trim())q.set('search',$('chat-search').value.trim());
   const dates=chatRangeDates();if(dates){q.set('start',dates[0]);q.set('end',dates[1]);}
   const data=await api('/conversations?'+q);if(serial!==chatRefreshSerial||activeTab!=='chats')return;
@@ -577,20 +579,19 @@ function auditMetricGrid(section,defs,gridCls='audit-stat-grid'){
 // Deterministic management-analytics sections (spec 18 Nov 2026). Shown only when
 // the report carries the new deterministic keys; legacy reports are unaffected.
 function renderManagementAnalytics(out,summary,C){
- if(summary.active_conversations===undefined&&summary.new_leads===undefined)return;
+ if(summary.new_leads===undefined)return;
  const nl=c=>!!c.is_new_lead;
  const mgmt=auditSection(out,'Management Metrics');
  auditMetricGrid(mgmt,[
-  ['Active Conversations',summary.active_conversations,()=>true],
-  ['Worked-on Chats',summary.worked_on_chats,c=>!!c.worked_on],
   ['New Leads',summary.new_leads,nl],
   ['New Lead Responded',summary.new_lead_responded,c=>nl(c)&&c.new_lead_responded],
-  ['New Lead Awaiting Reply',summary.new_lead_awaiting_counselor,c=>nl(c)&&c.new_lead_awaiting_counselor],
-  ['NNR · Awaiting Customer',summary.nnr_awaiting_customer,c=>nl(c)&&c.nnr_awaiting_customer],
-  ['Follow-up Conversations',summary.follow_up_conversations,c=>!!c.is_follow_up],
-  ['Old Follow-up Awaiting',summary.old_followup_awaiting,c=>c.is_follow_up&&c.reply_state==='awaiting_counselor_reply'],
+  ['Overall Follow-up',summary.follow_up_conversations,c=>!!c.is_follow_up],
+  ['Old Client Follow-up',summary.old_client_follow_up,c=>!!c.is_follow_up&&C(c)==='potential_lead'],
+  ['NR From Lead',summary.nr_from_lead,c=>c.reply_state==='replied'],
+  ['NR From Conseller',summary.nr_from_counsellor,c=>c.reply_state==='awaiting_counselor_reply'],
+  ['No Response on Old Follow up from consellers',summary.old_followup_awaiting,c=>c.is_follow_up&&c.reply_state==='awaiting_counselor_reply'],
  ]);
- auditParagraph(mgmt,'New-lead NNR (counselor side) and customer-silence NNR are counted separately and never merged; old follow-ups awaiting a reply are flagged apart from the new-lead number.','audit-footnote');
+ auditParagraph(mgmt,'NR From Conseller = the customer wrote last and the counseller has not replied yet (also shown as "Awaiting reply from counsellers"). NR From Lead = the counseller replied and the lead/customer has gone silent. Both are overall (new + follow-up). Old Client Follow-up counts follow-up chats that are Clients.','audit-footnote');
 
  const resp=auditSection(out,'Response Time');
  auditMetricGrid(resp,[
@@ -616,7 +617,7 @@ function renderManagementAnalytics(out,summary,C){
  auditParagraph(chan,'Calls are a separate response channel. The all-channel figure additionally credits an outbound call as a counselor touch; it is reported alongside the text/voice figure, never merged into it. "Answered" is not inferred, and missed/unknown-length calls are never counted as replies.','audit-footnote');
 
  const cl=summary.country_leads||{};const countryKeys=Object.keys(cl);
- const country=auditSection(out,'Country Pipeline (Potential Leads)');
+ const country=auditSection(out,'Country Pipeline (Clients)');
  if(!countryKeys.length&&!summary.multi_country_leads&&!summary.unknown_country_leads){
   auditParagraph(country,'No study-destination evidence found in this period. Country is never guessed from name, language or counselor.','muted');
  }else{
@@ -639,7 +640,7 @@ function renderAuditPreview(item){
  // Headline is DETERMINISTIC (hybrid): always the rule-based business categories so
  // it matches the chat data and never collapses to 0 when AI is unavailable. AI
  // enrichment, when present, shows in the Executive Summary / reconciliation note.
- const defs=[['Total Chats','total_chats',()=>true],['Potential Leads','potential_leads',c=>C(c)==='potential_lead'],['Internal / Staff','possible_internal',c=>C(c)==='internal_staff'],['Unclassified','unclassified',c=>C(c)==='unclassified'],['Needs Review','needs_review',c=>!!c.needs_review],['Unread Excluded','unread_excluded',null]];
+ const defs=[['Total Chats','total_chats',()=>true],['Clients','potential_leads',c=>C(c)==='potential_lead'],['Internal / Staff','possible_internal',c=>C(c)==='internal_staff'],['Unclassified','unclassified',c=>C(c)==='unclassified'],['Needs Review','needs_review',c=>!!c.needs_review],['Unread Excluded','unread_excluded',null]];
  for(const [label,key,pred] of defs)stats.append(auditStat(label,summary[key],pred));
  out.append(stats);
  auditParagraph(out,'Tip: click any highlighted box, pipeline tier or evidence card below to see only its matching conversations and their saved evidence.','audit-footnote');
@@ -748,10 +749,19 @@ async function refreshReports(){try{
  }if(!rows.length)c.append(e('p','No reports yet.','muted'));
  }catch(err){toast(err.message,true);}}
 
-async function refreshTeam(){try{await loadEmployees();const c=$('team-list');c.replaceChildren();for(const user of employees){row(c,`${user.name} (${formatId(user)})`,`${user.email} · ${user.approved?'Approved':'Pending approval'} · ${user.active?'Active':'Disabled'}`,[
- [user.approved?'Revoke approval':'Approve',async()=>{await api(`/admin/employees/${user.id}`,'PATCH',{approved:!user.approved});await refreshTeam();}],
- [user.active?'Disable':'Enable',async()=>{await api(`/admin/employees/${user.id}`,'PATCH',{active:!user.active});await refreshTeam();}]
- ]);}}catch(err){toast(err.message,true);}}
+async function refreshTeam(){try{await loadEmployees();const c=$('team-list');c.replaceChildren();for(const user of employees){
+ const r=e('div','','list-row');
+ const left=e('div');left.append(e('strong',`${user.name} (${formatId(user)})`),e('p',`${user.email} · ${user.approved?'Approved':'Pending approval'} · ${user.active?'Active':'Disabled'}`));
+ const rights=e('div','','list-actions');
+ const approveBtn=e('button',user.approved?'Revoke approval':'Approve','secondary');
+ approveBtn.onclick=()=>api(`/admin/employees/${user.id}`,'PATCH',{approved:!user.approved}).then(refreshTeam).catch(err=>toast(err.message,true));
+ const activeBtn=e('button',user.active?'Disable':'Enable','secondary');
+ activeBtn.onclick=()=>api(`/admin/employees/${user.id}`,'PATCH',{active:!user.active}).then(refreshTeam).catch(err=>toast(err.message,true));
+ const pw=e('input','','team-pw-input');pw.type='password';pw.placeholder='New password (8+)';pw.autocomplete='new-password';
+ const setBtn=e('button','Set password','secondary');
+ setBtn.onclick=async()=>{const v=pw.value;if(v.length<8){toast('Password must be at least 8 characters',true);return;}try{await api(`/admin/employees/${user.id}/password`,'POST',{password:v});pw.value='';toast('Password updated for '+user.name);}catch(err){toast(err.message,true);}};
+ rights.append(approveBtn,activeBtn,pw,setBtn);r.append(left,rights);c.append(r);
+}}catch(err){toast(err.message,true);}}
 $('login-form').onsubmit=async event=>{event.preventDefault();try{const r=await api('/auth/login','POST',{email:$('email').value,password:$('password').value});if(r.user.role!=='admin')throw Error('Admin access required');token=r.access_token;sessionStorage.setItem('csr-admin-token',token);$('password').value='';showApp(r.user);await loadEmployees();setDates();await refreshAnalytics();await Promise.all([refreshEmployeeCards(),refreshOverviewResponse()]);}catch(err){token='';toast(err.message,true);}};
 $('toggle-password').onclick=()=>{
   const input=$('password');
@@ -786,6 +796,7 @@ $('refresh-chats').onclick=()=>refreshChats();
 document.addEventListener?.('keydown',event=>{if(event.key==='Escape'&&activeTab==='chats'&&selectedConversationId!==null){event.preventDefault();selectOverview();}});
 for(const id of ['chats-employee','chats-activity','chats-range','chats-from','chats-to'])$(id).onchange=()=>{if(id==='chats-range')$('chats-custom-dates').classList.toggle('hidden',$('chats-range').value!=='custom');refreshChats();};
 let searchDelay=null;$('chat-search').oninput=()=>{clearTimeout(searchDelay);searchDelay=setTimeout(()=>refreshChats(),300);};
+for(const [id,val] of [['kind-all',''],['kind-chats','chats'],['kind-groups','groups']])$(id).onclick=()=>{chatsKind=val;for(const b of ['kind-all','kind-chats','kind-groups'])$(b).classList.toggle('selected',b===id);refreshChats();};
 $('chats-create-audit').onclick=()=>setTab('reports');
 $('load-more-chats').onclick=()=>refreshChats(true);
 $('audit-refresh').onclick=()=>{if(activeAuditJobId!==null)openAuditReport(activeAuditJobId,false);};

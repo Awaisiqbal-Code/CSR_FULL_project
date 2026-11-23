@@ -51,7 +51,9 @@ def test_build_summary_and_pdf_management_keys():
             assert s['new_leads'] == 1
             assert s['new_lead_responded'] == 1
             assert s['follow_up_conversations'] == 1
-            assert s['worked_on_chats'] == 2
+            # Deleted metrics must be gone; overall NR split + old-client follow-up present.
+            assert 'worked_on_chats' not in s and 'active_conversations' not in s
+            assert 'nr_from_lead' in s and 'nr_from_counsellor' in s and 'old_client_follow_up' in s
             # First response was 6 minutes = 360s.
             assert s['avg_new_lead_first_response_seconds'] == 360
             # Country pipeline picked up Italy as a potential-lead destination.

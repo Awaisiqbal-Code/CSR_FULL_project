@@ -11,7 +11,7 @@ const styles=fs.readFileSync(path.join(root,'styles.css'),'utf8');
 for(const id of ['audit-viewer','audit-viewer-title','audit-viewer-state','audit-preview-content','audit-refresh','audit-download','audit-close'])
  assert.match(html,new RegExp(`id="${id}"`),`Missing ${id}`);
 assert.match(styles,/\.audit-qa-grid/);
-assert.match(html,/admin\.js\?v=4\.17/);
+assert.match(html,/admin\.js\?v=4\.18/);
 assert.match(script,/AUDIT_LEAD_TIERS/);
 assert.match(script,/qa_dimensions/);
 assert.doesNotMatch(script,/innerHTML\s*=/,'Report content must use safe DOM text nodes, not innerHTML');
@@ -68,7 +68,7 @@ function flatten(n){return [n.textContent,...n.children.flatMap(flatten)].join('
  const rendered=flatten(el('audit-preview-content'));
  // Headline is deterministic (hybrid): business categories, not the AI responsive/
  // dead/etc. cards. AI category detail stays in the reconciliation note below.
- for(const text of ['Very Hot','Hot','Average','Cold','Potential Leads','Internal / Staff','Unclassified',
+ for(const text of ['Very Hot','Hot','Average','Cold','Clients','Internal / Staff','Unclassified',
                      'Individual Lead Evaluations','STRONG','PARTIAL','Professional welcome','SOP Compliance',
                      'Confirmed verified country counselor handoff','Call Events','Human validation required'])
   assert.ok(rendered.includes(text),`Missing audit intelligence field: ${text}`);

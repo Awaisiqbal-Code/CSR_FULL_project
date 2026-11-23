@@ -9,8 +9,8 @@ const root=path.resolve(__dirname,'..');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const script=fs.readFileSync(path.join(root,'admin.js'),'utf8');
 const styles=fs.readFileSync(path.join(root,'styles.css'),'utf8');
-assert.match(html,/admin\.js\?v=4\.17/);
-assert.match(html,/styles\.css\?v=4\.17/);
+assert.match(html,/admin\.js\?v=4\.18/);
+assert.match(html,/styles\.css\?v=4\.18/);
 assert.match(styles,/audit-stat-clickable/);
 assert.match(styles,/\.audit-drill/);
 assert.doesNotMatch(script,/innerHTML\s*=/,'Drill content must use safe DOM text nodes');
@@ -48,7 +48,7 @@ function flatten(n){return [n.textContent,...n.children.flatMap(c=>flatten(c))].
 ctx.__test.renderAuditPreview({id:17,employee_id:2,hours:25,created_at:'2026-11-17T10:00:00Z',status:'completed',summary});
 const all=walk(el('audit-preview-content'));
 const clickable=all.filter(n=>n.tagName==='button'&&String(n.className).includes('audit-stat-clickable'));
-// Total Chats, Potential Leads, Needs Review, Internal/Staff, Unclassified (5),
+// Total Chats, Clients, Needs Review, Internal/Staff, Unclassified (5),
 // plus evidence: Voice Received, Voice Sent, Known Voice Seconds, Call Events (4).
 assert.ok(clickable.length>=8,'expected many clickable cards, got '+clickable.length);
 // Unread Excluded must NOT be clickable (no per-conversation basis).
@@ -68,8 +68,8 @@ assert.ok(drill.includes('Lead A')&&drill.includes('ambiguous intent'),'Needs Re
 assert.ok(!drill.includes('Chat B')&&!drill.includes('Staff C'),'Needs Review drill excludes others');
 assert.ok(/1 conversation\b/.test(drill),'Needs Review count = 1');
 
-// Potential Leads -> only Lead A.
-drill=clickCardStarting('Potential Leads');
+// Clients -> only Lead A.
+drill=clickCardStarting('Clients');
 assert.ok(drill.includes('Lead A')&&!drill.includes('Chat B')&&!drill.includes('Staff C'));
 
 // Internal / Staff -> only Staff C.

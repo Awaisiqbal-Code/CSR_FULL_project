@@ -18,4 +18,15 @@ assert.equal(ctx.__csrDirectionEvidence(node({klass:'message-in'})).fromMe,false
 assert.equal(ctx.__csrDirectionEvidence(node({rect:{width:180,left:760,right:940}})).fromMe,true);
 assert.equal(ctx.__csrDirectionEvidence(node({rect:{width:180,left:60,right:240}})).fromMe,false);
 assert.equal(ctx.__csrDirectionEvidence(node({rect:{width:200,left:390,right:590}})).fromMe,null);
+
+// v5.8: delivery/read status ticks mark the counselor's OWN outgoing messages, even
+// in groups and in grouped runs that share a single tail (no tail on this row).
+const TICKS='[data-icon="msg-dblcheck"],[data-icon="msg-check"],[data-icon="msg-time"]';
+key='';
+let ev=ctx.__csrDirectionEvidence(node({nested:TICKS}));
+assert.equal(ev.fromMe,true);assert.equal(ev.proof,'status_tick');
+// An authoritative false_ WhatsApp id still wins over a status tick.
+key='false_123456789';assert.equal(ctx.__csrDirectionEvidence(node({nested:TICKS})).fromMe,false);
+// A directional tail still takes precedence over the tick heuristic.
+key='';assert.equal(ctx.__csrDirectionEvidence(node({nested:'[data-icon="tail-in"]'})).fromMe,false);
 console.log('v4.7 source-direction cases passed');

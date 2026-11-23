@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id);
 let employee=null;
-function visible(id){for(const key of ['setup','auth','workspace'])$(key).classList.toggle('hidden',key!==id);}
+function visible(id){for(const key of ['auth','workspace'])$(key).classList.toggle('hidden',key!==id);}
 function notice(msg,bad=false){const n=$('notice');n.textContent=msg;n.classList.toggle('error',bad);n.classList.remove('hidden');}
 function clear(){ $('notice').classList.add('hidden'); }
 function ask(type,extra={}){return new Promise((resolve,reject)=>chrome.runtime.sendMessage({type,...extra},result=>{
@@ -22,13 +22,11 @@ async function workspace(user){
   await stats();
 }
 async function init(){try{
-  const cfg=await ask('CSR_CONFIG');$('api-base').value=cfg.apiBase||'';
-  if(!cfg.apiBase){visible('setup');return;}
+  // Backend URL is hardcoded in background.js (DEFAULT_API_BASE); no setup screen.
   const me=await ask('CSR_ME');if(me.user)await workspace(me.user);else visible('auth');
-}catch(e){visible('setup');notice(e.message,true);}}
+}catch(e){visible('auth');notice(e.message,true);}}
 function mode(signup){$('login-form').classList.toggle('hidden',signup);$('signup-form').classList.toggle('hidden',!signup);$('mode-signup').classList.toggle('selected',signup);$('mode-login').classList.toggle('selected',!signup);}
-$('setup-form').addEventListener('submit',e=>{e.preventDefault();withBusy($('setup-form').querySelector('button'),async()=>{await ask('CSR_CONFIG',{apiBase:$('api-base').value});visible('auth');notice('Backend connected. Please sign in or register.');});});
-$('mode-login').onclick=()=>mode(false);$('mode-signup').onclick=()=>mode(true);$('change-api').onclick=()=>visible('setup');
+$('mode-login').onclick=()=>mode(false);$('mode-signup').onclick=()=>mode(true);
 $('login-form').addEventListener('submit',e=>{e.preventDefault();withBusy($('login-form').querySelector('button'),async()=>{
   const r=await ask('CSR_LOGIN',{data:{email:$('login-email').value.trim(),password:$('login-password').value}});
   $('login-password').value='';await workspace(r.user);

@@ -1,0 +1,13 @@
+# Normalize line endings so Windows edits don't show every file as "changed".
+# The repo stores LF; Git converts on checkout per the developer's platform.
+* text=auto
+
+# Windows batch files must stay CRLF to run correctly.
+*.bat text eol=crlf
+
+# Binary assets — never line-ending convert.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.pdf binary

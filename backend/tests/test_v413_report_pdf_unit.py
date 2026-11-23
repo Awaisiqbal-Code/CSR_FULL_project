@@ -44,5 +44,5 @@ def test_pdf_prior_reports_still_render_without_new_fields():
     assert pdf.startswith(b'%PDF-')
     if PdfReader:
         content=' '.join(p.extract_text() for p in PdfReader(BytesIO(pdf)).pages)
-        assert 'Potential Leads' in content
+        assert 'Clients' in content
         assert 'Not assessed' in content
