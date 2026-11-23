@@ -70,6 +70,9 @@ class VoiceAsset(Base):
     byte_size: Mapped[int] = mapped_column(Integer,default=0)
     sha256: Mapped[str] = mapped_column(String(64),default='')
     storage_key: Mapped[str] = mapped_column(String(100),default='')
+    # Audio bytes kept in Postgres so playback survives container redeploys (the
+    # local disk is ephemeral on Railway). storage_key is now a best-effort cache.
+    audio_data: Mapped[bytes | None] = mapped_column(LargeBinary, nullable=True)
     attempts: Mapped[int] = mapped_column(Integer,default=0)
     error: Mapped[str] = mapped_column(String(220),default='')
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True),default=now)

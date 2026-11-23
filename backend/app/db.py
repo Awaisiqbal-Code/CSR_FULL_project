@@ -27,6 +27,9 @@ def create_tables():
         conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS range_start TIMESTAMPTZ"))
         conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS range_end TIMESTAMPTZ"))
         conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS period_label VARCHAR(60) DEFAULT ''"))
+        # Voice audio now stored in Postgres so playback survives redeploys (ephemeral
+        # container disk previously wiped saved voices). Additive, nullable.
+        conn.execute(text("ALTER TABLE voice_assets ADD COLUMN IF NOT EXISTS audio_data BYTEA"))
 
 def get_db():
     with SessionLocal() as db:

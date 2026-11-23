@@ -500,8 +500,12 @@ def voice_upload(data:VoiceUpload,user:models.User=Depends(current_user),db:Sess
     if voice.attempts>=3:raise HTTPException(409,'Voice retry limit reached')
     try:audio,mime,ext,digest=decode_audio_url(data.data_url)
     except ValueError as err:raise HTTPException(422,str(err))
+    # Primary store is Postgres so audio survives container redeploys (the local disk
+    # is ephemeral on Railway and previously wiped saved voices). The on-disk copy is
+    # now a best-effort cache only and never blocks saving.
     try:key=write_audio(data.message_id,audio,ext,digest)
-    except OSError:raise HTTPException(503,'Private voice storage unavailable')
+    except OSError:key=''
+    voice.audio_data=audio
     voice.mime=mime;voice.storage_key=key;voice.sha256=digest;voice.byte_size=len(audio)
     voice.status='available';voice.error='';voice.updated_at=datetime.now(timezone.utc)
     db.commit()
@@ -539,6 +543,12 @@ def voice_retry(message_id:int,user:models.User=Depends(admin_only),db:Session=D
 def voice_file(message_id:int,user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
     asset=db.scalar(select(models.VoiceAsset).where(models.VoiceAsset.message_id==message_id))
     if not asset or asset.status!='available':raise HTTPException(404,'Voice not available')
+    _vhdr={'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff',
+           'Content-Security-Policy':"default-src 'none'",
+           'Content-Disposition':f'inline; filename="voice-{message_id}"'}
+    # Prefer the Postgres copy (survives redeploys); fall back to the legacy on-disk file.
+    if asset.audio_data:
+        return Response(content=bytes(asset.audio_data),media_type=asset.mime or 'application/octet-stream',headers=_vhdr)
     try:path=read_audio(asset.storage_key)
     except ValueError:raise HTTPException(404,'Invalid voice storage record')
     if not path.is_file():raise HTTPException(404,'Stored voice file missing from disk')
