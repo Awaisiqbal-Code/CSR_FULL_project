@@ -32,9 +32,11 @@ def test_pdf_renders_legacy_and_original_n8n_audit_categories():
     assert pdf.startswith(b'%PDF-') and len(pdf)>2000
     if PdfReader:
         content=' '.join(p.extract_text() for p in PdfReader(BytesIO(pdf)).pages)
-        for needed in ('Responsive Leads','Individual Lead Evaluations','Very Hot',
-                       'Hot','Average','Cold','STRONG','AI audit categories reconciled'):
+        for needed in ('Lead Register','Very Hot','Hot','Average','Cold','STRONG',
+                       'AI audit categories reconciled'):
             assert needed in content
+        # "Individual Lead Evaluations" was removed; the 10-dimension Quality Framework covers QA.
+        assert 'Individual Lead Evaluations' not in content
         assert 'Lead tiers have not been AI-evaluated' not in content
 
 

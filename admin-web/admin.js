@@ -99,12 +99,13 @@ function renderCounselorCards(){
   const kpis=e('div','','counselor-card-count');
   const kpiStat=(num,label)=>{const b=e('div','','counselor-card-stat');b.append(e('strong',humanNumber(num)),e('span',label));return b;};
   kpis.append(kpiStat(item.conversations,'conversations'),kpiStat(item.messages,'messages'));
+  const sync=e('div',item.last_sync_at?('Last sync: '+stamp(item.last_sync_at)):'No sync yet','counselor-sync');
   const foot=e('div','','counselor-card-footer');
   const unread=e('span',`${item.unread_excluded} unread excluded`,'counselor-unread');
   const chats=e('button','Show chats →','counselor-show-chats');
   chats.type='button';chats.setAttribute('aria-label',`Show chats for ${fullname}`);
   chats.onclick=()=>openCounselorChats(item.employee_id);
-  foot.append(unread,chats);card.append(heading,kpis,foot);
+  foot.append(unread,chats);card.append(heading,kpis,sync,foot);
   // An employee card is also selectable by clicking its blank surface.
   card.onclick=event=>{if(event.target.closest?.('button'))return;selectCounselor(item.employee_id);};
   host.append(card);
@@ -176,7 +177,7 @@ async function refreshAnalytics(){try{
  $('a-conv').textContent=dates?d.conversations_saved_or_updated_in_range:all.chats;
  $('a-msg').textContent=dates?d.messages_with_verified_or_inferred_event_time:all.messages;
  $('a-unread').textContent=all.unread_excluded;
- $('a-last-sync').textContent=stamp(all.last_sync_at);
+ // Last sync moved to each counsellor card; no longer a dashboard key metric.
  // Show WHY WhatsApp event-time totals may be lower than stored totals.
  // A NULL occurred_at is unknown, not evidence that a message is in this month.
  const undatedCount=Number(d.undated_event_messages_all_time||0);
@@ -696,24 +697,6 @@ function renderAuditPreview(item){
   }table.append(body);const wrap=e('div','','audit-table-wrap');wrap.append(table);register.append(wrap);
   if(summary.conversations.length>120)auditParagraph(register,`Showing first 120 of ${summary.conversations.length} synchronized conversations.`,'audit-footnote');
  }
- if(summary.audit_counts){
-  const perChat=auditSection(out,'Individual Lead Evaluations');
-  const leads=(Array.isArray(summary.conversations)?summary.conversations:[]).filter(c=>c.audit_category==='responsive');
-  if(!leads.length)auditParagraph(perChat,'No eligible responsive leads were verified for individual QA evaluation.','muted');
-  for(const chat of leads.slice(0,40)){
-   const detail=e('div','','audit-qa-card');
-   detail.append(e('strong',`${auditField(chat.title)} · ${auditField(chat.lead_tier||'Tier not assessed')} · ${auditField(chat.audit_status||'Status pending')}`));
-   auditParagraph(detail,chat.audit_status_reason||chat.audit_reason||'Human verification required.','audit-footnote');
-   const ratings=e('div','','audit-qa-grid');
-   for(const [key,label] of Object.entries(AUDIT_QA_LABELS)){
-    const cell=e('div','','audit-qa-card');const item=chat.audit_qa?.[key]||{};
-    cell.append(e('strong',`${label} · ${item.rating||'NONE'}`));
-    auditParagraph(cell,item.finding||'Not assessed: insufficient evidence.','audit-qa-finding');ratings.append(cell);
-   }
-   detail.append(ratings);perChat.append(detail);
-  }
-  if(leads.length>40)auditParagraph(perChat,`Showing 40 of ${leads.length} responsive lead evaluations. Export PDF for additional records.`,'audit-footnote');
- }
  const qa=auditSection(out,'10-Dimension CSR Quality Framework');const qaGrid=e('div','','audit-qa-grid');
  for(const [key,label] of Object.entries(AUDIT_QA_LABELS)){
   const card=e('div','','audit-qa-card');card.append(e('strong',label));auditParagraph(card,auditField(summary.qa_dimensions?.[key]),'audit-qa-finding');qaGrid.append(card);
@@ -805,6 +788,16 @@ function renderTeamList(){
  const setBtn=e('button','Set password','secondary');
  setBtn.onclick=async()=>{const v=pw.value;if(v.length<8){toast('Password must be at least 8 characters',true);return;}try{await api(`/admin/employees/${user.id}/password`,'POST',{password:v});pw.value='';pw.type='password';eye.textContent='Show';toast('Password updated for '+user.name);}catch(err){toast(err.message,true);}};
  rights.append(approveBtn,activeBtn,pwWrap,setBtn);
+ // Employee-requested password change awaiting approval: show it and let the admin
+ // approve (new password takes effect) or reject (discard the request).
+ if(user.pending_password_change){
+  left.append(e('p','⚠ Password change requested — verify with the employee before approving','review'));
+  const approveCh=e('button','Approve password change','primary');
+  approveCh.onclick=()=>api(`/admin/employees/${user.id}/password-change/approve`,'POST',{}).then(()=>{toast('Password change approved for '+user.name);refreshTeam();}).catch(err=>toast(err.message,true));
+  const rejectCh=e('button','Reject change','subtle');
+  rejectCh.onclick=()=>api(`/admin/employees/${user.id}/password-change/reject`,'POST',{}).then(()=>{toast('Password change rejected');refreshTeam();}).catch(err=>toast(err.message,true));
+  rights.append(approveCh,rejectCh);
+ }
  // Delete is offered only for a disabled or not-yet-approved account.
  if(!(user.approved&&user.active)){
   const delBtn=e('button','Delete','danger');

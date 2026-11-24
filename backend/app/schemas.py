@@ -21,6 +21,10 @@ class Approval(BaseModel):
 class AdminPasswordSet(BaseModel):
     password: str = Field(min_length=8,max_length=128)
 
+class PasswordChangeRequest(BaseModel):
+    email: EmailStr
+    new_password: str = Field(min_length=8,max_length=128)
+
 class MessageIn(BaseModel):
     sender: str = Field(default='',max_length=160)
     fromMe: bool = False

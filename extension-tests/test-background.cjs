@@ -9,7 +9,7 @@ const chrome={
  runtime:{getURL:s=>'chrome-extension://abc/'+s,onInstalled:{addListener:fn=>hooks.install=fn},onStartup:{addListener:fn=>hooks.startup=fn},onMessage:{addListener:fn=>listener=fn}},
  sidePanel:{setPanelBehavior:async()=>{}},
  storage:{local:{get:async keys=>Object.fromEntries((Array.isArray(keys)?keys:[keys]).map(k=>[k,local[k]])),set:async data=>Object.assign(local,data),remove:async key=>delete local[key]},session:{get:async keys=>Object.fromEntries(keys.map(k=>[k,session[k]])),set:async data=>Object.assign(session,data),remove:async key=>delete session[key]}},
- alarms:{create:()=>{},onAlarm:{addListener:fn=>hooks.alarm=fn}},
+ alarms:{create:()=>{},clear:async()=>{},onAlarm:{addListener:fn=>hooks.alarm=fn}},
  tabs:{query:async()=>[{id:1,active:true}],sendMessage:(_tab,payload,cb)=>{
    collector.push(payload);
    if(payload.type==='GET_CHATS')cb({ok:true,chats:[{id:'A',title:'Customer A'},{id:'B',title:'Customer B'}],unreadCount:2});
@@ -55,7 +55,7 @@ function message(type,extra={},url='chrome-extension://abc/popup.html'){
  assert.equal((await message('CSR_AUDIT_CREATE')).ok,false,'employees do not have reporting actions');
  assert.equal(listener({type:'CSR_SYNC'},{url:'https://web.whatsapp.com/'},()=>{}),undefined,'content script cannot read privileged tokens');
  assert.equal(source.includes('CSR_AUTO'),false,'employee cannot change auto sync');
- await hooks.alarm({name:'csr-voice-1m'});
+ await hooks.alarm({name:'csr-voice-kick'});
  assert.equal(local['csr.voiceStatus'].state,'failed','Voice queue must distinguish an actual audio-fetch failure from a never-attempted pending record');
  assert.ok(local['csr.voiceStatus'].reason,'Failure reason is available for troubleshooting');
  console.log('PASS employee-only auth, initial 8-day import, incremental cutoff, failed-sync checkpoint safety, no privileged admin actions');

@@ -12,7 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from . import models
 from .db import get_db, create_tables
 from .security import hash_password, check_password, token_for, current_user, admin_only, assert_scope
-from .schemas import SignUp, Login, Approval, SyncIn, AuditRequest, ContactCorrection, VoiceUpload, VoiceFailure, AdminPasswordSet
+from .schemas import SignUp, Login, Approval, SyncIn, AuditRequest, ContactCorrection, VoiceUpload, VoiceFailure, AdminPasswordSet, PasswordChangeRequest
 from .analysis import classify, build_summary, group_conversation_condition
 from .config import production_check
 from .sync_windows import since_for_sync
@@ -41,7 +41,9 @@ if _WEB.exists():
 def person(u):
     return {'id':u.id,'name':u.full_name,'email':u.email,'employee_code':u.employee_code,'phone':u.phone,
             'whatsapp_number':u.whatsapp_number,'department':u.department,'designation':u.designation,
-            'role':u.role,'approved':u.approved,'active':u.active,'created_at':u.created_at.isoformat()}
+            'role':u.role,'approved':u.approved,'active':u.active,'created_at':u.created_at.isoformat(),
+            'pending_password_change':bool(u.pending_password_hash),
+            'pending_password_requested_at':u.pending_password_requested_at.isoformat() if u.pending_password_requested_at else None}
 
 def log_event(db,actor,action,subject=None):
     db.add(models.SecurityEvent(actor_id=actor,action=action,subject_id=subject))
@@ -86,6 +88,18 @@ def login(data:Login,db:Session=Depends(get_db)):
     if not u.active:raise HTTPException(403,'Account disabled')
     log_event(db,u.id,'login',u.id);db.commit()
     return {'access_token':token_for(u),'token_type':'bearer','user':person(u)}
+
+@app.post('/auth/request-password-change')
+def request_password_change(data:PasswordChangeRequest,db:Session=Depends(get_db)):
+    # Unauthenticated (the employee forgot their password). The new password is stored
+    # as PENDING and only takes effect once an admin approves it from the Team tab. The
+    # response is always the same to avoid revealing whether an email exists.
+    u=db.scalar(select(models.User).where(models.User.email==str(data.email).lower()))
+    if u and u.role=='employee' and u.approved:
+        u.pending_password_hash=hash_password(data.new_password)
+        u.pending_password_requested_at=datetime.now(timezone.utc)
+        log_event(db,u.id,'password_change_requested',u.id);db.commit()
+    return {'ok':True,'message':'Your password change request was submitted. The new password will work once an admin approves it.'}
 
 @app.get('/auth/me')
 def me(user:models.User=Depends(current_user)):return person(user)
@@ -141,13 +155,20 @@ def admin_employee_cards(start:date|None=None,end:date|None=None,
     unread=dict(db.execute(
         select(models.SyncLog.employee_id,models.SyncLog.unread_excluded)
         .join(latest_ids,models.SyncLog.id==latest_ids.c.latest_id)).all())
+    # Most recent successful sync time per counsellor (for card ordering + display).
+    last_sync=dict(db.execute(select(models.SyncLog.employee_id,func.max(models.SyncLog.created_at))
+                   .group_by(models.SyncLog.employee_id)).all())
     # Main dashboard shows only APPROVED counsellors (pending/unapproved accounts are
     # managed from the Team tab, which lists everyone).
     people=db.scalars(select(models.User).where(models.User.role=='employee',models.User.approved.is_(True)).order_by(models.User.id)).all()
     items=[{'employee_id':u.id,'name':u.full_name,'employee_code':u.employee_code,
             'conversations':conversation_counts.get(u.id,0),'messages':message_counts.get(u.id,0),
-            'unread_excluded':unread.get(u.id,0)} for u in people]
-    items.sort(key=lambda item:(-item['conversations'],item['name'].lower(),item['employee_id']))
+            'unread_excluded':unread.get(u.id,0),
+            'last_sync_at':last_sync[u.id].isoformat() if last_sync.get(u.id) else None} for u in people]
+    # Order by most recent sync first; counsellors who never synced go last. Stable
+    # sort keeps a name A-Z tiebreak within equal/again-null sync times.
+    items.sort(key=lambda item:item['name'].lower())
+    items.sort(key=lambda item:item['last_sync_at'] or '',reverse=True)
     return {'scope':'date_range' if begin is not None else 'all_time','employees':items,
             'note':'Unread excluded is the latest sync snapshot. Date-filtered messages require a source event date.'}
 
@@ -201,6 +222,28 @@ def delete_employee(employee_id:int,user:models.User=Depends(admin_only),db:Sess
     db.delete(target)
     db.commit()
     return {'ok':True,'deleted':uid}
+
+@app.post('/admin/employees/{employee_id}/password-change/approve')
+def approve_password_change(employee_id:int,user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    # Approve an employee's pending password change: the pending hash becomes the real
+    # password and existing sessions are invalidated. Verify the request with the
+    # employee before approving (the request itself is unauthenticated).
+    target=db.get(models.User,employee_id)
+    if not target:raise HTTPException(404,'Employee not found')
+    if not target.pending_password_hash:raise HTTPException(409,'No pending password change for this employee')
+    target.password_hash=target.pending_password_hash
+    target.pending_password_hash=None;target.pending_password_requested_at=None
+    target.token_version+=1
+    log_event(db,user.id,'password_change_approved',target.id);db.commit()
+    return {'ok':True,'employee_id':target.id}
+
+@app.post('/admin/employees/{employee_id}/password-change/reject')
+def reject_password_change(employee_id:int,user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    target=db.get(models.User,employee_id)
+    if not target:raise HTTPException(404,'Employee not found')
+    target.pending_password_hash=None;target.pending_password_requested_at=None
+    log_event(db,user.id,'password_change_rejected',target.id);db.commit()
+    return {'ok':True,'employee_id':target.id}
 
 @app.get('/dashboard')
 def dashboard(employee_id:int|None=None,user:models.User=Depends(current_user),db:Session=Depends(get_db)):

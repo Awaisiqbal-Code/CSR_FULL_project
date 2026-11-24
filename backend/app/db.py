@@ -34,6 +34,9 @@ def create_tables():
         conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS scheduled_for TIMESTAMPTZ"))
         conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS auto_generated BOOLEAN DEFAULT FALSE"))
         conn.execute(text("CREATE INDEX IF NOT EXISTS ix_audit_jobs_scheduled_for ON audit_jobs (scheduled_for)"))
+        # Employee-requested password change pending admin approval (additive, nullable).
+        conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_password_hash VARCHAR(230)"))
+        conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS pending_password_requested_at TIMESTAMPTZ"))
 
 def get_db():
     with SessionLocal() as db:

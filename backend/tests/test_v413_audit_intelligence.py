@@ -34,6 +34,10 @@ def summary(n):
         'unclassified': n, 'needs_review': 0, 'unread_excluded': 0,
         'qa_dimensions': {d: 'Not assessed' for d in a.DIMENSIONS},
         'quality_notes': [], 'counts_reconciled': True,
+        # Deliberately wrong deterministic point-model tiers. The narrative must NOT be
+        # fed these (that was the "16 very hot in summary / 0 in table" conflict); it
+        # must use the AI's CGPA-validated tiers so it matches the Lead Pipeline table.
+        'lead_tiers': {'close_to_conversion': 9, 'very_hot': 9, 'hot': 9, 'average': 9, 'cold': 9},
     }
 
 
@@ -86,6 +90,11 @@ def test_original_n8n_categories_tiers_and_qa_aggregate():
     result=a.evaluate_conversations(FakeDB(mapping),summary(6),'gemini','TEST','model',
                                     request_fn=request,batch_size=4,delay_seconds=0)
     assert len(calls)==3  # two batches + validated narrative
+    # The narrative call (no 'conversations') must receive the AI-validated tiers,
+    # NOT the deterministic lead_tiers, so summary text matches the Lead Pipeline table.
+    narrative_call=next(c for c in calls if 'conversations' not in c)
+    assert narrative_call['tiers']==result['ai_tier_opinions']
+    assert narrative_call['tiers']!=summary(6)['lead_tiers']
     assert result['audit_counts']==dict(zip(a.CATEGORIES,[1,1,1,1,1,1]))
     assert result['audit_counts_reconciled'] is True
     assert result['audit_evaluated']==6

@@ -69,10 +69,12 @@ function flatten(n){return [n.textContent,...n.children.flatMap(flatten)].join('
  // Headline is deterministic (hybrid): business categories, not the AI responsive/
  // dead/etc. cards. AI category detail stays in the reconciliation note below.
  for(const text of ['Very Hot','Hot','Average','Cold','Clients','Internal / Staff','Unclassified',
-                     'Individual Lead Evaluations','STRONG','PARTIAL','Professional welcome','SOP Compliance',
+                     'STRONG','PARTIAL','SOP Compliance','10-Dimension CSR Quality Framework',
                      'Confirmed verified country counselor handoff','Call Events','Human validation required'])
   assert.ok(rendered.includes(text),`Missing audit intelligence field: ${text}`);
  assert.ok(!rendered.includes('Responsive Leads'),'Headline no longer shows AI responsive card');
+ // The per-chat "Individual Lead Evaluations" section was removed (the 10-dimension framework covers QA).
+ assert.ok(!rendered.includes('Individual Lead Evaluations'),'Individual Lead Evaluations removed');
  assert.ok(!rendered.includes('Lead tier rules are not yet finalized'), 'Old placeholder should be replaced');
  assert.ok(rendered.includes('<img src=x onerror=alert(1)>'),'Rendered as textContent, not HTML');
  await ctx.__test.refreshReports();

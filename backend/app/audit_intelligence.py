@@ -403,13 +403,21 @@ def evaluate_conversations(db, summary: dict, provider: str, key: str, model: st
             'Lead tiers and QA ratings use source-grounded observations only; missing audio transcripts are not evaluated.')
         # A second, short AI call adds narrative only, with no power to change
         # validated classifications, counts, tiers or QA ratings.
-        validated_for_summary = [{k: r.get(k) for k in ('id', 'audit_category', 'lead_tier', 'audit_status',
-                                                       'audit_reason', 'audit_review_reasons')}
+        # The narrative MUST describe the same lead tiers the Lead Pipeline table shows.
+        # With AI classification on, that table is recomputed from the AI's CGPA-validated
+        # tiers (ai_tier_opinions); feeding the deterministic point-model lead_tiers here
+        # is what made the summary say "16 very hot" while the table said 0.
+        narrative_tiers = summary.get('ai_tier_opinions', {}) if config.AUDIT_AI_CLASSIFY else summary.get('lead_tiers', {})
+        tier_key = 'audit_tier' if config.AUDIT_AI_CLASSIFY else 'lead_tier'
+        validated_for_summary = [{'id': r.get('id'), 'audit_category': r.get('audit_category'),
+                                  'lead_tier': r.get(tier_key), 'audit_status': r.get('audit_status'),
+                                  'audit_reason': r.get('audit_reason'),
+                                  'audit_review_reasons': r.get('audit_review_reasons')}
                                  for r in enriched if r['audit_analysis_status'] == 'evaluated']
         try:
             narrative = request_fn(provider, key, model, SUMMARY_PROMPT,
                                    json.dumps({'counts': summary['audit_counts'],
-                                               'tiers': summary.get('lead_tiers', summary.get('ai_tier_opinions', {})),
+                                               'tiers': narrative_tiers,
                                                'chats': validated_for_summary[:100]}, ensure_ascii=False))
             intro = narrative.get('executive_summary')
             bottom = narrative.get('bottom_line')

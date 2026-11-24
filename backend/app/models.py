@@ -22,6 +22,10 @@ class User(Base):
     approved: Mapped[bool] = mapped_column(Boolean, default=False)
     active: Mapped[bool] = mapped_column(Boolean, default=True)
     token_version: Mapped[int] = mapped_column(Integer, default=1)
+    # Employee-requested password change, held until an admin approves it. On approve
+    # the pending hash becomes password_hash; on reject it is cleared.
+    pending_password_hash: Mapped[str | None] = mapped_column(String(230), nullable=True)
+    pending_password_requested_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 class Conversation(Base):

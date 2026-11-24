@@ -246,6 +246,7 @@ body.admin-view .counselor-card-stat strong{font-size:28px;color:#203963;letter-
 body.admin-view .counselor-card-stat span{font-size:11px;color:#8293ad;margin-top:3px;}
 body.admin-view .counselor-card-footer{display:flex;justify-content:space-between;gap:8px;align-items:center;}
 body.admin-view .counselor-unread{font-size:10px;color:#8293ac;}
+body.admin-view .counselor-sync{font-size:11px;color:#5e7770;margin:0 0 10px;font-weight:600;}
 body.admin-view .counselor-show-chats{padding:8px 9px;border-radius:9px;color:#236e65;background:#e4f8f0;font-size:11px;white-space:nowrap;}
 body.admin-view .counselor-show-chats:hover{background:#c8f2e1;}
 body.admin-view .statuses-heading{margin-top:42px;}

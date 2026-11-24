@@ -25,12 +25,23 @@ async function init(){try{
   // Backend URL is hardcoded in background.js (DEFAULT_API_BASE); no setup screen.
   const me=await ask('CSR_ME');if(me.user)await workspace(me.user);else visible('auth');
 }catch(e){visible('auth');notice(e.message,true);}}
-function mode(signup){$('login-form').classList.toggle('hidden',signup);$('signup-form').classList.toggle('hidden',!signup);$('mode-signup').classList.toggle('selected',signup);$('mode-login').classList.toggle('selected',!signup);}
+function mode(signup){$('login-form').classList.toggle('hidden',signup);$('signup-form').classList.toggle('hidden',!signup);$('forgot-form').classList.add('hidden');$('mode-signup').classList.toggle('selected',signup);$('mode-login').classList.toggle('selected',!signup);}
 $('mode-login').onclick=()=>mode(false);$('mode-signup').onclick=()=>mode(true);
 // Eye toggle: reveal/hide the typed password on the login and signup forms.
 function wirePasswordEye(inputId,btnId){const input=$(inputId),btn=$(btnId);if(!input||!btn)return;
  btn.onclick=()=>{const show=input.type==='password';input.type=show?'text':'password';btn.textContent=show?'Hide':'Show';btn.setAttribute('aria-label',(show?'Hide':'Show')+' password');};}
-wirePasswordEye('login-password','login-eye');wirePasswordEye('sign-password','sign-eye');
+wirePasswordEye('login-password','login-eye');wirePasswordEye('sign-password','sign-eye');wirePasswordEye('forgot-password','forgot-eye');
+// Forgot password: submit a NEW password that waits for admin approval before it works.
+$('forgot-link').onclick=()=>{$('login-form').classList.add('hidden');$('signup-form').classList.add('hidden');$('forgot-form').classList.remove('hidden');};
+$('forgot-back').onclick=()=>mode(false);
+$('forgot-form').addEventListener('submit',e=>{e.preventDefault();withBusy($('forgot-form').querySelector('.primary'),async()=>{
+  const pw=$('forgot-password').value,cf=$('forgot-confirm').value;
+  if(pw.length<8){notice('New password must be at least 8 characters',true);return;}
+  if(pw!==cf){notice('Passwords do not match',true);return;}
+  const r=await ask('CSR_FORGOT_PASSWORD',{data:{email:$('forgot-email').value.trim(),new_password:pw}});
+  $('forgot-password').value='';$('forgot-confirm').value='';mode(false);
+  notice(r.message||'Password change requested. It will work after an admin approves it.');
+});});
 $('login-form').addEventListener('submit',e=>{e.preventDefault();withBusy($('login-form').querySelector('button'),async()=>{
   const r=await ask('CSR_LOGIN',{data:{email:$('login-email').value.trim(),password:$('login-password').value}});
   $('login-password').value='';await workspace(r.user);

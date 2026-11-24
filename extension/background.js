@@ -10,22 +10,38 @@ const BASE_KEY='csr.apiBase';
 // Must be a https://<name>.up.railway.app host (or http://127.0.0.1:8000 for local dev).
 const DEFAULT_API_BASE='http://127.0.0.1:8000';
 const LAST_KEY='csr.lastSync';
-const ALARM='csr-sync-15m';
-const VOICE_ALARM='csr-voice-1m';
+// Automatic sync runs TWICE A DAY, at these LOCAL hours (2 PM and 10 PM). Manual sync
+// (the Sync button) is unaffected and can run any time. These alarms fire in the
+// background even when the side panel is closed and the browser/WhatsApp tab is
+// minimized, as long as Chrome is running and a WhatsApp Web tab is open.
+const SYNC_SCHEDULE=[['csr-sync-1400',14],['csr-sync-2200',22]];
+const SYNC_PREFIX='csr-sync-';
 const VOICE_KICK='csr-voice-kick';
 let voiceRunning=false;
 let running=false;
 
+function nextDailyAt(hour){
+  const now=new Date();
+  const t=new Date(now.getFullYear(),now.getMonth(),now.getDate(),hour,0,0,0);
+  if(t.getTime()<=now.getTime())t.setDate(t.getDate()+1);  // already past today -> tomorrow
+  return t.getTime();
+}
+async function armSyncAlarms(){
+  // Retire the previous frequent alarms if they exist from an older version.
+  await chrome.alarms.clear('csr-sync-15m');
+  await chrome.alarms.clear('csr-voice-1m');
+  for(const [name,hour] of SYNC_SCHEDULE){
+    chrome.alarms.create(name,{when:nextDailyAt(hour),periodInMinutes:1440}); // daily
+  }
+}
+
 chrome.runtime.onInstalled.addListener(async()=>{
   await chrome.sidePanel.setPanelBehavior({openPanelOnActionClick:true});
-  // delayInMinutes makes the first background sync run ~1 min after install/startup
-  // instead of waiting a full period, so it resumes promptly after a restart or wake.
-  chrome.alarms.create(ALARM,{delayInMinutes:1,periodInMinutes:15});
-  chrome.alarms.create(VOICE_ALARM,{delayInMinutes:1,periodInMinutes:1});
+  await armSyncAlarms();
   // Old user-controlled autoSync preference intentionally retired.
   await chrome.storage.local.remove('csr.autoSync');
 });
-chrome.runtime.onStartup.addListener(()=>{chrome.alarms.create(ALARM,{delayInMinutes:1,periodInMinutes:15});chrome.alarms.create(VOICE_ALARM,{delayInMinutes:1,periodInMinutes:1});});
+chrome.runtime.onStartup.addListener(()=>{armSyncAlarms();});
 function isUI(sender){return !!sender.url && sender.url.startsWith(chrome.runtime.getURL(''));}
 function allowedBase(value){
   const url=String(value||'').trim().replace(/\/+$/,'');
@@ -158,11 +174,13 @@ async function drainVoiceQueue(){
   if(voiceRunning || running)return;
   const user=await auth();if(!user?.token||user.user?.role!=='employee')return;
   voiceRunning=true;
+  let more=false;  // keep draining in short bursts while work remains, then stop
   try{
     const tabs=await chrome.tabs.query({url:'https://web.whatsapp.com/*'});
     if(!tabs.length)return;
     const tab=tabs.find(t=>t.active)||tabs[0];
     const pending=(await api('/sync/voice-pending?limit=20')).voices||[];
+    more=pending.length>0;
     // Diagnostic only: never store audio bytes or message contents in Chrome.
     await chrome.storage.local.set({'csr.voiceStatus':{
       pending:pending.length,last_checked_at:new Date().toISOString(),
@@ -190,14 +208,17 @@ async function drainVoiceQueue(){
       }
     }
   }catch(err){console.warn('CSR voice queue deferred:',err.message);}
-  finally{voiceRunning=false;}
+  finally{
+    voiceRunning=false;
+    // Continue draining ~20s later only while voices remain; no all-day polling.
+    if(more)chrome.alarms.create(VOICE_KICK,{when:Date.now()+20000});
+  }
 }
 chrome.alarms.onAlarm.addListener(async alarm=>{
-  if(alarm.name===ALARM){
-    if(!(await auth())?.token)return;
+  if(alarm.name.startsWith(SYNC_PREFIX)){
+    if(!(await auth())?.token)return;  // not logged in -> skip this scheduled run
     try{await collectAndSync();}catch(err){console.warn('CSR auto-sync deferred:',err.message);}
-  }
-  if(alarm.name===VOICE_ALARM||alarm.name===VOICE_KICK){
+  }else if(alarm.name===VOICE_KICK){
     await drainVoiceQueue();
   }
 });
@@ -213,15 +234,15 @@ chrome.runtime.onMessage.addListener((msg,sender,respond)=>{
         return {apiBase:stored[BASE_KEY]||DEFAULT_API_BASE,lastSync:stored[LAST_KEY]||null};
       }
       case 'CSR_SIGNUP':return await api('/auth/signup','POST',msg.data);
+      case 'CSR_FORGOT_PASSWORD':return await api('/auth/request-password-change','POST',msg.data);
       case 'CSR_LOGIN':{
         const result=await api('/auth/login','POST',msg.data);
         if(result.user?.role!=='employee')throw new Error('Admin accounts use the separate Admin Portal.');
         await chrome.storage.local.set({[SESSION_KEY]:{token:result.access_token,user:result.user}});
-        // Re-arm the background sync + voice alarms on login so periodic syncing runs
-        // on schedule without the panel open. The token now persists in local storage,
-        // so auto-sync keeps working across Chrome restarts until the token expires.
-        chrome.alarms.create(ALARM,{delayInMinutes:1,periodInMinutes:15});
-        chrome.alarms.create(VOICE_ALARM,{delayInMinutes:1,periodInMinutes:1});
+        // Arm the twice-daily (2 PM / 10 PM) background sync on login. The token persists
+        // in local storage, so these scheduled syncs keep running across Chrome restarts
+        // and with the panel closed. Use the Sync button for an immediate manual sync.
+        armSyncAlarms();
         chrome.alarms.create(VOICE_KICK,{when:Date.now()+2000});
         return {user:result.user};
       }
@@ -237,7 +258,6 @@ chrome.runtime.onMessage.addListener((msg,sender,respond)=>{
       case 'CSR_DASHBOARD':return await api('/dashboard');
       case 'CSR_SYNC':{
         const result=await collectAndSync();
-        chrome.alarms.create(VOICE_ALARM,{periodInMinutes:1});
         chrome.alarms.create(VOICE_KICK,{when:Date.now()+2000});
         return result;
       }

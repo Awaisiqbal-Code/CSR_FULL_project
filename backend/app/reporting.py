@@ -115,37 +115,39 @@ def generate_pdf(name: str, summary: dict) -> bytes:
                                f"(new-lead {summary.get('new_lead_calls',0)}, follow-up {summary.get('follow_up_calls',0)}). "
                                "Answered calls are not merged into the text/voice reply count.",styles['SmallTextCSR']))
         cl=summary.get('country_leads') or {}
-        country_line=', '.join(f'{k}: {v}' for k,v in cl.items()) or 'No destination evidence'
-        story.append(Paragraph(f"<b>Country pipeline (potential leads):</b> {escape(country_line)}. "
-                               f"Multi-country {summary.get('multi_country_leads',0)}; Unknown {summary.get('unknown_country_leads',0)}. "
-                               "Each multi-country lead is counted once per country but once in the global total; country is never guessed.",styles['SmallTextCSR']))
+        story.append(Paragraph('<b>Country Pipeline (Clients)</b>',styles['SmallTextCSR']))
+        crows=[['Country','Leads']]+[[str(k),str(v)] for k,v in cl.items()]
+        if not cl:crows.append(['No destination evidence','0'])
+        crows.append(['Multi-country (counted once per country)',str(summary.get('multi_country_leads',0))])
+        crows.append(['Unknown country',str(summary.get('unknown_country_leads',0))])
+        ctab=Table(crows,colWidths=[360,110])
+        ctab.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#ecf8f0')),('FONTNAME',(0,0),(-1,0),'Helvetica-Bold'),
+            ('FONTSIZE',(0,0),(-1,-1),9),('ALIGN',(1,0),(1,-1),'CENTER'),('ALIGN',(0,0),(0,-1),'LEFT'),
+            ('BOX',(0,0),(-1,-1),0.4,colors.HexColor('#ccddd5')),('INNERGRID',(0,0),(-1,-1),0.3,colors.HexColor('#ccddd5')),
+            ('TOPPADDING',(0,0),(-1,-1),5),('BOTTOMPADDING',(0,0),(-1,-1),5)]))
+        story.extend([ctab,Spacer(1,5),Paragraph('Each multi-country lead is counted once per country here but once in the global total; country is never guessed.',styles['SmallTextCSR'])])
     story.append(Paragraph('Lead Register / Conversation Classification',styles['Heading2']))
     if summary['conversations']:
+        _cell=ParagraphStyle(name='LRCell',parent=styles['BodyText'],fontSize=8,leading=10)
+        _hcell=ParagraphStyle(name='LRHead',parent=styles['BodyText'],fontSize=8,leading=10,fontName='Helvetica-Bold')
+        lr=[[Paragraph(h,_hcell) for h in ('Conversation','Category','Tier','Status','Msgs','Notes')]]
         for row in summary['conversations'][:120]:
-            title=escape(row['title'][:70]);kind=escape(_CATEGORY_LABEL.get(str(row['classification']),str(row['classification']).replace('_',' ').title()))
-            reason=escape((row.get('audit_reason') or row.get('review_reason') or '')[:150])
-            tier=row.get('lead_tier');status=row.get('audit_status')
-            parts=[f'<b>{title}</b>',kind]
-            if tier:parts.append(escape(str(tier).replace('_',' ').title()))
-            if status:parts.append('Status: '+escape(str(status).title()))
-            parts.append(f'{row["messages"]} messages')
-            if reason:parts.append(reason)
-            story.append(Paragraph(' | '.join(parts),styles['SmallTextCSR']))
+            title=escape(str(row.get('title') or '')[:60])
+            kind=escape(_CATEGORY_LABEL.get(str(row['classification']),str(row['classification']).replace('_',' ').title()))
+            tier=escape(str(row.get('lead_tier')).replace('_',' ').title()) if row.get('lead_tier') else '-'
+            status=escape(str(row.get('audit_status')).title()) if row.get('audit_status') else '-'
+            reason=escape((row.get('audit_reason') or row.get('review_reason') or '')[:140]) or '-'
+            lr.append([Paragraph(f'<b>{title}</b>',_cell),Paragraph(kind,_cell),Paragraph(tier,_cell),
+                       Paragraph(status,_cell),str(row.get('messages',0)),Paragraph(reason,_cell)])
+        lt=Table(lr,colWidths=[104,62,48,56,30,160])
+        lt.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#ecf8f0')),('VALIGN',(0,0),(-1,-1),'TOP'),
+            ('FONTSIZE',(0,0),(-1,-1),8),('ALIGN',(4,0),(4,-1),'CENTER'),
+            ('BOX',(0,0),(-1,-1),0.4,colors.HexColor('#ccddd5')),('INNERGRID',(0,0),(-1,-1),0.3,colors.HexColor('#ccddd5')),
+            ('TOPPADDING',(0,0),(-1,-1),4),('BOTTOMPADDING',(0,0),(-1,-1),4)]))
+        story.append(lt)
+        if len(summary['conversations'])>120:
+            story.append(Paragraph(f"Showing first 120 of {len(summary['conversations'])} conversations.",styles['SmallTextCSR']))
     else:story.append(Paragraph('No conversations found for this period.',styles['SmallTextCSR']))
-    if audit:
-        lead_rows=[r for r in summary['conversations'] if r['classification']=='potential_lead' and r.get('audit_qa')]
-        story.append(Paragraph('Individual Lead Evaluations',styles['Heading2']))
-        if not lead_rows:story.append(Paragraph('No AI per-chat QA available for potential leads (deterministic mode or AI unavailable).',styles['SmallTextCSR']))
-        for row in lead_rows:
-            head=(f"{row.get('title','')[:75]} - {str(row.get('lead_tier') or 'Tier not assessed').replace('_',' ').title()}"
-                  f" - {str(row.get('audit_status') or 'Status unknown').title()}")
-            story.append(Paragraph('<b>'+escape(head)+'</b>',styles['SmallTextCSR']))
-            qa=row.get('audit_qa') or {}
-            for dim in ('greeting','first_response_time','needs_discovery','product_knowledge',
-                        'objection_handling','upselling','closing','follow_up','professional_tone','sop_compliance'):
-                item=qa.get(dim) or {}
-                text=f"{dim.replace('_',' ').title()}: {item.get('rating','NONE')} - {item.get('finding','Not assessed')}"
-                story.append(Paragraph(escape(text[:260]),styles['SmallTextCSR']))
     story.append(Spacer(1,10));story.append(Paragraph('Voice Notes & Call Data Coverage',styles['Heading2']))
     story.append(Paragraph(f"Voice notes received: {summary['voice_notes_received']}; sent: {summary['voice_notes_sent']}. Sum of recognized voice-note durations: {summary['known_voice_duration_seconds']} seconds (may be incomplete). Detected call events: {summary['call_placeholders']}. Actual call details are not inferred.",styles['SmallTextCSR']))
     story.append(Paragraph('Potential Reply Gaps (For Manual Verification)',styles['Heading2']))
