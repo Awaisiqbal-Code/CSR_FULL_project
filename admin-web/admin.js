@@ -692,7 +692,10 @@ function renderAuditPreview(item){
  // Headline is DETERMINISTIC (hybrid): always the rule-based business categories so
  // it matches the chat data and never collapses to 0 when AI is unavailable. AI
  // enrichment, when present, shows in the Executive Summary / reconciliation note.
- const defs=[['Total Chats','total_chats',()=>true],['Clients','potential_leads',c=>C(c)==='potential_lead'],['Internal / Staff','possible_internal',c=>C(c)==='internal_staff'],['Unclassified','unclassified',c=>C(c)==='unclassified'],['Needs Review','needs_review',c=>!!c.needs_review],['Unread Excluded','unread_excluded',null]];
+ // "Flagged for Review" is the independent data-quality FLAG (chats explicitly
+ // flagged for a manual look); it is distinct from the canonical "Needs Review"
+ // conversation class shown in Lead Conversation Classification (contract 10.3).
+ const defs=[['Total Chats','total_chats',()=>true],['Clients','potential_leads',c=>C(c)==='potential_lead'],['Internal / Staff','possible_internal',c=>C(c)==='internal_staff'],['Unclassified','unclassified',c=>C(c)==='unclassified'],['Flagged for Review','needs_review',c=>!!c.needs_review],['Unread Excluded','unread_excluded',null]];
  for(const [label,key,pred] of defs)stats.append(auditStat(label,summary[key],pred));
  out.append(stats);
  auditParagraph(out,'Tip: click any highlighted box, pipeline tier or evidence card below to open a popup of only its matching conversations — with a Download PDF button for that subset.','audit-footnote');

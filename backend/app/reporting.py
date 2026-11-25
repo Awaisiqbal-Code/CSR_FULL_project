@@ -43,7 +43,7 @@ def generate_pdf(name: str, summary: dict) -> bytes:
     # Headline leads are DETERMINISTIC (rule-based potential_lead), independent of
     # AI, so this count always matches the Conversations section and never blanks
     # to 0 when AI is unavailable.
-    data=[['Total Chats','Clients','Needs Review','Unread Excluded'],
+    data=[['Total Chats','Clients','Flagged for Review','Unread Excluded'],
           [str(summary['total_chats']),str(summary['potential_leads']),
            str(summary['needs_review']),str(summary['unread_excluded'])]]
     t=Table(data,colWidths=[120]*4)

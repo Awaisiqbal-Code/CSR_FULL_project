@@ -9,8 +9,8 @@ const root=path.resolve(__dirname,'..');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const script=fs.readFileSync(path.join(root,'admin.js'),'utf8');
 const styles=fs.readFileSync(path.join(root,'styles.css'),'utf8');
-assert.match(html,/admin\.js\?v=4.20/);
-assert.match(html,/styles\.css\?v=4.20/);
+assert.match(html,/admin\.js\?v=4.21/);
+assert.match(html,/styles\.css\?v=4.21/);
 assert.match(styles,/audit-stat-clickable/);
 assert.match(styles,/\.audit-drill/);
 assert.doesNotMatch(script,/innerHTML\s*=/,'Drill content must use safe DOM text nodes');
@@ -62,11 +62,11 @@ function clickCardStarting(label){
  card.onclick();
  return flatten(el('audit-drill'));
 }
-// Needs Review -> only Lead A, and its review reason shows.
-let drill=clickCardStarting('Needs Review');
-assert.ok(drill.includes('Lead A')&&drill.includes('ambiguous intent'),'Needs Review drill shows Lead A + reason');
-assert.ok(!drill.includes('Chat B')&&!drill.includes('Staff C'),'Needs Review drill excludes others');
-assert.ok(/1 conversation\b/.test(drill),'Needs Review count = 1');
+// Flagged for Review (the data-quality flag card) -> only Lead A, with its reason.
+let drill=clickCardStarting('Flagged for Review');
+assert.ok(drill.includes('Lead A')&&drill.includes('ambiguous intent'),'Flagged-for-Review drill shows Lead A + reason');
+assert.ok(!drill.includes('Chat B')&&!drill.includes('Staff C'),'Flagged-for-Review drill excludes others');
+assert.ok(/1 conversation\b/.test(drill),'Flagged-for-Review count = 1');
 
 // Clients -> only Lead A.
 drill=clickCardStarting('Clients');
