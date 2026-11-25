@@ -61,6 +61,12 @@ class AuditRequest(BaseModel):
     start: date | None = None
     end: date | None = None
 
+class DrillPdf(BaseModel):
+    # One drill-down subset, exactly as the admin popup table shows it.
+    label: str = Field(min_length=1,max_length=120)
+    columns: list[str] = Field(min_length=1,max_length=12)
+    rows: list[list[str]] = Field(default_factory=list,max_length=500)
+
 class ChatQuestion(BaseModel):
     question: str = Field(min_length=2,max_length=1000)
     employee_id: int | None = None

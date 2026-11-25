@@ -12,7 +12,8 @@ from fastapi.staticfiles import StaticFiles
 from . import models
 from .db import get_db, create_tables
 from .security import hash_password, check_password, token_for, current_user, admin_only, assert_scope
-from .schemas import SignUp, Login, Approval, SyncIn, AuditRequest, ContactCorrection, VoiceUpload, VoiceFailure, AdminPasswordSet, PasswordChangeRequest
+from .schemas import SignUp, Login, Approval, SyncIn, AuditRequest, ContactCorrection, VoiceUpload, VoiceFailure, AdminPasswordSet, PasswordChangeRequest, DrillPdf
+from . import reporting
 from .analysis import classify, build_summary, group_conversation_condition
 from .config import production_check
 from .sync_windows import since_for_sync
@@ -1020,6 +1021,22 @@ def audit_pdf(job_id:int,user:models.User=Depends(admin_only),db:Session=Depends
     assert_scope(user,job.employee_id)
     if job.status!='completed' or not job.pdf_bytes:raise HTTPException(409,'PDF is not ready')
     return Response(job.pdf_bytes,media_type='application/pdf',headers={'Content-Disposition':f'attachment; filename="csr-audit-{job.id}.pdf"','Cache-Control':'no-store'})
+
+@app.post('/audits/{job_id}/drill-pdf')
+def audit_drill_pdf(job_id:int,data:DrillPdf,user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    """Styled PDF of a single drill-down subset — the exact table shown in the admin popup."""
+    job=db.get(models.AuditJob,job_id)
+    if not job:raise HTTPException(404,'Audit not found')
+    assert_scope(user,job.employee_id)
+    employee=db.get(models.User,job.employee_id)
+    name=(employee.full_name if employee else '') or f'Employee #{job.employee_id}'
+    period=job.period_label or f'Last {job.hours} hours'
+    cols=[str(c)[:60] for c in data.columns[:12]]
+    ncol=len(cols)
+    rows=[[str(c)[:400] for c in (list(r)[:ncol]+['']*(ncol-len(list(r)[:ncol])))] for r in data.rows[:500]]
+    generated=(job.scheduled_for or job.created_at)
+    pdf=reporting.generate_drill_pdf(name,data.label[:120],period,generated.isoformat() if generated else None,cols,rows)
+    return Response(pdf,media_type='application/pdf',headers={'Content-Disposition':f'attachment; filename="csr-audit-detail-{job.id}.pdf"','Cache-Control':'no-store'})
 
 
 @app.get('/admin/analytics')

@@ -333,10 +333,12 @@ body.admin-view .audit-stat-clickable:focus-visible{outline:2px solid #2b6cb0;ou
 body.admin-view .audit-stat-clickable:active{transform:translateY(1px);}
 body.admin-view .audit-stat-cue{display:block;margin-top:8px;font-size:10px;font-weight:600;letter-spacing:.04em;color:#2b6cb0;text-transform:uppercase;}
 body.admin-view button.audit-tier{font:inherit;text-align:left;width:100%;}
-body.admin-view .audit-drill{margin:18px 0;padding:16px;border:1px solid #cfe0f2;border-radius:12px;background:#f7fbff;}
+body.admin-view .audit-drill{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(16,38,66,.5);margin:0;border:0;}
 body.admin-view .audit-drill.hidden{display:none;}
-body.admin-view .audit-drill-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;}
+body.admin-view .audit-modal{background:#fff;width:min(1040px,100%);max-height:90vh;overflow:auto;padding:20px 22px;border-radius:14px;border:1px solid #cfe0f2;box-shadow:0 24px 60px rgba(16,38,66,.28);}
+body.admin-view .audit-drill-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:6px;position:sticky;top:-20px;background:#fff;padding-top:2px;z-index:1;}
 body.admin-view .audit-drill-head h3{margin:0;}
+body.admin-view .audit-modal-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto;}
 body.admin-view .audit-report-section{margin:25px 0 0;padding:20px;border:1px solid #e3ebf3;border-radius:14px;background:white;line-height:1.6;overflow-wrap:anywhere;}
 body.admin-view .audit-section-title{font-size:15px;margin:0 0 12px;color:#25456e;}
 body.admin-view .audit-report-section p{font-size:13px;white-space:pre-line;}

@@ -534,20 +534,10 @@ function auditStat(label,value,predicate){
  }
  return card;
 }
-function renderAuditDrill(label,matches){
- const panel=$('audit-drill');if(!panel)return;
- panel.replaceChildren();panel.classList.remove('hidden');
- const head=e('div','','audit-drill-head');
- head.append(e('h3',label+' · '+matches.length+' conversation'+(matches.length===1?'':'s'),'audit-section-title'));
- const close=e('button','Close ✕','subtle');close.type='button';close.onclick=()=>{panel.classList.add('hidden');panel.replaceChildren();};
- head.append(close);panel.append(head);
- auditParagraph(panel,'Showing only the conversations included in this metric, with their saved evidence. Business category, reply state and review flags are independent dimensions.','audit-footnote');
- const table=e('table','','audit-register');const thead=e('thead');const hr=e('tr');
- for(const col of ['Conversation','Category','Lead tier','Reply state','Country','Voice (in/out)','Calls','Flags'])hr.append(e('th',col));
- thead.append(hr);table.append(thead);
- const body=e('tbody');
- for(const chat of matches.slice(0,300)){
-  const tr=e('tr');const tier=AUDIT_LEAD_TIERS.find(([key])=>chat.lead_tier===key);
+const AUDIT_DRILL_COLUMNS=['Conversation','Category','Lead tier','Reply state','Country','Voice (in/out)','Calls','Flags'];
+function auditDrillRows(matches){
+ return matches.slice(0,300).map(chat=>{
+  const tier=AUDIT_LEAD_TIERS.find(([key])=>chat.lead_tier===key);
   const reply=chat.reply_state?statusDisplay(chat.reply_state):(chat.possible_consultant_no_reply?'Awaiting counselor reply':(chat.possible_dead?'No inbound reply':'—'));
   const country=Array.isArray(chat.countries)&&chat.countries.length?chat.countries.join(', '):'Unknown';
   const voice=`${chat.voice_received??0} / ${chat.voice_sent??0}`+((chat.voice_seconds??0)>0?` · ${chat.voice_seconds}s`:'');
@@ -556,12 +546,42 @@ function renderAuditDrill(label,matches){
    chat.audit_analysis_status==='unavailable'?'AI unavailable':null,
    chat.audit_reason||null].filter(Boolean).join(' · ')||'—';
   const cat=statusDisplay(auditCategoryOf(chat));
-  for(const v of [auditField(chat.title),cat,tier?tier[1]:'Not assessed',reply,country,voice,String(chat.call_events??0),flags])tr.append(e('td',v));
-  body.append(tr);
- }
- table.append(body);const wrap=e('div','','audit-table-wrap');wrap.append(table);panel.append(wrap);
- if(matches.length>300)auditParagraph(panel,`Showing first 300 of ${matches.length}. Narrow the filter or export PDF for the full set.`,'audit-footnote');
- panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  return [auditField(chat.title),cat,tier?tier[1]:'Not assessed',reply,country,voice,String(chat.call_events??0),flags];
+ });
+}
+function closeAuditDrill(){const panel=$('audit-drill');if(!panel)return;panel.classList.add('hidden');panel.onclick=null;panel.replaceChildren();}
+function renderAuditDrill(label,matches){
+ const panel=$('audit-drill');if(!panel)return;
+ panel.replaceChildren();panel.classList.remove('hidden');
+ const rows=auditDrillRows(matches);
+ const dialog=e('div','','audit-modal');
+ const head=e('div','','audit-drill-head');
+ head.append(e('h3',label+' · '+matches.length+' conversation'+(matches.length===1?'':'s'),'audit-section-title'));
+ const acts=e('div','','audit-modal-actions');
+ const dl=e('button','⬇ Download PDF','secondary');dl.type='button';dl.onclick=()=>downloadDrillPdf(dl,label,AUDIT_DRILL_COLUMNS,rows);
+ const close=e('button','Close ✕','subtle');close.type='button';close.onclick=closeAuditDrill;
+ acts.append(dl,close);head.append(acts);dialog.append(head);
+ auditParagraph(dialog,'Showing only the conversations included in this metric, with their saved evidence. Business category, reply state and review flags are independent dimensions.','audit-footnote');
+ const table=e('table','','audit-register');const thead=e('thead');const hr=e('tr');
+ for(const col of AUDIT_DRILL_COLUMNS)hr.append(e('th',col));
+ thead.append(hr);table.append(thead);
+ const body=e('tbody');
+ for(const r of rows){const tr=e('tr');for(const v of r)tr.append(e('td',v));body.append(tr);}
+ table.append(body);const wrap=e('div','','audit-table-wrap');wrap.append(table);dialog.append(wrap);
+ if(matches.length>300)auditParagraph(dialog,`Showing first 300 of ${matches.length}. Narrow the filter or download the overall PDF for the full set.`,'audit-footnote');
+ panel.append(dialog);
+ panel.onclick=ev=>{if(ev.target===panel)closeAuditDrill();};
+}
+async function downloadDrillPdf(btn,label,columns,rows){
+ if(activeAuditJobId===null){toast('Open a report first',true);return;}
+ const prev=btn?btn.textContent:'';if(btn){btn.disabled=true;btn.textContent='Preparing…';}
+ try{
+  const pdf=await api(`/audits/${activeAuditJobId}/drill-pdf`,'POST',{label,columns,rows},true);
+  const url=URL.createObjectURL(pdf);const a=document.createElement('a');a.href=url;
+  a.download=`Scholarshiphive-${String(label).replace(/[^a-z0-9]+/gi,'-').replace(/^-+|-+$/g,'')||'detail'}.pdf`;
+  document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),10000);
+ }catch(err){toast(err.message,true);}
+ finally{if(btn){btn.disabled=false;btn.textContent=prev;}}
 }
 function auditSection(container,label){const section=e('section','','audit-report-section');auditTitle(section,label);container.append(section);return section;}
 function auditList(section,items,empty){if(!Array.isArray(items)||!items.length){auditParagraph(section,empty,'muted');return;}const ul=e('ul','','audit-bullets');for(const item of items)ul.append(e('li',String(item)));section.append(ul);}
@@ -658,7 +678,7 @@ function renderAuditPreview(item){
  const defs=[['Total Chats','total_chats',()=>true],['Clients','potential_leads',c=>C(c)==='potential_lead'],['Internal / Staff','possible_internal',c=>C(c)==='internal_staff'],['Unclassified','unclassified',c=>C(c)==='unclassified'],['Needs Review','needs_review',c=>!!c.needs_review],['Unread Excluded','unread_excluded',null]];
  for(const [label,key,pred] of defs)stats.append(auditStat(label,summary[key],pred));
  out.append(stats);
- auditParagraph(out,'Tip: click any highlighted box, pipeline tier or evidence card below to see only its matching conversations and their saved evidence.','audit-footnote');
+ auditParagraph(out,'Tip: click any highlighted box, pipeline tier or evidence card below to open a popup of only its matching conversations — with a Download PDF button for that subset.','audit-footnote');
  const drill=e('section','','audit-drill hidden');drill.id='audit-drill';out.append(drill);
  // Lead Pipeline is shown first (before Management Metrics).
  const pipeline=auditSection(out,'Lead Pipeline — Retained Tiers');const tiers=e('div','','audit-tiers');

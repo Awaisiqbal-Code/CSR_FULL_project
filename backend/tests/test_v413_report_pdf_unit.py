@@ -1,6 +1,6 @@
 """PDF parity for n8n v4.13 audit; synthetic inputs only, no DB or network."""
 from io import BytesIO
-from app.reporting import generate_pdf
+from app.reporting import generate_pdf, generate_drill_pdf
 try:
     from pypdf import PdfReader
 except ImportError:
@@ -48,3 +48,31 @@ def test_pdf_prior_reports_still_render_without_new_fields():
         content=' '.join(p.extract_text() for p in PdfReader(BytesIO(pdf)).pages)
         assert 'Clients' in content
         assert 'Not assessed' in content
+
+
+def test_drill_pdf_renders_subset_table():
+    cols=['Conversation','Category','Lead tier','Reply state','Country','Voice (in/out)','Calls','Flags']
+    rows=[['Fatima inquiry','Client','Very Hot','Replied','Pakistan','2 / 1 · 60s','0','—'],
+          ['Omar follow-up','Client','Hot','Awaiting counselor reply','UAE','0 / 0','1','Needs review']]
+    pdf=generate_drill_pdf('Test Counselor','Close to Conversion leads','Last 7 days',
+                           '2026-11-24T10:00:00+00:00',cols,rows)
+    assert pdf.startswith(b'%PDF-') and len(pdf)>1500
+    if PdfReader:
+        raw=' '.join(p.extract_text() for p in PdfReader(BytesIO(pdf)).pages)
+        content=' '.join(raw.split())  # collapse column word-wrap newlines
+        for needed in ('Close to Conversion leads','Test Counselor','Fatima inquiry',
+                       'Omar follow-up','Very Hot','Awaiting counselor reply','Needs review'):
+            assert needed in content, needed
+
+
+def test_drill_pdf_handles_empty_and_ragged_rows():
+    cols=['Conversation','Category','Flags']
+    # Ragged row (too few / too many cells) must not crash.
+    pdf=generate_drill_pdf('Counselor','Cold leads','Last 25 hours',None,cols,
+                           [['Only title'],['A','B','C','D extra ignored']])
+    assert pdf.startswith(b'%PDF-')
+    empty=generate_drill_pdf('Counselor','Hot leads','Last 25 hours',None,cols,[])
+    assert empty.startswith(b'%PDF-')
+    if PdfReader:
+        content=' '.join(p.extract_text() for p in PdfReader(BytesIO(empty)).pages)
+        assert 'No conversations in this subset.' in content

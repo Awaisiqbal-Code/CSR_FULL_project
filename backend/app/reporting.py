@@ -168,3 +168,45 @@ def generate_pdf(name: str, summary: dict) -> bytes:
         story.append(Paragraph(f'<b>AI audit categories reconciled:</b> {"Yes" if summary.get("audit_counts_reconciled") else "No"}',styles['SmallTextCSR']))
     doc.build(story)
     return buf.getvalue()
+
+def generate_drill_pdf(name: str, label: str, period: str, generated_at: str | None,
+                       columns: list[str], rows: list[list[str]]) -> bytes:
+    """Styled PDF of one drill-down subset — the exact table the admin popup shows."""
+    buf=io.BytesIO()
+    doc=SimpleDocTemplate(buf,pagesize=(595,842),leftMargin=36,rightMargin=36,topMargin=44,bottomMargin=44)
+    styles=getSampleStyleSheet()
+    styles.add(ParagraphStyle(name='DrillHead',parent=styles['Heading1'],fontSize=16,leading=21,textColor=colors.HexColor('#117552'),spaceAfter=6))
+    styles.add(ParagraphStyle(name='DrillSmall',parent=styles['BodyText'],fontSize=9,leading=13,spaceAfter=5))
+    cnt=len(rows)
+    story=[Paragraph('WhatsApp Lead Conversation Audit &mdash; Detail',styles['DrillHead']),
+           Paragraph('CONFIDENTIAL - INTERNAL USE ONLY',styles['DrillSmall']),
+           Paragraph(f'<b>{escape(label)}</b> &middot; {cnt} conversation{"" if cnt==1 else "s"}',styles['DrillSmall']),
+           Paragraph(f'<b>Counselor:</b> {escape(name)}  |  <b>Period:</b> {escape(period)}',styles['DrillSmall'])]
+    gen_line=_generated_line({'generated_at':generated_at})
+    if gen_line:story.append(Paragraph(gen_line,styles['DrillSmall']))
+    story.append(Spacer(1,10))
+    cell=ParagraphStyle(name='DrillCell',parent=styles['BodyText'],fontSize=7.4,leading=9.6)
+    hcell=ParagraphStyle(name='DrillCellHead',parent=styles['BodyText'],fontSize=7.6,leading=9.6,fontName='Helvetica-Bold',textColor=colors.HexColor('#15543f'))
+    ncol=max(1,len(columns))
+    data=[[Paragraph(escape(str(c)),hcell) for c in columns]]
+    for r in rows:
+        padded=list(r[:ncol])+['']*(ncol-len(r))
+        data.append([Paragraph(escape(str(c)),cell) for c in padded])
+    avail=523.0
+    widths=[avail/ncol]*ncol
+    table=Table(data,colWidths=widths,repeatRows=1)
+    table.setStyle(TableStyle([
+        ('BACKGROUND',(0,0),(-1,0),colors.HexColor('#ecf8f0')),
+        ('VALIGN',(0,0),(-1,-1),'TOP'),
+        ('BOX',(0,0),(-1,-1),0.4,colors.HexColor('#cfe0d8')),
+        ('INNERGRID',(0,0),(-1,-1),0.3,colors.HexColor('#dbe8e2')),
+        ('ROWBACKGROUNDS',(0,1),(-1,-1),[colors.white,colors.HexColor('#f6fbf8')]),
+        ('TOPPADDING',(0,0),(-1,-1),3),('BOTTOMPADDING',(0,0),(-1,-1),3),
+        ('LEFTPADDING',(0,0),(-1,-1),4),('RIGHTPADDING',(0,0),(-1,-1),4),
+    ]))
+    story.append(table)
+    if not rows:
+        story.append(Spacer(1,8))
+        story.append(Paragraph('No conversations in this subset.',styles['DrillSmall']))
+    doc.build(story)
+    return buf.getvalue()
