@@ -137,6 +137,48 @@ def duration_seconds(raw: str):
         return (chunks[0]*60+chunks[1]) if len(chunks)==2 else (chunks[0]*3600+chunks[1]*60+chunks[2])
     return 0
 
+def _classification_aggregates(rows: list[dict]) -> dict:
+    """All classification-dependent rollups, computed from the final canonical rows
+    (contract 6 & 9.1 step 6). Shared by the deterministic path (build_summary) and
+    the AI path (apply_ai_classification) so every consumer reads one source of truth.
+    Independent facts (new-lead/NNR/response-time/voice/calls) are NOT recomputed here.
+    """
+    total=len(rows)
+    counts=Counter(r['classification'] for r in rows)                       # compat view
+    canon=Counter(r.get('canonical_category') for r in rows)                 # mutually exclusive
+    tier_counts=Counter(r['lead_tier'] for r in rows if r.get('lead_tier'))
+    status_counts=Counter(r.get('lead_status') for r in rows if r.get('lead_status'))
+    responsive=canon.get('responsive',0)
+    assessed=sum(tier_counts.get(k,0) for k,_ in am.TIER_THRESHOLDS)
+    country=Counter();multi=0;unknown=0
+    for r in rows:
+        if r['classification']!='potential_lead':continue
+        cs=r.get('countries') or []
+        if not cs:unknown+=1;continue
+        if len(cs)>1:multi+=1
+        for c in cs:country[c]+=1
+    agg={
+        'potential_leads':counts['potential_lead'],'possible_internal':counts['internal_staff'],
+        'unclassified':counts['unclassified'],
+        'possible_no_reply':sum(r.get('possible_consultant_no_reply',0) for r in rows if r['classification']=='potential_lead'),
+        'possible_dead':sum(r.get('possible_dead',0) for r in rows if r['classification']=='potential_lead'),
+        'old_client_follow_up':sum(1 for r in rows if r.get('is_follow_up') and r['classification']=='potential_lead'),
+        'lead_tiers':{k:tier_counts.get(k,0) for k,_ in am.TIER_THRESHOLDS},
+        'responsive_tier_pending':max(0,responsive-assessed),
+        'canonical_counts':{k:canon.get(k,0) for k in am.CANONICAL_CATEGORIES},
+        'status_counts':{'closed':status_counts.get('closed',0),'rejected':status_counts.get('rejected',0),
+                         'stalled':status_counts.get('stalled',0),'status_pending':status_counts.get('pending',0)},
+        'closures':sum(1 for r in rows if r.get('canonical_category')=='responsive' and r.get('lead_status')=='closed'),
+        'country_leads':dict(sorted(country.items())),'multi_country_leads':multi,'unknown_country_leads':unknown,
+    }
+    # Invariants (contract 6): compat classes cover every chat; canonical classes are
+    # mutually exclusive and cover every chat; responsive = 4 tiers + tier-pending.
+    agg['counts_reconciled']=(total==agg['potential_leads']+agg['possible_internal']+agg['unclassified'])
+    agg['canonical_reconciled']=(total==sum(agg['canonical_counts'].values()))
+    agg['responsive_reconciled']=(responsive==assessed+agg['responsive_tier_pending'])
+    return agg
+
+
 def build_summary(db: Session, employee_id: int, hours: int | None = None,
                   end: datetime | None = None, *, begin: datetime | None = None,
                   period_label: str | None = None):
@@ -242,7 +284,15 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
         full_text=' '.join(x['text'] for x in hist) or content
         rstate=am.reply_state(hist)
         nl=am.new_lead_facts(hist,begin,end,kind)
-        tier=am.lead_tier(hist,full_text,kind,end)
+        # Canonical conversation class (contract 4.2), mutually exclusive. A chat
+        # flagged needs_review is that class regardless of direction, so the
+        # selected-total equation (contract 6) reconciles exactly.
+        canonical=('needs_review' if chat.needs_review
+                   else am.canonical_category(kind,has_inbound,has_outbound))
+        # Tier only for RESPONSIVE + explicit CGPA (no point model, no 5th tier).
+        tier=am.lead_tier(hist,full_text,canonical,end)
+        tier_assess=am.tier_assessment(canonical,tier)
+        lead_status,status_reason=am.deterministic_status(hist,canonical)
         countries,primary_country=am.extract_countries(full_text)
         calls=am.call_breakdown(window_norm,nl['is_new_lead'])
         is_follow_up=(not nl['is_new_lead']) and has_outbound and bool(hist) and (hist[0]['dt']<begin)
@@ -255,7 +305,9 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
              'reply_state':rstate,'is_new_lead':nl['is_new_lead'],'is_follow_up':is_follow_up,
              'new_lead_responded':nl['responded'],'new_lead_awaiting_counselor':nl['new_lead_awaiting_counselor'],
              'nnr_awaiting_customer':nl['nnr_awaiting_customer'],'first_response_seconds':nl['first_response_seconds'],
-             'lead_tier':tier,'countries':countries,'primary_country':primary_country,
+             'lead_tier':tier,'tier_assessment':tier_assess,
+             'canonical_category':canonical,'lead_status':lead_status,'status_reason':status_reason,
+             'countries':countries,'primary_country':primary_country,
              'calls_inbound':calls['inbound'],'calls_outbound':calls['outbound'],
              'new_lead_calls':calls['new_lead'],'follow_up_calls':calls['follow_up'],
              'follow_up_touches':follow_up_touches,'response_pairs':len(pair_secs)}
@@ -366,7 +418,11 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
     # Reconcile ONLY the business-category dimension (the three are mutually
     # exclusive and cover every chat). needs_review is a separate flag and must
     # NOT be summed into this total (spec 2 INTERPRETATION RULE).
-    summary['counts_reconciled'] = (total == summary['potential_leads']+summary['possible_internal']+summary['unclassified'])
+    # Canonical classification/tier/status/closure rollups + invariants (single
+    # source of truth). Overrides the compat keys computed inline above with the
+    # same values and adds the canonical ones; management/response-time metrics above
+    # are independent and untouched.
+    summary.update(_classification_aggregates(rows))
     return summary
 
 
@@ -399,35 +455,21 @@ def apply_ai_classification(summary: dict) -> dict:
         if not business:
             continue
         r['classification'] = business
-        # AI only tiers responsive leads; a lead with no AI tier shows "Not assessed".
-        r['lead_tier'] = r.get('audit_tier') if (business == 'potential_lead' and r.get('audit_tier') in _AI_TIERS) else None
+        # Canonical class from the AI judge; its 'unclassified' maps to the
+        # mutually-exclusive needs_review bucket (contract 4.2 / 6).
+        ai_canon = r.get('audit_category')
+        r['canonical_category'] = 'needs_review' if ai_canon in (None, 'unclassified') else ai_canon
+        # AI only tiers responsive leads; a responsive lead with no AI tier is
+        # tier-pending, a non-responsive chat has no tier.
+        r['lead_tier'] = r.get('audit_tier') if (r['canonical_category'] == 'responsive' and r.get('audit_tier') in _AI_TIERS) else None
+        r['tier_assessment'] = am.tier_assessment(r['canonical_category'], r['lead_tier'])
+        r['lead_status'] = r.get('audit_status') if r['canonical_category'] == 'responsive' else None
+        r['status_reason'] = r.get('audit_status_reason', '') if r['lead_status'] else ''
         overridden += 1
     if not overridden:
         return summary
-    counts = Counter(r['classification'] for r in rows)
-    total = len(rows)
-    summary['potential_leads'] = counts['potential_lead']
-    summary['possible_internal'] = counts['internal_staff']
-    summary['unclassified'] = counts['unclassified']
-    summary['possible_no_reply'] = sum(r.get('possible_consultant_no_reply', 0) for r in rows if r['classification'] == 'potential_lead')
-    summary['possible_dead'] = sum(r.get('possible_dead', 0) for r in rows if r['classification'] == 'potential_lead')
-    summary['old_client_follow_up'] = sum(1 for r in rows if r.get('is_follow_up') and r['classification'] == 'potential_lead')
-    tier_counts = Counter(r['lead_tier'] for r in rows if r.get('lead_tier') in _AI_TIERS)
-    summary['lead_tiers'] = {k: tier_counts.get(k, 0) for k, _ in am.TIER_THRESHOLDS}
-    country = Counter(); multi = 0; unknown = 0
-    for r in rows:
-        if r['classification'] != 'potential_lead':
-            continue
-        cs = r.get('countries') or []
-        if not cs:
-            unknown += 1; continue
-        if len(cs) > 1:
-            multi += 1
-        for c in cs:
-            country[c] += 1
-    summary['country_leads'] = dict(sorted(country.items()))
-    summary['multi_country_leads'] = multi
-    summary['unknown_country_leads'] = unknown
+    # Recompute every classification-dependent rollup from the overridden rows
+    # (single source of truth) and record the provenance.
+    summary.update(_classification_aggregates(rows))
     summary['classification_source'] = 'ai'
-    summary['counts_reconciled'] = (total == summary['potential_leads'] + summary['possible_internal'] + summary['unclassified'])
     return summary

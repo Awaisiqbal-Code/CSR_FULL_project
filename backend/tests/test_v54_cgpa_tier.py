@@ -1,6 +1,7 @@
-"""Hybrid tiering: an explicit CGPA uses the original n8n bands and overrides the
-engagement point model; absent a CGPA the point model still applies. Pure unit
-tests over audit_metrics -- no DB, no AI."""
+"""Tiering (Final Master Implementation Contract v2): tiers apply to RESPONSIVE
+leads only, from an explicit CGPA via the legacy bands. There is NO engagement
+point model and NO fifth tier -- no CGPA => None (tier pending). Pure unit tests
+over audit_metrics -- no DB, no AI."""
 from datetime import datetime, timezone, timedelta
 from app import audit_metrics as am
 
@@ -38,21 +39,27 @@ def test_cgpa_bands_match_n8n():
     assert am.cgpa_tier(None) is None
 
 
-def test_lead_tier_prefers_cgpa_over_point_model():
-    # A low-CGPA but highly engaged lead is COLD by the authoritative CGPA band,
-    # even though the engagement point model alone would score it higher.
+def test_lead_tier_uses_cgpa_band_only():
+    # A low-CGPA but highly engaged responsive lead is COLD by the CGPA band;
+    # engagement (messages/recency/voice/country) no longer influences the tier.
     hist = _hist(n_in=6, n_out=2)
-    tier = am.lead_tier(hist, 'admission scholarship apply Italy cgpa 2.3', 'potential_lead', END)
+    tier = am.lead_tier(hist, 'admission scholarship apply Italy cgpa 2.3', 'responsive', END)
     assert tier == 'cold'
+    assert am.tier_assessment('responsive', tier) == 'ASSESSED'
 
 
-def test_lead_tier_falls_back_to_point_model_without_cgpa():
+def test_lead_tier_pending_without_cgpa():
+    # No CGPA and no AI => no tier (pending verification), NEVER an invented tier.
     hist = _hist(n_in=6, n_out=2)
-    tier = am.lead_tier(hist, 'admission scholarship apply to Italy', 'potential_lead', END)
-    assert tier in dict(am.TIER_THRESHOLDS)
-    assert tier not in (None,)
+    assert am.lead_tier(hist, 'admission scholarship apply to Italy', 'responsive', END) is None
+    assert am.tier_assessment('responsive', None) == 'PENDING_REVIEW'
 
 
-def test_non_potential_lead_gets_no_tier():
+def test_only_responsive_leads_get_a_tier():
+    # A high CGPA on a non-responsive chat (or the compat 'potential_lead' bucket,
+    # which includes dead/consultant-no-reply) gets no tier.
     assert am.lead_tier(_hist(), 'cgpa 3.9', 'unclassified', END) is None
     assert am.lead_tier(_hist(), 'cgpa 3.9', 'internal_staff', END) is None
+    assert am.lead_tier(_hist(), 'cgpa 3.9', 'potential_lead', END) is None
+    assert am.lead_tier(_hist(), 'cgpa 3.9', 'responsive', END) == 'very_hot'
+    assert am.tier_assessment('dead', None) is None  # no tier slot for non-responsive

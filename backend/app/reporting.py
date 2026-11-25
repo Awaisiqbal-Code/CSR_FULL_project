@@ -56,27 +56,53 @@ def generate_pdf(name: str, summary: dict) -> bytes:
     if audit:
         breakdown+=(f" AI enrichment evaluated {summary.get('audit_evaluated',0)}/{summary['total_chats']} chats "
                     f"({summary.get('audit_unavailable',0)} unavailable); AI adds narrative/QA only and never changes these counts.")
-    story += [t,Spacer(1,18),Paragraph('Executive Summary',styles['Heading2']),
+    # The deterministic counts are a factual overview, NOT the Executive Summary.
+    story += [t,Spacer(1,18),Paragraph('Report Overview',styles['Heading2']),
               Paragraph(escape(breakdown),styles['SmallTextCSR'])]
+    # Executive Summary is AI-ONLY (contract 10.6): render the heading + body ONLY
+    # when a valid AI summary exists; otherwise omit the entire section (no heading,
+    # no placeholder, no deterministic substitute).
     if summary.get('executive_summary'):
-        story.append(Paragraph('AI-Assisted Executive Analysis',styles['Heading2']))
+        story.append(Paragraph('Executive Summary',styles['Heading2']))
         story.append(Paragraph(escape(summary['executive_summary']),styles['SmallTextCSR']))
-    # Lead Pipeline is shown before Management Metrics.
-    story.append(Paragraph('Lead Pipeline - Retained Tiers',styles['Heading2']))
+    # Lead Pipeline is shown before Management Metrics. Four tiers only (no fifth
+    # "Close to Conversion"); responsive leads with no qualification evidence are
+    # Tier Pending, never scored by activity.
+    _hdr=TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#edf6fb')),
+                     ('TEXTCOLOR',(0,0),(-1,0),colors.HexColor('#254b6d')),
+                     ('ALIGN',(0,0),(-1,-1),'CENTER'),('FONTSIZE',(0,0),(-1,-1),9),
+                     ('FONTNAME',(0,0),(-1,0),'Helvetica-Bold'),
+                     ('BOX',(0,0),(-1,-1),0.4,colors.HexColor('#ccdde9')),
+                     ('INNERGRID',(0,0),(-1,-1),0.3,colors.HexColor('#ccdde9')),
+                     ('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8)])
+    story.append(Paragraph('Lead Pipeline - Responsive Leads Only',styles['Heading2']))
     tiers=summary.get('lead_tiers') or {}
-    tier_rows=[['Close to Conversion','Very Hot','Hot','Average','Cold'],
-               [str(tiers.get(key)) if type(tiers.get(key)) is int and tiers[key]>=0 else 'Not assessed'
-                for key in ('close_to_conversion','very_hot','hot','average','cold')]]
-    tier_table=Table(tier_rows,colWidths=[96]*5)
-    tier_table.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.HexColor('#edf6fb')),
-                                   ('TEXTCOLOR',(0,0),(-1,0),colors.HexColor('#254b6d')),
-                                   ('ALIGN',(0,0),(-1,-1),'CENTER'),('FONTSIZE',(0,0),(-1,-1),9),
-                                   ('BOX',(0,0),(-1,-1),0.4,colors.HexColor('#ccdde9')),
-                                   ('TOPPADDING',(0,0),(-1,-1),8),('BOTTOMPADDING',(0,0),(-1,-1),8)]))
-    tier_note=('Lead tiers are rule-based (Clients only): an explicit CGPA uses the standard CGPA bands '
-               '(Very Hot 3.7+, Hot 3.1-3.69, Average 2.6-3.09, Cold below 2.6); otherwise an engagement point '
-               'model is used. AI, when configured, may add a tier opinion but does not change these counts.')
+    pending=summary.get('responsive_tier_pending',0)
+    tier_rows=[['Very Hot','Hot','Average','Cold','Tier Pending'],
+               [str(tiers.get(key,0)) for key in ('very_hot','hot','average','cold')]+[str(pending)]]
+    tier_table=Table(tier_rows,colWidths=[96]*5);tier_table.setStyle(_hdr)
+    tier_note=('Tiers apply to responsive leads only. An explicit CGPA uses the legacy bands '
+               '(Very Hot 3.7+, Hot 3.1-3.69, Average 2.6-3.09, Cold below 2.6); the AI judge may '
+               'tier from clear qualification evidence. A responsive lead without such evidence is '
+               'Tier Pending Verification - never scored by activity. There is no fifth conversion tier.')
     story.extend([tier_table, Spacer(1,7),Paragraph(escape(tier_note),styles['SmallTextCSR'])])
+    # Canonical conversation classes (contract 4.2) and the separate outcome/closure
+    # dimension (contract 4.4). Shown only when present (legacy reports are unaffected).
+    cc=summary.get('canonical_counts')
+    if cc:
+        story.append(Spacer(1,8));story.append(Paragraph('Lead Conversation Classification',styles['Heading2']))
+        cc_rows=[['Responsive','Dead','Consultant No-Reply','Internal / Staff','Empty','Needs Review'],
+                 [str(cc.get(k,0)) for k in ('responsive','dead','consultant_no_reply','internal_staff','empty','needs_review')]]
+        cc_tab=Table(cc_rows,colWidths=[80]*6);cc_tab.setStyle(_hdr);story.extend([cc_tab,Spacer(1,6)])
+    sc=summary.get('status_counts')
+    if sc:
+        story.append(Paragraph('Lead Outcome &amp; Closure (Responsive leads)',styles['Heading2']))
+        sc_rows=[['Closed / Handed Over','Rejected','Stalled','Status Pending'],
+                 [str(sc.get(k,0)) for k in ('closed','rejected','stalled','status_pending')]]
+        sc_tab=Table(sc_rows,colWidths=[120]*4);sc_tab.setStyle(_hdr)
+        story.extend([sc_tab,Spacer(1,5),
+                      Paragraph('Status is independent of tier. Closed means an evidenced handover to a country '
+                                'counselor (not a payment, admission or a promise to transfer).',styles['SmallTextCSR'])])
     # Management analytics (spec 18 Nov 2026) — deterministic, event-time metrics.
     # Shown only when the report carries these keys; legacy reports are unaffected.
     if summary.get('new_leads') is not None:
@@ -133,10 +159,17 @@ def generate_pdf(name: str, summary: dict) -> bytes:
         lr=[[Paragraph(h,_hcell) for h in ('Conversation','Category','Tier','Status','Msgs','Notes')]]
         for row in summary['conversations'][:120]:
             title=escape(str(row.get('title') or '')[:60])
-            kind=escape(_CATEGORY_LABEL.get(str(row['classification']),str(row['classification']).replace('_',' ').title()))
-            tier=escape(str(row.get('lead_tier')).replace('_',' ').title()) if row.get('lead_tier') else '-'
-            status=escape(str(row.get('audit_status')).title()) if row.get('audit_status') else '-'
-            reason=escape((row.get('audit_reason') or row.get('review_reason') or '')[:140]) or '-'
+            # Canonical conversation class (final, single source of truth).
+            canon=str(row.get('canonical_category') or row.get('classification') or 'unclassified')
+            kind=escape(canon.replace('_',' ').title())
+            if row.get('lead_tier'):
+                tier=escape(str(row['lead_tier']).replace('_',' ').title())
+            elif row.get('tier_assessment')=='PENDING_REVIEW':
+                tier='Pending Verification'
+            else:
+                tier='Not Assessed'
+            status=escape(str(row.get('lead_status')).title()) if row.get('lead_status') else '-'
+            reason=escape((row.get('status_reason') or row.get('audit_reason') or row.get('review_reason') or '')[:140]) or '-'
             lr.append([Paragraph(f'<b>{title}</b>',_cell),Paragraph(kind,_cell),Paragraph(tier,_cell),
                        Paragraph(status,_cell),str(row.get('messages',0)),Paragraph(reason,_cell)])
         lt=Table(lr,colWidths=[104,62,48,56,30,160])
@@ -163,7 +196,9 @@ def generate_pdf(name: str, summary: dict) -> bytes:
         story.append(Paragraph('Management Bottom Line',styles['Heading2']))
         story.append(Paragraph(escape(summary['audit_bottom_line']),styles['SmallTextCSR']))
     story.append(Paragraph('Management should validate lead identity, unavailable WhatsApp content, and missing response timestamps before relying on AI/heuristic performance conclusions.',styles['SmallTextCSR']))
-    story.append(Paragraph(f'<b>Counts reconciled:</b> {"Yes" if summary["counts_reconciled"] else "No"}',styles['SmallTextCSR']))
+    story.append(Paragraph(f'<b>Counts reconciled:</b> {"Yes" if summary["counts_reconciled"] else "No"}'
+                           f' &middot; <b>Canonical classes:</b> {"Yes" if summary.get("canonical_reconciled",True) else "No"}'
+                           f' &middot; <b>Responsive = tiers + pending:</b> {"Yes" if summary.get("responsive_reconciled",True) else "No"}',styles['SmallTextCSR']))
     if audit is not None:
         story.append(Paragraph(f'<b>AI audit categories reconciled:</b> {"Yes" if summary.get("audit_counts_reconciled") else "No"}',styles['SmallTextCSR']))
     doc.build(story)

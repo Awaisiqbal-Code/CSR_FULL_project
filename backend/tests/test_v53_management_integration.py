@@ -14,6 +14,7 @@ from app.db import Base
 from app.models import User, Conversation, Message
 from app.analysis import build_summary
 from app.reporting import generate_pdf
+from app import audit_metrics as am
 
 NOW = datetime(2026, 11, 17, 12, 0, tzinfo=timezone.utc)
 
@@ -63,7 +64,11 @@ def test_build_summary_and_pdf_management_keys():
             # A genuine inbound call event on the follow-up conversation.
             assert s['calls_inbound'] == 1 and s['follow_up_calls'] == 1
             # Deterministic lead tiers populated (keys present).
-            assert set(s['lead_tiers']) == {'close_to_conversion', 'very_hot', 'hot', 'average', 'cold'}
+            assert set(s['lead_tiers']) == {'very_hot', 'hot', 'average', 'cold'}
+            # New canonical rollups + invariants are present and reconcile.
+            assert set(s['canonical_counts']) == set(am.CANONICAL_CATEGORIES)
+            assert s['canonical_reconciled'] and s['responsive_reconciled']
+            assert set(s['status_counts']) == {'closed', 'rejected', 'stalled', 'status_pending'}
             # PDF renders with the new block.
             pdf = generate_pdf('Emp', s)
             assert isinstance(pdf, (bytes, bytearray)) and pdf[:4] == b'%PDF'

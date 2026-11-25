@@ -56,8 +56,16 @@ read from the stored full-history `Conversation.state`).
    | 2.6 – 3.09 | Average |
    | below 2.6 (or education-level mismatch) | Cold |
 
-2. **No CGPA → the engagement point model below** (our documented default, since
-   most chats never state a CGPA). Applied **only to Potential Leads**:
+> **SUPERSEDED (Final Master Implementation Contract v2, 25 Nov 2026):** the engagement
+> point model and the fifth "Close to Conversion" tier described below are **REMOVED**
+> from all active audit paths. There are now **exactly four tiers** (Very Hot / Hot /
+> Average / Cold), applied to **responsive leads only**. The **only deterministic** tier
+> basis is an explicit CGPA (the bands above). A responsive lead with no CGPA is
+> **Tier Pending Verification** (`tier=None`, `tier_assessment='PENDING_REVIEW'`) — never
+> scored by activity. The optional AI judge may tier from broader qualification evidence.
+> The historical point model is kept here only as a record of the retired approach.
+
+2. ~~**No CGPA → the engagement point model below**~~ *(retired — see note above)*. Applied **only to Potential Leads**:
 
 | Evidence | Points |
 |---|---|
@@ -70,11 +78,11 @@ read from the stored full-history `Conversation.state`).
 | Any voice note or call present in history | **+1** |
 | A study destination (country) was identified | **+1** |
 
-**Score → tier** (`TIER_THRESHOLDS`, inclusive lower bound):
+**Score → tier** *(retired)*:
 
 | Tier | Score |
 |---|---|
-| Close to Conversion | ≥ 7 |
+| ~~Close to Conversion~~ | ~~≥ 7~~ |
 | Very Hot | 5–6 |
 | Hot | 3–4 |
 | Average | 1–2 |

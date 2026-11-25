@@ -501,7 +501,9 @@ async function refreshChats(append=false){
 // Audit v4.11: existing authorized audit summary and PDF endpoints, no collector changes.
 // Never infer lead-tier counts or QA scores from a generic Potential Lead classification.
 const AUDIT_QA_LABELS={greeting:'Greeting Quality',first_response_time:'First Response Time',needs_discovery:'Needs Discovery',product_knowledge:'Product Knowledge',objection_handling:'Objection Handling',upselling:'Upselling',closing:'Closing',follow_up:'Follow-up',professional_tone:'Professional Tone',sop_compliance:'SOP Compliance'};
-const AUDIT_LEAD_TIERS=[['close_to_conversion','Close to Conversion'],['very_hot','Very Hot'],['hot','Hot'],['average','Average'],['cold','Cold']];
+// Four legacy tiers only — no fifth "Close to Conversion" (contract 4.3).
+const AUDIT_LEAD_TIERS=[['very_hot','Very Hot'],['hot','Hot'],['average','Average'],['cold','Cold']];
+const AUDIT_CANON_LABELS={responsive:'Responsive Lead',dead:'Dead Chat',consultant_no_reply:'Consultant No-Reply',internal_staff:'Internal / Staff',empty:'Empty Thread',needs_review:'Needs Review',unclassified:'Unclassified'};
 let activeAuditJobId=null;
 let auditPollHandle=null;
 let auditRequestSerial=0;
@@ -514,7 +516,17 @@ let auditDrillConversations=[];
 // Business category is the DETERMINISTIC classification (hybrid model); AI's
 // audit_category is only a fallback, so drill-downs match the headline counts
 // with or without AI.
-function auditCategoryOf(chat){return chat.classification||chat.audit_category||'unclassified';}
+// Compat business category (final, single source of truth): drives the headline
+// Clients / Internal / Unclassified cards. apply_ai_classification writes the final
+// value into `classification`, so this never disagrees with the summary counts.
+function auditCategoryOf(chat){return chat.classification||'unclassified';}
+// Canonical conversation class (final): drives the Classification / Outcome cards
+// and the Lead Register. Falls back from the compat category when AI is unavailable,
+// so it never surfaces the unevaluated-AI 'unclassified' default (fixes the
+// Client/Unclassified cross-view mismatch, contract 10.3).
+function auditCanonicalOf(chat){
+ return chat.canonical_category||(chat.classification==='internal_staff'?'internal_staff':chat.classification==='potential_lead'?'responsive':'needs_review');
+}
 function auditStat(label,value,predicate){
  const empty=value===null||value===undefined;
  const num=Number(value);
@@ -670,7 +682,12 @@ function renderAuditPreview(item){
  const C=auditCategoryOf; // per-chat effective category (AI audit_category or deterministic classification)
  const header=e('div','','audit-report-header');header.append(e('span','CONFIDENTIAL · INTERNAL REVIEW','audit-eyebrow'));
  header.append(e('h3','WhatsApp Sales & CSR Audit'));
- auditParagraph(header,`${employeeLabel(item.employee_id)} · ${item.period_label||('Last '+item.hours+' hours')} · Generated ${stamp(item.scheduled_for||item.created_at)}`,'audit-report-subtitle');out.append(header);
+ auditParagraph(header,`${employeeLabel(item.employee_id)} · ${item.period_label||('Last '+item.hours+' hours')} · Generated ${stamp(item.scheduled_for||item.created_at)}`,'audit-report-subtitle');
+ // AI coverage indicator (contract 10.2): Full AI / Partial AI / Deterministic.
+ {const ev=summary.audit_evaluated||0,tot=summary.total_chats||0;
+  const cov=!summary.audit_counts?'Deterministic (no AI judgments)':(tot>0&&ev>=tot?'Full AI':ev>0?`Partial AI (${ev}/${tot})`:'Deterministic (no AI judgments)');
+  auditParagraph(header,`AI coverage: ${cov}${summary.ai_status?(' · '+summary.ai_status):''}`,'audit-footnote');}
+ out.append(header);
  const stats=e('div','','audit-stat-grid');
  // Headline is DETERMINISTIC (hybrid): always the rule-based business categories so
  // it matches the chat data and never collapses to 0 when AI is unavailable. AI
@@ -680,8 +697,15 @@ function renderAuditPreview(item){
  out.append(stats);
  auditParagraph(out,'Tip: click any highlighted box, pipeline tier or evidence card below to open a popup of only its matching conversations — with a Download PDF button for that subset.','audit-footnote');
  const drill=e('section','','audit-drill hidden');drill.id='audit-drill';out.append(drill);
- // Lead Pipeline is shown first (before Management Metrics).
- const pipeline=auditSection(out,'Lead Pipeline — Retained Tiers');const tiers=e('div','','audit-tiers');
+ // Canonical conversation classes (contract 4.2), before the Lead Pipeline.
+ {const cc=summary.canonical_counts||{};const classif=auditSection(out,'Lead Conversation Classification');
+  const cg=e('div','','audit-stat-grid audit-stat-grid-small');
+  for(const [label,key] of [['Responsive Leads','responsive'],['Dead Chats','dead'],['Consultant No-Reply','consultant_no_reply'],['Empty Threads','empty'],['Needs Review','needs_review']])
+   cg.append(auditStat(label,cc[key]||0,c=>auditCanonicalOf(c)===key));
+  classif.append(cg);
+  auditParagraph(classif,'Mutually-exclusive conversation classes. Tiers and outcomes below apply to Responsive leads only.','audit-footnote');}
+ // Lead Pipeline — responsive leads only; four tiers + Tier Pending (no 5th tier).
+ const pipeline=auditSection(out,'Lead Pipeline — Responsive Leads Only');const tiers=e('div','','audit-tiers');
  for(const [key,label] of AUDIT_LEAD_TIERS){
   const matches=auditDrillConversations.filter(c=>c.lead_tier===key);
   const clickable=matches.length>0;
@@ -689,31 +713,49 @@ function renderAuditPreview(item){
   tile.append(e('span',label),e('strong',auditTierValue(summary.lead_tiers,key)));
   if(clickable){tile.append(e('span','View details ›','audit-stat-cue'));tile.title='Click to see the '+matches.length+' '+label+' lead(s)';tile.onclick=()=>renderAuditDrill(label+' leads',matches);}
   tiers.append(tile);
- }pipeline.append(tiers);
- if(summary.audit_counts){
-  auditParagraph(pipeline,`${summary.lead_tier_unassessed??0} responsive lead(s) have insufficient evidence for a reliable tier. Legacy CGPA bands are guidelines, not university eligibility decisions.`,'audit-footnote');
- }else{
-  auditParagraph(pipeline,'Lead tiers have not been AI-evaluated; unassessed values are not shown as zero.','audit-footnote');
  }
+ // Tier Pending Verification tile (responsive, no justified tier) — NOT a fifth tier.
+ {const pendMatches=auditDrillConversations.filter(c=>auditCanonicalOf(c)==='responsive'&&!c.lead_tier);
+  const pend=summary.responsive_tier_pending??pendMatches.length;const clk=pendMatches.length>0;
+  const tile=e(clk?'button':'div','','audit-tier'+(clk?' audit-stat-clickable':''));if(clk)tile.type='button';
+  tile.append(e('span','Tier Pending'),e('strong',String(pend)));
+  if(clk){tile.append(e('span','View details ›','audit-stat-cue'));tile.onclick=()=>renderAuditDrill('Tier Pending leads',pendMatches);}
+  tiers.append(tile);}
+ pipeline.append(tiers);
+ auditParagraph(pipeline,`${summary.responsive_tier_pending??0} responsive lead(s) are Tier Pending Verification (no CGPA / qualification evidence). Tiers are never scored by activity, recency or message count.`,'audit-footnote');
+ // Separate outcome / closure dimension (contract 4.4), independent of tier.
+ {const sc=summary.status_counts||{};const outc=auditSection(out,'Lead Outcome & Closure');
+  const og=e('div','','audit-stat-grid audit-stat-grid-small');
+  const statusPred=key=>(c=>auditCanonicalOf(c)==='responsive'&&(key==='status_pending'?(!c.lead_status||c.lead_status==='pending'):c.lead_status===key));
+  for(const [label,key] of [['Closed / Handed Over','closed'],['Rejected','rejected'],['Stalled','stalled'],['Status Pending','status_pending']])
+   og.append(auditStat(label,sc[key]||0,statusPred(key)));
+  outc.append(og);
+  auditParagraph(outc,'Status is independent of tier. Closed = evidenced handover to a country counselor — not a payment, admission or a promise to transfer.','audit-footnote');}
  renderManagementAnalytics(out,summary,C);
- const executive=auditSection(out,'Executive Summary');
- auditParagraph(executive,summary.executive_summary||'No AI executive analysis available. Review the evidence-based indicators below.');
- auditParagraph(executive,summary.ai_status||'Rule-based analysis; human review required','audit-footnote');
+ // Executive Summary is AI-ONLY (contract 10.6): render only when a valid AI
+ // summary exists; otherwise the whole section is omitted (no heading/placeholder).
+ if(summary.executive_summary){
+  const executive=auditSection(out,'Executive Summary');
+  auditParagraph(executive,summary.executive_summary);
+ }
  // Voice/calls evidence, then Response Time, shown before the Lead Register.
  renderVoiceEvidence(out,summary);
  renderResponseTime(out,summary);
  const register=auditSection(out,'Lead Register / Conversation Classification');
  if(!Array.isArray(summary.conversations)||!summary.conversations.length)auditParagraph(register,'No synchronized conversations in this reporting window.','muted');
  else{
-  const table=e('table','','audit-register');const thead=e('thead');const h=e('tr');for(const label of ['Conversation','Classification','Lead tier','Messages / Flags'])h.append(e('th',label));thead.append(h);table.append(thead);
+  const table=e('table','','audit-register');const thead=e('thead');const h=e('tr');for(const label of ['Conversation','Classification','Lead tier','Status','Messages / Flags'])h.append(e('th',label));thead.append(h);table.append(thead);
   const body=e('tbody');for(const chat of summary.conversations.slice(0,120)){
    const tr=e('tr');const tier=AUDIT_LEAD_TIERS.find(([key])=>chat.lead_tier===key);
-   const flags=[`${chat.messages??0} messages`,chat.audit_status?`Status: ${chat.audit_status}`:null,
+   const flags=[`${chat.messages??0} messages`,
     chat.needs_review?'Needs review':null,
     chat.audit_analysis_status==='unavailable'?'AI unavailable':null,
-    chat.audit_reason?chat.audit_reason:null].filter(Boolean).join(' · ');
-   const classified=chat.audit_category?statusDisplay(chat.audit_category):statusDisplay(chat.classification||'unclassified');
-   for(const value of [auditField(chat.title),classified,tier?tier[1]:'Not assessed',flags])tr.append(e('td',value));body.append(tr);
+    chat.status_reason||chat.audit_reason||null].filter(Boolean).join(' · ');
+   // Canonical class (final, single source of truth) — never the unevaluated-AI default.
+   const classified=AUDIT_CANON_LABELS[auditCanonicalOf(chat)]||statusDisplay(auditCanonicalOf(chat));
+   const tierCell=tier?tier[1]:(chat.tier_assessment==='PENDING_REVIEW'?'Pending Verification':'Not assessed');
+   const statusCell=chat.lead_status?statusDisplay(chat.lead_status):'—';
+   for(const value of [auditField(chat.title),classified,tierCell,statusCell,flags])tr.append(e('td',value));body.append(tr);
   }table.append(body);const wrap=e('div','','audit-table-wrap');wrap.append(table);register.append(wrap);
   if(summary.conversations.length>120)auditParagraph(register,`Showing first 120 of ${summary.conversations.length} synchronized conversations.`,'audit-footnote');
  }

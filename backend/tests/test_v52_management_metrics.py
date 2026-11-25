@@ -92,8 +92,10 @@ def test_A11_only_genuine_call_events_counted():
     assert cb['inbound'] == 1 and cb['outbound'] == 0 and cb['new_lead'] == 1
 
 
-def test_lead_tier_only_for_potential_lead():
+def test_lead_tier_only_responsive_with_cgpa():
     hist = [m(10,0,False,'admission scholarship visa'), m(10,5,True,'hi'),
             m(10,6,False,'ielts'), m(10,7,False,'apply'), m(10,8,False,'fee'), m(10,9,False,'intake')]
-    assert am.lead_tier(hist, 'admission scholarship apply Italy', 'potential_lead', D.replace(hour=11)) in dict(am.TIER_THRESHOLDS)
-    assert am.lead_tier(hist, 'x', 'unclassified', D.replace(hour=11)) is None
+    # Responsive + explicit CGPA => a band tier; no CGPA => pending (None); non-responsive => None.
+    assert am.lead_tier(hist, 'admission apply Italy cgpa 3.4', 'responsive', D.replace(hour=11)) == 'hot'
+    assert am.lead_tier(hist, 'admission scholarship apply Italy', 'responsive', D.replace(hour=11)) is None
+    assert am.lead_tier(hist, 'cgpa 3.4', 'unclassified', D.replace(hour=11)) is None

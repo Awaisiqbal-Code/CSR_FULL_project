@@ -22,9 +22,12 @@ def test_legacy_tier_names_visible_without_inventing_counts():
     if PdfReader is None:
         return  # Header test still runs; use pypdf for optional PDF text checks.
     pages=PdfReader(BytesIO(pdf)).pages
-    content=' '.join(p.extract_text() for p in pages)
+    content=' '.join(' '.join(p.extract_text() for p in pages).split())
     for tier in ['Very Hot','Hot','Average','Cold']:
         assert tier in content
-    assert content.count('Not assessed')>=4
-    assert 'Detected call events: 1' in ' '.join(content.split())
+    # Four tiers only + Tier Pending; no fifth "Close to Conversion" tier.
+    assert 'Tier Pending' in content
+    assert 'Close to Conversion' not in content
+    assert 'Responsive Leads Only' in content
+    assert 'Detected call events: 1' in content
     assert 'Synthetic Test Counselor' in content

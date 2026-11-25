@@ -11,7 +11,7 @@ const styles=fs.readFileSync(path.join(root,'styles.css'),'utf8');
 for(const id of ['audit-viewer','audit-viewer-title','audit-viewer-state','audit-preview-content','audit-refresh','audit-download','audit-close'])
  assert.match(html,new RegExp(`id="${id}"`),`Missing ${id}`);
 assert.match(styles,/\.audit-qa-grid/);
-assert.match(html,/admin\.js\?v=4\.18/);
+assert.match(html,/admin\.js\?v=4.20/);
 assert.match(script,/AUDIT_LEAD_TIERS/);
 assert.match(script,/qa_dimensions/);
 assert.doesNotMatch(script,/innerHTML\s*=/,'Report content must use safe DOM text nodes, not innerHTML');
@@ -72,7 +72,12 @@ function flatten(n){return [n.textContent,...n.children.flatMap(flatten)].join('
                      'STRONG','PARTIAL','SOP Compliance','10-Dimension CSR Quality Framework',
                      'Confirmed verified country counselor handoff','Call Events','Human validation required'])
   assert.ok(rendered.includes(text),`Missing audit intelligence field: ${text}`);
- assert.ok(!rendered.includes('Responsive Leads'),'Headline no longer shows AI responsive card');
+ // Canonical conversation classes now have their own section (contract 4.2); the
+ // compat headline (Clients/Internal/Unclassified) is still separate and deterministic.
+ assert.ok(rendered.includes('Lead Conversation Classification'),'Canonical classification section present');
+ assert.ok(rendered.includes('Responsive Leads'),'Responsive Leads card present');
+ assert.ok(rendered.includes('Tier Pending'),'Tier Pending tile present');
+ assert.ok(rendered.includes('Lead Outcome & Closure'),'Outcome & Closure section present');
  // The per-chat "Individual Lead Evaluations" section was removed (the 10-dimension framework covers QA).
  assert.ok(!rendered.includes('Individual Lead Evaluations'),'Individual Lead Evaluations removed');
  assert.ok(!rendered.includes('Lead tier rules are not yet finalized'), 'Old placeholder should be replaced');

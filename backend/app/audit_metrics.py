@@ -28,21 +28,43 @@ NNR_CUSTOMER_SILENCE_HOURS = 24
 # of the window end earns the recency point.
 TIER_RECENT_DAYS = 3
 
-# Lead-intensity tier score thresholds (inclusive lower bounds). The spec gave the
-# tier NAMES (Close-to-Conversion / Very Hot / Hot / Average / Cold) but not the
-# scoring, so this point model is our documented, approvable default.
+# Legacy n8n methodology (Final Master Implementation Contract v2, 25 Nov 2026):
+# there are EXACTLY FOUR tiers and NO fifth "Close to Conversion" tier. Tiers apply
+# only to RESPONSIVE leads, and only from an explicit CGPA (or, via the AI judge,
+# clear qualification evidence) — there is NO engagement-point scoring. A responsive
+# lead with no qualification evidence is tier-pending, never an invented tier.
+# The list is the canonical enum/order; the numbers are retained only so legacy
+# callers that iterate ``for k,_ in TIER_THRESHOLDS`` keep working.
 TIER_THRESHOLDS = [
-    ('close_to_conversion', 7),
-    ('very_hot', 5),
+    ('very_hot', 4),
     ('hot', 3),
-    ('average', 1),
-    ('cold', 0),
+    ('average', 2),
+    ('cold', 1),
 ]
+TIERS = tuple(name for name, _ in TIER_THRESHOLDS)
+
+# Canonical conversation classes (contract 4.2). Mutually exclusive; ambiguous /
+# unclassifiable chats fall into ``needs_review`` so the selected-total equation
+# (contract 6) reconciles exactly.
+CANONICAL_CATEGORIES = ('responsive', 'dead', 'consultant_no_reply',
+                        'internal_staff', 'empty', 'needs_review')
+
+# Explicit counselor-side evidence markers for deterministic closure / rejection
+# (shared with the AI validator in audit_intelligence._validate_one). A status is
+# only CLOSED/REJECTED when the counselor's OWN words carry one of these; a promise
+# ("I will transfer you") or customer enthusiasm is never sufficient.
+HANDOVER_MARKERS = ('transferred', 'transferred you', 'handed over', 'handoff completed',
+                    'assigned to', 'connected you with', 'referred you', 'connect kar diya',
+                    'assign kar diya', 'handover kar diya')
+REJECTION_MARKERS = ('not eligible', 'ineligible', 'cannot apply', 'not qualified',
+                     'does not qualify', 'rejected', 'not meet the requirements',
+                     'eligible nahi', 'apply nahi kar sakte')
 
 # Original n8n CGPA tier guidelines (from WCE_3 Gemini prompt). When a CGPA is
-# explicitly stated in the conversation text these bands are AUTHORITATIVE and
-# override the engagement point model above; absent a CGPA we fall back to the
-# point model. (lower-bound, tier) on a standard 4.0 scale.
+# explicitly stated these bands are AUTHORITATIVE and are the ONLY deterministic
+# tier basis (contract v2). Absent a CGPA the deterministic tier is None (pending);
+# the AI judge may still tier from broader qualification evidence.
+# (lower-bound, tier) on a standard 4.0 scale.
 CGPA_TIER_BANDS = [
     (3.7, 'very_hot'),
     (3.1, 'hot'),
@@ -235,40 +257,59 @@ def cgpa_tier(cgpa):
     return 'cold'
 
 
-def lead_tier(hist, text, category, end):
-    """Deterministic lead-intensity tier for Potential Leads only (spec 3.1). Other
-    categories return None (no tier). An explicit CGPA uses the authoritative n8n
-    bands; otherwise an evidence-based point model is used. See criteria file."""
-    if category != 'potential_lead' or not hist:
+def lead_tier(hist, text, category, end=None):
+    """Deterministic lead tier for RESPONSIVE leads only (contract 4.3). The ONLY
+    deterministic basis is an explicit, valid CGPA mapped through the legacy bands.
+    No CGPA (or no clear evidence) => None (tier pending verification). There is NO
+    engagement-point scoring and NO fifth tier. The optional AI judge may assign a
+    tier from broader qualification evidence; that path lives in audit_intelligence."""
+    if category != 'responsive' or not hist:
         return None
-    by_cgpa = cgpa_tier(extract_cgpa(text))
-    if by_cgpa is not None:
-        return by_cgpa
-    low = ' '.join(str(text or '').lower().split())
-    score = 0
-    if any(p in low for p in STRONG_INTENT):
-        score += 2
-    if len({t for t in GENERIC_LEAD_TERMS if t in low}) >= 2:
-        score += 1
-    inbound = sum(1 for m in hist if not m['from_me'])
-    if inbound >= 5:
-        score += 2
-    elif inbound >= 2:
-        score += 1
-    if inbound >= 1 and any(m['from_me'] for m in hist):
-        score += 1
-    last_dt = hist[-1]['dt']
-    if (end - last_dt) <= timedelta(days=TIER_RECENT_DAYS):
-        score += 1
-    if any(('voice' in m['media'] or 'audio' in m['media'] or 'call' in m['media']) for m in hist):
-        score += 1
-    countries, _ = extract_countries(text)
-    if countries:
-        score += 1
-    for name, floor in TIER_THRESHOLDS:
-        if score >= floor:
-            return name
-    return 'cold'
+    return cgpa_tier(extract_cgpa(text))
+
+
+def tier_assessment(category, tier):
+    """Provenance of the tier slot: ASSESSED when a tier is set, PENDING_REVIEW for a
+    responsive lead with no justified tier, None for non-responsive chats (no tier)."""
+    if category != 'responsive':
+        return None
+    return 'ASSESSED' if tier in TIERS else 'PENDING_REVIEW'
+
+
+def canonical_category(kind, has_inbound, has_outbound):
+    """Mutually-exclusive canonical class (contract 4.2) from the compat business
+    category (``kind``: potential_lead/internal_staff/unclassified) and message
+    directions. Ambiguous two-way chats become needs_review so the selected-total
+    equation reconciles. ``empty`` is only reachable when a chat has no dated
+    messages at all (build_summary pre-filters to in-window messages)."""
+    if kind == 'internal_staff':
+        return 'internal_staff'
+    if not has_inbound and not has_outbound:
+        return 'empty'
+    if has_outbound and not has_inbound:
+        return 'dead'
+    if has_inbound and not has_outbound:
+        return 'consultant_no_reply'
+    if kind == 'potential_lead':
+        return 'responsive'
+    return 'needs_review'
+
+
+def deterministic_status(hist, category):
+    """Conservative deterministic lead status for RESPONSIVE leads (contract 4.4).
+    CLOSED/REJECTED only on explicit counselor-side marker language; an unanswered
+    customer turn => STALLED; otherwise PENDING (requires review). Returns
+    (status, reason). Non-responsive => (None, '')."""
+    if category != 'responsive' or not hist:
+        return (None, '')
+    out_text = ' '.join(str(m.get('text') or '').lower() for m in hist if m.get('from_me'))
+    if any(k in out_text for k in HANDOVER_MARKERS):
+        return ('closed', 'Counselor-side handover language detected; verify the referral.')
+    if any(k in out_text for k in REJECTION_MARKERS):
+        return ('rejected', 'Counselor communicated ineligibility; verify against source.')
+    if reply_state(hist) == 'awaiting_counselor_reply':
+        return ('stalled', 'Customer wrote last; awaiting a counselor reply.')
+    return ('pending', 'Outcome not established by the available messages.')
 
 
 def call_breakdown(window_msgs, is_new_lead):

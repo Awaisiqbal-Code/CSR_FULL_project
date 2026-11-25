@@ -13,6 +13,6 @@ assert.match(js,/selectOverview\(\)/,'Return to analytics action');
 assert.doesNotMatch(js,/Correct contact name or number/,'No contact-edit UI');
 assert.match(js,/\/admin\/chats\/summary\?/,'Admin analytics endpoint');
 assert.match(html,/workspace-all-employees/,'Default All Employees graph-only layout');
-assert.match(html,/admin\.js\?v=4\.18/);
+assert.match(html,/admin\.js\?v=4.20/);
 assert.match(css,/\.workspace-all-employees \.inbox-pane\{display:none\}/);
 console.log('PASS Chat overview first, All Employees no list, Esc to graphs, no contact edit, v3.9 assets');

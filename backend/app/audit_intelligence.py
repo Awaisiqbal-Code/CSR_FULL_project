@@ -14,6 +14,7 @@ from typing import Any
 from sqlalchemy import select
 
 from . import config
+from . import audit_metrics as am
 from .models import Message
 from .ai_providers import AuditAIError, request_ai_report
 
@@ -234,14 +235,7 @@ def _validate_one(raw: dict, chat: dict) -> dict:
         # predicts one. Require explicit counselor-side evidence in source.
         counselor_evidence = ' '.join(m['text'] for m in messages
                                       if m['id'] in status_refs and m['direction'] == 'outgoing').lower()
-        if status == 'closed':
-            markers = ('transferred', 'transferred you', 'handed over', 'handoff completed',
-                       'assigned to', 'connected you with', 'referred you', 'connect kar diya',
-                       'assign kar diya', 'handover kar diya')
-        else:
-            markers = ('not eligible', 'ineligible', 'cannot apply', 'not qualified',
-                       'does not qualify', 'rejected', 'not meet the requirements',
-                       'eligible nahi', 'apply nahi kar sakte')
+        markers = am.HANDOVER_MARKERS if status == 'closed' else am.REJECTION_MARKERS
         if not status_refs or not any(m in counselor_evidence for m in markers):
             review.append('Claimed closure/rejection lacks verified explicit counselor evidence')
             status = 'stalled'
@@ -264,8 +258,10 @@ def _validate_one(raw: dict, chat: dict) -> dict:
 
     urgency = raw.get('urgency') if raw.get('urgency') in URGENCIES else 'Verify'
     return {'audit_category': cat, 'audit_tier': tier, 'audit_status': status,
+            'audit_tier_assessment': ('ASSESSED' if tier in TIERS
+                                      else 'PENDING_REVIEW' if cat == 'responsive' else None),
             'audit_status_reason': status_reason, 'audit_reason': reason,
-            'audit_evidence_ids': refs, 'audit_qa': qa,
+            'audit_evidence_ids': refs, 'audit_qa': qa, 'audit_source': 'ai',
             'audit_review_reasons': list(dict.fromkeys(review)),
             'audit_next_action': _clean(raw.get('next_action'), 180),
             'audit_action_urgency': urgency, 'audit_analysis_status': 'evaluated'}
@@ -394,13 +390,10 @@ def evaluate_conversations(db, summary: dict, provider: str, key: str, model: st
         summary.setdefault('quality_notes', []).append(
             f'AI evaluation unavailable for {len(enriched) - verified} chats. They remain unclassified, not silently discarded.')
     if verified:
-        summary['executive_summary'] = (
-            f"Analyzed {verified} of {len(enriched)} synchronized conversations. "
-            f"Audit categories: {counts['responsive']} responsive leads, "
-            f"{counts['consultant_no_reply']} counselor no-reply, {counts['dead']} dead chats, "
-            f"{counts['internal_staff']} internal/staff, {counts['empty']} empty and "
-            f"{counts['unclassified']} unclassified. "
-            'Lead tiers and QA ratings use source-grounded observations only; missing audio transcripts are not evaluated.')
+        # Executive Summary is AI-ONLY (contract 10.6): it is set ONLY if the
+        # narrative AI call below returns valid text. There is NO deterministic
+        # summary placeholder — when AI is unavailable the field stays unset and
+        # the UI/PDF omit the whole section.
         # A second, short AI call adds narrative only, with no power to change
         # validated classifications, counts, tiers or QA ratings.
         # The narrative MUST describe the same lead tiers the Lead Pipeline table shows.
