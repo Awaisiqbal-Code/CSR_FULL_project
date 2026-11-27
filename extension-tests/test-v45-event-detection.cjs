@@ -18,6 +18,7 @@ assert.equal(ctx.isCall(row('Call me tomorrow')),false,'normal chat cannot becom
 assert.equal(ctx.isCall(row('Call',{bubble:false,icon:true})),false,'header call icon never counts');
 assert.equal(ctx.isCall(row('Missed group call',{multiple:true})),false,'multiple-message ancestor never counts');
 assert.equal(ctx.isCall(row('Missed group call',{bubble:true})),true,'real missed group call can count');
-assert(src.includes("if (sourceId && sourceId.length <= 200) msg.sourceMessageId = sourceId"),'ID carried for text as well as voice');
-assert(src.includes("if (!node || seenNodes.has(node)) continue;"),'DOM duplicates ignored');
+// Stable substrings (de-obfuscation reformatted one-liner if-statements into blocks).
+assert(src.includes("msg.sourceMessageId = sourceId"),'ID carried for text as well as voice');
+assert(src.includes("seenNodes.has(node)"),'DOM duplicates ignored');
 console.log('PASS v4.5 call evidence, group header exclusion, stable sender IDs, nested row dedup');

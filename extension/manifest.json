@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Scholarshiphive CSR \u2014 Employee Sync",
-  "version": "3.0.6",
+  "version": "3.0.8",
   "description": "Employee-only WhatsApp Web sync with central company database; admin management is in a separate web portal.",
   "icons": {
     "16": "icons/icon-16.png",

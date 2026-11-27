@@ -14,6 +14,7 @@ from .db import get_db, create_tables
 from .security import hash_password, check_password, token_for, current_user, admin_only, assert_scope
 from .schemas import SignUp, Login, Approval, SyncIn, AuditRequest, ContactCorrection, VoiceUpload, VoiceFailure, AdminPasswordSet, PasswordChangeRequest, DrillPdf
 from . import reporting
+from . import jid_identity
 from .analysis import classify, build_summary, group_conversation_condition
 from .config import production_check
 from .sync_windows import since_for_sync
@@ -373,7 +374,14 @@ def sync_chats(data:SyncIn,user:models.User=Depends(current_user),db:Session=Dep
     ).order_by(models.Message.id.desc()).limit(20000)).all()
     company_order=infer_date_order([r[0] for r in company_evidence],company_evidence)
     for chat in data.chats:
-        external=(chat.id or chat.title).strip().casefold()
+        # Identity by stable WhatsApp JID when the chat's messages reveal one, so two
+        # different contacts who share a display name ("Hammad"/"Hammad") never merge.
+        # A chat whose messages carry only bare ids keeps the collector id/title key.
+        chat_jid=None
+        for _m in chat.messages:
+            chat_jid=jid_identity.chat_jid_from_source(_m.source_message_id)
+            if chat_jid:break
+        external=(chat_jid or chat.id or chat.title).strip().casefold()
         key=hashlib.sha256(external.encode('utf-8')).hexdigest()
         c=db.scalar(select(models.Conversation).where(models.Conversation.employee_id==user.id,models.Conversation.external_key==key))
         if not c:
@@ -1037,6 +1045,16 @@ def audit_drill_pdf(job_id:int,data:DrillPdf,user:models.User=Depends(admin_only
     generated=(job.scheduled_for or job.created_at)
     pdf=reporting.generate_drill_pdf(name,data.label[:120],period,generated.isoformat() if generated else None,cols,rows)
     return Response(pdf,media_type='application/pdf',headers={'Content-Disposition':f'attachment; filename="csr-audit-detail-{job.id}.pdf"','Cache-Control':'no-store'})
+
+
+@app.post('/admin/migrate-identity')
+def admin_migrate_identity(dry_run:bool=Query(True),user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    """One-time: re-key conversations by their WhatsApp JID and split name-merged ones
+    so two same-name contacts never share a conversation. dry_run=true (default) reports
+    the plan WITHOUT writing; call with ?dry_run=false to execute. Idempotent — safe to
+    re-run. Only exact fingerprint duplicates created by a merge are removed; no real
+    message is deleted."""
+    return jid_identity.migrate_identity(db,dry_run=dry_run)
 
 
 @app.get('/admin/analytics')

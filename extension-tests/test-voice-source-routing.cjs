@@ -6,7 +6,7 @@ const root=path.join(__dirname,'..');
 const source=fs.readFileSync(path.join(root,'extension/content.js'),'utf8');
 const bg=fs.readFileSync(path.join(root,'extension/background.js'),'utf8');
 assert(source.includes('msg.sourceMessageId = sourceId'),'collector must attach real source id');
-assert(source.includes('sourceId: sourceId, message: msg'),'source id survives cache');
+assert(source.includes('sourceId: sourceId'),'source id survives cache');  // key split across lines after de-obfuscation
 assert(source.includes('m.sourceMessageId = String(e.key)'),'fallback collector must also set id');
 assert(!/wantMedia\s*=\s*true/.test(bg),'text sync should not download voice inline');
 assert(bg.includes('source_message_id:String(m.sourceMessageId||\'\')'));

@@ -1,7 +1,10 @@
 'use strict';
 const fs=require('node:fs'), path=require('node:path'), vm=require('node:vm'), assert=require('node:assert/strict');
 const src=fs.readFileSync(path.join(__dirname,'..','extension','content.js'),'utf8');
-const start=src.indexOf('  function _0x385460() {'),end=src.indexOf('  function _0x9406c2(',start);
+// Names track the de-obfuscated (readable) content.js: the row-collector _0x385460
+// -> v685, boundary _0x9406c2 -> v825, root-getter _0x1a0052 -> v709. Behavior is
+// unchanged (webcrack output + a proven 1:1 identifier rename).
+const start=src.indexOf('  function v685() {'),end=src.indexOf('  function v825(',start);
 assert(start>0&&end>start);
 const root={id:'root',classList:{contains:()=>false}};
 function n(id,kind,parent=root){
@@ -23,8 +26,8 @@ const oldTextChild=n('', 'msg-container',oldText);
 const newVoice=n('true_987654321','msg-container');
 const secondVoice=n('false_876543210','msg-container');
 root.querySelectorAll=()=>[oldText,oldTextChild,newVoice,secondVoice];
-const ctx={_0x1a0052:()=>root,__csrTrustedMessageId:r=>r.storedId||'',__wceFindDataId:r=>r.storedId||''};
-vm.createContext(ctx);vm.runInContext(src.slice(start,end)+'\nthis.getRows=_0x385460;',ctx);
+const ctx={v709:()=>root,__csrTrustedMessageId:r=>r.storedId||'',__wceFindDataId:r=>r.storedId||''};
+vm.createContext(ctx);vm.runInContext(src.slice(start,end)+'\nthis.getRows=v685;',ctx);
 const rows=ctx.getRows();
 assert.equal(rows.length,3,'mixed old text plus newer voice-only wrappers all collected, nested duplicate ignored');
 assert.equal(rows[0],oldText); assert.equal(rows[1],newVoice); assert.equal(rows[2],secondVoice);

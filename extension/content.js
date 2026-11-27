@@ -1,1111 +1,1277 @@
-((function () {
-  const _0x22108e = {
-    'hogQR': function (_0xe28371, _0x1574d7, _0x47a526) {
-      return _0xe28371(_0x1574d7, _0x47a526);
+(function () {
+  const v2 = {
+    hogQR: function (v3, v5, v6) {
+      return v3(v5, v6);
     },
-    'RcuRg': function (_0x585bf4, _0x2a15ec) {
-      return _0x585bf4 + _0x2a15ec;
+    RcuRg: function (v7, v8) {
+      return v7 + v8;
     },
-    'VUFAt': function (_0x9c887, _0xb7b5fe) {
-      return _0x9c887 + _0xb7b5fe;
+    VUFAt: function (v9, v10) {
+      return v9 + v10;
     },
-    'aKZHb': function (_0x17e137, _0x2b2187) {
-      return _0x17e137(_0x2b2187);
+    aKZHb: function (v11, v12) {
+      return v11(v12);
     },
-    'IgBeb': "no id",
-    'tlcIx': function (_0x359411, _0x50531c) {
-      return _0x359411 === _0x50531c;
+    IgBeb: "no id",
+    tlcIx: function (v13, v14) {
+      return v13 === v14;
     },
-    'Izxos': function (_0x21f198, _0x192f47) {
-      return _0x21f198 !== _0x192f47;
+    Izxos: function (v15, v16) {
+      return v15 !== v16;
     },
-    'rXXKe': function (_0x458115, _0x31fb2d) {
-      return _0x458115 !== _0x31fb2d;
+    rXXKe: function (v17, v18) {
+      return v17 !== v18;
     },
-    'rDlQc': 'message'
+    rDlQc: "message"
   };
-  var _0x1511b8 = {}, _0x4c5632 = 0;
-  (window.__lovDlAudio__ = function (_0x3d8bcc) {
-    const _0x25bbc7 = {
-      'LrMLk': function (_0x14c1ac, _0x58f6c6) {
-        return _0x14c1ac(_0x58f6c6);
+  var v19 = {};
+  var v20 = 0;
+  window.__lovDlAudio__ = function (v21) {
+    const v22 = {
+      LrMLk: function (v23, v24) {
+        return v23(v24);
       }
     };
-    return new Promise(function (_0x491c88, _0x512b0b) {
-
-      if (!_0x3d8bcc) return _0x512b0b(new Error("no id"));
-      var _0x216d99 = ++_0x4c5632 + '_' + Date.now();
-      
-      var _0x40607e = setTimeout(function () {
-        delete _0x1511b8[_0x216d99];
-        _0x512b0b(new Error("audio dl timeout"));
-      }, 20000);
-
-      _0x1511b8[_0x216d99] = {
-        'resolve': function (_0xc0a2aa) {
-          clearTimeout(_0x40607e);
-          delete _0x1511b8[_0x216d99];
-          _0x491c88(_0xc0a2aa);
-        },
-
-        'reject': function (_0x1874d8) {
-          clearTimeout(_0x40607e);
-          delete _0x1511b8[_0x216d99];
-
-          console.error("WCE AUDIO ERROR:", _0x1874d8);
-          _0x512b0b(_0x1874d8);
-        }
-      };
-      const _0x5a4383 = {};
-      (_0x5a4383.source = "lov-wa-audio-request", _0x5a4383.reqId = _0x216d99, _0x5a4383.id = _0x3d8bcc, window.postMessage(_0x5a4383, '*'));
-    });
-  }, window.addEventListener('message', function (_0x556c32) {
-    if (_0x556c32.source !== window || !_0x556c32.data || _0x556c32.data.source !== "lov-wa-audio-response") return;
-    var _0x593688 = _0x1511b8[_0x556c32.data.reqId];
-    if (!_0x593688) return;
-    if (_0x556c32.data.error) _0x593688.reject(new Error(_0x556c32.data.error)); else _0x593688.resolve(_0x556c32.data.data);
-  }));
-})(), (function () {
-  const _0x195550 = {
-    'GLSlD': function (_0x3f1ec1, _0x5059b7) {
-      return _0x3f1ec1 > _0x5059b7;
-    },
-    'McqSu': function (_0x33087c, _0x4f880f) {
-      return _0x33087c !== _0x4f880f;
-    },
-    'oXcAz': "cjBdi",
-    'kNbLP': function (_0x2fbbc6, _0x47fe3d) {
-      return _0x2fbbc6 !== _0x47fe3d;
-    },
-    'ktjjj': function (_0x253de8, _0x38ae7c) {
-      return _0x253de8 < _0x38ae7c;
-    },
-    'KoEyL': function (_0x54ba19, _0x1431c5) {
-      return _0x54ba19 !== _0x1431c5;
-    },
-    'FrwhZ': function (_0x4aad17, _0x4cc4cb) {
-      return _0x4aad17(_0x4cc4cb);
-    },
-    'vOtFg': function (_0x273a25, _0x2a1146) {
-      return _0x273a25 < _0x2a1146;
-    },
-    'zQcge': function (_0x310677, _0x22f139) {
-      return _0x310677 === _0x22f139;
-    },
-    'FrPLo': "en-ca",
-    'qQgFQ': "MDY",
-    'BHfkb': "DMY",
-    'JhLrg': function (_0x320a93) {
-      return _0x320a93();
-    },
-    'fDncl': function (_0x3c500c, _0x1550e8) {
-      return _0x3c500c instanceof _0x1550e8;
-    },
-    'eAGtB': "oApZS",
-    'zlikt': function (_0xfd6799, _0x441add) {
-      return _0xfd6799 < _0x441add;
-    },
-    'GRTUM': function (_0x1352bf, _0x33391a) {
-      return _0x1352bf <= _0x33391a;
-    },
-    'PAbap': function (_0x44d1fc, _0xcb4e37) {
-      return _0x44d1fc !== _0xcb4e37;
-    },
-    'tDcMc': "nnxiY",
-    'Froou': function (_0x229e20, _0x3053fc) {
-      return _0x229e20 > _0x3053fc;
-    },
-    'kBZTy': "HvUmp",
-    'OokYd': function (_0x58d4ad, _0x3f2ae9) {
-      return _0x58d4ad || _0x3f2ae9;
-    },
-    'UILIM': function (_0x1305a4, _0x588eab) {
-      return _0x1305a4 + _0x588eab;
-    },
-    'bmbkM': function (_0x3645ad, _0x38c230) {
-      return _0x3645ad * _0x38c230;
-    },
-    'WRxKm': function (_0x35d707, _0x221e4e, _0x1ccd50) {
-      return _0x35d707(_0x221e4e, _0x1ccd50);
-    },
-    'AGZYo': function (_0x2e2e62, _0x4d1ae7) {
-      return _0x2e2e62 !== _0x4d1ae7;
-    },
-    'QFyae': "qZgQD",
-    'SLviy': function (_0x3849ac, _0x45eebd) {
-      return _0x3849ac * _0x45eebd;
-    },
-    'dCmVn': function (_0x21e856, _0x5783a1) {
-      return _0x21e856(_0x5783a1);
-    },
-    'tHdCy': "cFKPI",
-    'bzsyG': "YziEY",
-    'cFYTd': function (_0x3b8220, _0x4a4ed1) {
-      return _0x3b8220 > _0x4a4ed1;
-    },
-    'HNGku': function (_0x371bf9, _0x240c0c) {
-      return _0x371bf9 !== _0x240c0c;
-    },
-    'quUdg': "SNdSW",
-    'mMwKJ': "sXENJ",
-    'uWfKH': function (_0x81638a, _0x116157, _0x25fbbd) {
-      return _0x81638a(_0x116157, _0x25fbbd);
-    },
-    'tRAEq': function (_0x40d512, _0x7347c8) {
-      return _0x40d512(_0x7347c8);
-    },
-    'KeZlG': "apFzV",
-    'cwmJc': function (_0x56e763, _0x5b3992, _0x42e5d7, _0x4fa363) {
-      return _0x56e763(_0x5b3992, _0x42e5d7, _0x4fa363);
-    },
-    'NGXBZ': function (_0x49047b, _0x57c42c) {
-      return _0x49047b === _0x57c42c;
-    },
-    'AAJED': "Iunrx",
-    'tOzXi': function (_0x352cd1, _0x45c3e0) {
-      return _0x352cd1(_0x45c3e0);
-    },
-    'xTYIH': function (_0x4fd0f8, _0x279c73) {
-      return _0x4fd0f8 === _0x279c73;
-    },
-    'IiXwP': "WVMDM",
-    'isSfA': function (_0x379c93, _0x35d488) {
-      return _0x379c93 > _0x35d488;
-    },
-    'KQhlm': function (_0x567f6f, _0x2d1189) {
-      return _0x567f6f > _0x2d1189;
-    },
-    'wvXHO': function (_0x4a1cbf, _0x30bf0c) {
-      return _0x4a1cbf !== _0x30bf0c;
-    },
-    'phPGp': function (_0x13bacb, _0x187134) {
-      return _0x13bacb(_0x187134);
-    },
-    'odTNi': "bGHOx",
-    'OGLRJ': "yJAMd",
-    'UWkNf': function (_0x9e7c74, _0x3c9b4b) {
-      return _0x9e7c74(_0x3c9b4b);
-    },
-    'mvVWA': 'TtwBs',
-    'JuDLZ': "UYlXL",
-    'yDYHC': function (_0x5e92ce, _0x62654b) {
-      return _0x5e92ce(_0x62654b);
-    },
-    'pCUZW': function (_0x5977ea, _0x16b8c2) {
-      return _0x5977ea(_0x16b8c2);
-    },
-    'SGiCk': function (_0x5599e0, _0x5b9ef4) {
-      return _0x5599e0(_0x5b9ef4);
-    },
-    'Boloq': function (_0x5d9094, _0x47e9d0) {
-      return _0x5d9094 !== _0x47e9d0;
-    },
-    'xIyZB': "CbUCY",
-    'jAOTo': function (_0x5f0569, _0x5e202b) {
-      return _0x5f0569 > _0x5e202b;
-    },
-    'lXwBe': function (_0x50ad4d, _0x485d6e) {
-      return _0x50ad4d + _0x485d6e;
-    },
-    'pZIYF': "pzUnj",
-    'jWrlc': function (_0x4ef61d, _0x310fc0) {
-      return _0x4ef61d(_0x310fc0);
-    },
-    'mShXK': function (_0x5aab5f, _0x53237c) {
-      return _0x5aab5f(_0x53237c);
-    },
-    'aQTus': function (_0x2b4376, _0x2a0ac8) {
-      return _0x2b4376 < _0x2a0ac8;
-    },
-    'LFTod': "CWmBN",
-    'bMXTe': "ysbCp",
-    'KeyHz': function (_0x3aa2ce, _0x14dc3b) {
-      return _0x3aa2ce(_0x14dc3b);
-    },
-    'JadmS': function (_0x6b6163, _0x1fad09) {
-      return _0x6b6163 - _0x1fad09;
-    },
-    'jLlIS': function (_0xb7119e, _0xc64212) {
-      return _0xb7119e >= _0xc64212;
-    },
-    'nDhSZ': function (_0x47466e, _0x19a4ea) {
-      return _0x47466e * _0x19a4ea;
-    },
-    'lMnEV': function (_0x399f9a, _0x56288f) {
-      return _0x399f9a(_0x56288f);
-    },
-    'xOVql': "EIPTW",
-    'mPKqb': function (_0x54cb42, _0x444f10) {
-      return _0x54cb42 >= _0x444f10;
-    },
-    'CGmjs': function (_0x1ae4c2, _0x501256) {
-      return _0x1ae4c2 > _0x501256;
-    },
-    'zVWtP': function (_0x448613, _0x2f6b38) {
-      return _0x448613(_0x2f6b38);
-    },
-    'qVCLC': function (_0x44b52a) {
-      return _0x44b52a();
-    },
-    'qbyCV': function (_0x3c81b7, _0x4cc5a4, _0x1875e7) {
-      return _0x3c81b7(_0x4cc5a4, _0x1875e7);
-    },
-    'bFZph': function (_0x4d5d19) {
-      return _0x4d5d19();
-    },
-    'ilRYs': function (_0x57413b, _0x1463e9) {
-      return _0x57413b(_0x1463e9);
-    },
-    'zNXZd': function (_0x47a641, _0x3cce7f) {
-      return _0x47a641(_0x3cce7f);
-    },
-    'aFvGj': function (_0x1dafc6, _0xe94732, _0x4f3f0a) {
-      return _0x1dafc6(_0xe94732, _0x4f3f0a);
-    },
-    'EaCHP': function (_0x20ea90) {
-      return _0x20ea90();
-    },
-    'NBkNF': function (_0x9e8474, _0x3d9ccf) {
-      return _0x9e8474 !== _0x3d9ccf;
-    },
-    'ltFkT': "uAevc",
-    'qZZhG': function (_0x21fc14, _0x195eae) {
-      return _0x21fc14 - _0x195eae;
-    },
-    'WRqrt': function (_0x64999c) {
-      return _0x64999c();
-    },
-    'hKpCg': function (_0xedfbbe) {
-      return _0xedfbbe();
-    },
-    'KjBnk': function (_0x421ac9, _0x5088af) {
-      return _0x421ac9 >= _0x5088af;
-    },
-    'PNfYS': function (_0x1d5b70) {
-      return _0x1d5b70();
-    },
-    'pGBiZ': function (_0x1e7dee, _0x38329d) {
-      return _0x1e7dee > _0x38329d;
-    },
-    'Ksapf': "IJLEM",
-    'RLpxB': function (_0x5cf2d1, _0x45383f) {
-      return _0x5cf2d1(_0x45383f);
-    },
-    'TaGeo': function (_0x439a62, _0x4e9f4d) {
-      return _0x439a62(_0x4e9f4d);
-    },
-    'fEeTW': function (_0x6ed368, _0x595819) {
-      return _0x6ed368(_0x595819);
-    },
-    'KnTtI': function (_0x278eea, _0x1dddda) {
-      return _0x278eea && _0x1dddda;
-    },
-    'twnpO': function (_0x254f2a, _0xa7c566) {
-      return _0x254f2a(_0xa7c566);
-    },
-    'OkUPZ': function (_0x12f390, _0x2487a1, _0x9cfb95) {
-      return _0x12f390(_0x2487a1, _0x9cfb95);
-    },
-    'GgmjW': function (_0x5daac8, _0xc01ab2) {
-      return _0x5daac8(_0xc01ab2);
-    },
-    'utNLC': "last 24 hours",
-    'uCAfe': function (_0x2d1e8d, _0x495f73) {
-      return _0x2d1e8d + _0x495f73;
-    },
-    'jMnsR': "last ",
-    'hXQTg': " days",
-    'bWRPi': function (_0x1a0277, _0x368fcb, _0x2a20e8) {
-      return _0x1a0277(_0x368fcb, _0x2a20e8);
-    },
-    'idlkR': function (_0x123564, _0x11de51) {
-      return _0x123564 != _0x11de51;
-    },
-    'noyiY': function (_0x200d2c, _0x471eda) {
-      return _0x200d2c === _0x471eda;
-    },
-    'HQlgA': "ngZON",
-    'BweDv': function (_0x42bbf6, _0x39bc3e) {
-      return _0x42bbf6 / _0x39bc3e;
-    },
-    'zclna': function (_0x67e477, _0x5b3282) {
-      return _0x67e477 % _0x5b3282;
-    },
-    'zPDXk': function (_0x523228, _0x1a8490) {
-      return _0x523228 >= _0x1a8490;
-    },
-    'DcASG': function (_0x37505f, _0x1ca59e) {
-      return _0x37505f(_0x1ca59e);
-    },
-    'XhGMW': function (_0x4e4e10, _0x38d8df, _0x2abaf7) {
-      return _0x4e4e10(_0x38d8df, _0x2abaf7);
-    },
-    'OPzqj': function (_0x13a9f4, _0x5007e2) {
-      return _0x13a9f4 !== _0x5007e2;
-    },
-    'YNVRY': "tpcwW",
-    'AFkHh': function (_0x1ab88d, _0x4c4198, _0x3b624d) {
-      return _0x1ab88d(_0x4c4198, _0x3b624d);
-    },
-    'KlHvm': "lov-wa-store",
-    'bDqIe': "message",
-    'QJYnC': function (_0xd736c1, _0x3316a3) {
-      return _0xd736c1 === _0x3316a3;
-    },
-    'ZalZE': 'pYJQG',
-    'bMpGP': function (_0x4d1e2f, _0x673a34) {
-      return _0x4d1e2f === _0x673a34;
-    },
-    'rkRlY': function (_0x2bf488, _0x3dd091) {
-      return _0x2bf488(_0x3dd091);
-    },
-    'WITES': function (_0x12943e) {
-      return _0x12943e();
-    },
-    'hrbDf': function (_0x5004e2, _0x455d66) {
-      return _0x5004e2 >= _0x455d66;
-    },
-    'UDWVG': 'PxiaG',
-    'HWshn': "VtgMO",
-    'vecKT': function (_0x3ab287) {
-      return _0x3ab287();
-    },
-    'TLqtp': function (_0x33835a) {
-      return _0x33835a();
-    },
-    'aXrxQ': "AgoUd",
-    'anBSY': function (_0x361377, _0x26a289) {
-      return _0x361377 + _0x26a289;
-    },
-    'ArWFM': function (_0xa3e95f) {
-      return _0xa3e95f();
-    },
-    'eIjKV': function (_0x28920a, _0x91b02d) {
-      return _0x28920a < _0x91b02d;
-    },
-    'xmnGW': function (_0x24c374) {
-      return _0x24c374();
-    },
-    'Lwpql': function (_0x2a3476, _0xa21d92) {
-      return _0x2a3476 !== _0xa21d92;
-    },
-    'iBGus': "CLzKQ",
-    'lgPzX': "kKyGj",
-    'ZJPCD': function (_0x4e7bb2) {
-      return _0x4e7bb2();
-    },
-    'TpFLf': function (_0x457d08) {
-      return _0x457d08();
-    },
-    'FqeSY': function (_0x1d4551, _0x4e2e75) {
-      return _0x1d4551(_0x4e2e75);
-    },
-    'USrqY': "VExEw",
-    'EzElV': function (_0x3a970e, _0x266856) {
-      return _0x3a970e <= _0x266856;
-    },
-    'gDdKS': "WTvqP",
-    'kWhxi': function (_0x3ef4c6, _0x447fe0) {
-      return _0x3ef4c6 > _0x447fe0;
-    },
-    'ORtBl': function (_0x2cf9e5) {
-      return _0x2cf9e5();
-    },
-    'FxVbF': "tFGhZ",
-    'CRpgw': function (_0x2290a7, _0x5309d6) {
-      return _0x2290a7 !== _0x5309d6;
-    },
-    'ZzsqW': "BZFod",
-    'QHuRI': function (_0x11c52c, _0xa80058) {
-      return _0x11c52c(_0xa80058);
-    },
-    'zCmst': function (_0x187be7) {
-      return _0x187be7();
-    },
-    'JNLIF': function (_0x40dd9f, _0x5d8415, _0x10d207) {
-      return _0x40dd9f(_0x5d8415, _0x10d207);
-    },
-    'yfLCD': function (_0x4215f2, _0x45c3ba, _0x5ce454, _0xf3259c, _0x368c4c) {
-      return _0x4215f2(_0x45c3ba, _0x5ce454, _0xf3259c, _0x368c4c);
-    },
-    'dTLNf': function (_0x39710e, _0x16345b) {
-      return _0x39710e - _0x16345b;
-    },
-    'QdJte': function (_0x22d64c, _0x1e6bba, _0x3171e3) {
-      return _0x22d64c(_0x1e6bba, _0x3171e3);
-    },
-    'AjEfO': function (_0x557de1, _0x18a349) {
-      return _0x557de1(_0x18a349);
-    },
-    'NwLDZ': "ctINx",
-    'XHXep': "CxrfC",
-    'zHNlc': function (_0x1f1e10, _0x3eed3b) {
-      return _0x1f1e10(_0x3eed3b);
-    },
-    'SrSgX': function (_0x65f309, _0x1299e2) {
-      return _0x65f309(_0x1299e2);
-    },
-    'xpUHm': 'yamQx',
-    'Btxlf': function (_0x3fc424, _0x2fe6b5) {
-      return _0x3fc424 > _0x2fe6b5;
-    },
-    'jBluS': function (_0x99a39, _0x3dbbd4) {
-      return _0x99a39 > _0x3dbbd4;
-    },
-    'WhsEL': "eDGZB",
-    'lYiSy': function (_0x308616, _0x5a6cee) {
-      return _0x308616 === _0x5a6cee;
-    },
-    'LgFOK': function (_0x3f7f95, _0x2e08f3) {
-      return _0x3f7f95(_0x2e08f3);
-    },
-    'KktCX': "xncfQ",
-    'TYWWj': function (_0x4ed5fc, _0x4e5fb6) {
-      return _0x4ed5fc > _0x4e5fb6;
-    },
-    'qHuyB': function (_0x390138, _0x25bc30) {
-      return _0x390138 + _0x25bc30;
-    },
-    'qXnOn': function (_0x37b76c, _0x27c9f7, _0x3faaaa) {
-      return _0x37b76c(_0x27c9f7, _0x3faaaa);
-    },
-    'ofBDG': function (_0x4f893c, _0x15da19) {
-      return _0x4f893c === _0x15da19;
-    },
-    'EjEsM': function (_0x2e7b39, _0x4930b0) {
-      return _0x2e7b39(_0x4930b0);
-    },
-    'HgTvI': function (_0x6458ed, _0x277a96) {
-      return _0x6458ed(_0x277a96);
-    },
-    'DTnMn': function (_0x2aa38b, _0x5dcb64) {
-      return _0x2aa38b !== _0x5dcb64;
-    },
-    'qAXJt': "vHBpq",
-    'GYRhv': function (_0x2db4d6, _0x2d4223, _0x1d73f7) {
-      return _0x2db4d6(_0x2d4223, _0x1d73f7);
-    },
-    'PJmEK': function (_0x5a925e, _0x54410c, _0x5d7bdd) {
-      return _0x5a925e(_0x54410c, _0x5d7bdd);
-    },
-    'cFAEQ': function (_0x1b2084, _0x3fdd16) {
-      return _0x1b2084 < _0x3fdd16;
-    },
-    'jaOSl': function (_0x1e9585, _0x5896e3) {
-      return _0x1e9585 < _0x5896e3;
-    },
-    'iHyFi': "CUTMH",
-    'RavEN': function (_0x378f6f, _0x26381f) {
-      return _0x378f6f(_0x26381f);
-    },
-    'kUQPa': function (_0x14c897, _0x2a44ae) {
-      return _0x14c897 + _0x2a44ae;
-    },
-    'dujfI': function (_0x29af37, _0x276add, _0x5bef33) {
-      return _0x29af37(_0x276add, _0x5bef33);
-    },
-    'wTQXa': function (_0x43ab1a, _0x4ad93e) {
-      return _0x43ab1a(_0x4ad93e);
-    },
-    'zzbAq': function (_0x4d150, _0x2bb15c) {
-      return _0x4d150 === _0x2bb15c;
-    },
-    'BxyhX': 'GUYrJ',
-    'ycQfd': function (_0x536c40, _0xe1732e, _0x89b394) {
-      return _0x536c40(_0xe1732e, _0x89b394);
-    },
-    'mpkDd': function (_0x1d2760, _0x14c722, _0x1c168e, _0x251fc8) {
-      return _0x1d2760(_0x14c722, _0x1c168e, _0x251fc8);
-    },
-    'wdLEW': function (_0x55bf41, _0x576cc7, _0x591a10) {
-      return _0x55bf41(_0x576cc7, _0x591a10);
-    },
-    'APvKW': function (_0x28285c, _0x582d8e, _0x1534c6) {
-      return _0x28285c(_0x582d8e, _0x1534c6);
-    },
-    'LhOCs': function (_0x359d6f, _0x22dfd7, _0x599262) {
-      return _0x359d6f(_0x22dfd7, _0x599262);
-    },
-    'eaZgO': function (_0x137698, _0x12c09d) {
-      return _0x137698(_0x12c09d);
-    },
-    'OUtNk': function (_0x27c80d, _0x121b56, _0x386548, _0x22d477) {
-      return _0x27c80d(_0x121b56, _0x386548, _0x22d477);
-    },
-    'ZWbGM': function (_0x131e87, _0x210346) {
-      return _0x131e87(_0x210346);
-    },
-    'VASyG': function (_0x43e6aa, _0x3fbcb1, _0x2fefdb) {
-      return _0x43e6aa(_0x3fbcb1, _0x2fefdb);
-    },
-    'nonOv': function (_0x5bc8b2, _0x25e099, _0x117f71) {
-      return _0x5bc8b2(_0x25e099, _0x117f71);
-    },
-    'ACXud': function (_0x556d3d, _0x53bf8a) {
-      return _0x556d3d(_0x53bf8a);
-    },
-    'xDGpK': function (_0x38b1a2, _0x231c7f) {
-      return _0x38b1a2 <= _0x231c7f;
-    },
-    'hkgai': "lov-wa-audio-response",
-    'vlvbU': "MknFd",
-    'VENhH': "en-us",
-    'KNjLp': function (_0x4c6de3, _0x4a5c5b, _0x15b862) {
-      return _0x4c6de3(_0x4a5c5b, _0x15b862);
-    },
-    'eEFOz': function (_0x17ed8d, _0x15e323) {
-      return _0x17ed8d > _0x15e323;
-    },
-    'wkMWv': "2|5|3|7|8|4|0|1|6",
-    'SDlYN': "BBzgH",
-    'ieBva': function (_0x103c85) {
-      return _0x103c85();
-    },
-    'OTmOl': function (_0x3b29a5, _0x3070fb) {
-      return _0x3b29a5 === _0x3070fb;
-    },
-    'ubwrp': 'robqh',
-    'tDMkD': function (_0x2844bb, _0x13705f) {
-      return _0x2844bb(_0x13705f);
-    },
-    'KFpzW': function (_0x5d180f, _0x2ba4ca) {
-      return _0x5d180f(_0x2ba4ca);
-    },
-    'opOfC': function (_0x20cf50, _0xf782c) {
-      return _0x20cf50(_0xf782c);
-    },
-    'OwbKX': function (_0x55380f, _0x55a61c) {
-      return _0x55380f(_0x55a61c);
-    },
-    'GDoKX': function (_0x1fa901, _0xdd65bb) {
-      return _0x1fa901 - _0xdd65bb;
-    },
-    'wkEZk': function (_0x19af98, _0x3f2111) {
-      return _0x19af98 <= _0x3f2111;
-    },
-    'Tpksz': function (_0x1361af, _0x4d8cfd, _0xa2eadf) {
-      return _0x1361af(_0x4d8cfd, _0xa2eadf);
-    },
-    'fbWOq': "StKCF",
-    'eKYxA': function (_0x5e82c4, _0x33727c) {
-      return _0x5e82c4 === _0x33727c;
-    },
-    'pmjpc': "CKqsa",
-    'wHQMP': function (_0x36f567, _0x5bc68a) {
-      return _0x36f567(_0x5bc68a);
-    },
-    'HyFIk': function (_0x2ba8b1, _0x1ce058) {
-      return _0x2ba8b1 === _0x1ce058;
-    },
-    'DWgvy': "CGhxE",
-    'GKVMx': function (_0x20462b, _0x41a0f0) {
-      return _0x20462b(_0x41a0f0);
-    },
-    'finoc': function (_0x2fec75, _0xd46be5) {
-      return _0x2fec75(_0xd46be5);
-    },
-    'HRSuR': function (_0xff187, _0x4f712) {
-      return _0xff187 < _0x4f712;
-    },
-    'jRLwI': function (_0x2a308c, _0x1411bc) {
-      return _0x2a308c != _0x1411bc;
-    },
-    'hXmdw': function (_0x239e52, _0x2cfda3) {
-      return _0x239e52 > _0x2cfda3;
-    },
-    'TxSyf': "AUEFL",
-    'GqcUw': function (_0x3a6b4d, _0x1a6a2f) {
-      return _0x3a6b4d(_0x1a6a2f);
-    },
-    'dsmbw': function (_0x944c8d, _0x56ec1f) {
-      return _0x944c8d === _0x56ec1f;
-    },
-    'UreHc': "dcPsZ",
-    'Matpo': 'wnJfP',
-    'XsjCQ': function (_0x417fd8, _0x300a37) {
-      return _0x417fd8(_0x300a37);
-    },
-    'qOqtr': function (_0x4b5269, _0x5a1efa) {
-      return _0x4b5269 > _0x5a1efa;
-    },
-    'IRAfK': function (_0x405296, _0x1999fb) {
-      return _0x405296 + _0x1999fb;
-    },
-    'dxkld': function (_0x2adb5e, _0x2f39c5) {
-      return _0x2adb5e === _0x2f39c5;
-    },
-    'gJgTQ': function (_0x2c4d0a, _0x24d115) {
-      return _0x2c4d0a(_0x24d115);
-    },
-    'pNxeO': function (_0x536284, _0x29a339) {
-      return _0x536284 > _0x29a339;
-    },
-    'eDDRl': "NAYrE",
-    'YPMvM': function (_0x2c6333, _0x126c74) {
-      return _0x2c6333(_0x126c74);
-    },
-    'WkCJA': function (_0x19912a, _0x4095b5) {
-      return _0x19912a < _0x4095b5;
-    },
-    'DRxLY': function (_0x49c62b, _0x17e2ff) {
-      return _0x49c62b != _0x17e2ff;
-    },
-    'wqbhe': function (_0x1655c6, _0x3feed4) {
-      return _0x1655c6 <= _0x3feed4;
-    },
-    'MkWZB': "TVIGr",
-    'PuoXw': function (_0x17c8ac, _0x18a7a4) {
-      return _0x17c8ac(_0x18a7a4);
-    },
-    'kiFjd': function (_0x232cf7, _0x1b5577) {
-      return _0x232cf7 instanceof _0x1b5577;
-    },
-    'uBsID': function (_0x33bc14, _0x3288e9) {
-      return _0x33bc14(_0x3288e9);
-    },
-    'Vrcre': function (_0x5a2500, _0x35eab2) {
-      return _0x5a2500 + _0x35eab2;
-    },
-    'Ddolt': function (_0x238702, _0x210f68) {
-      return _0x238702 === _0x210f68;
-    },
-    'QTRQU': function (_0xe095c3, _0x5b4c14) {
-      return _0xe095c3(_0x5b4c14);
-    },
-    'dugXR': function (_0x24f003, _0x99529) {
-      return _0x24f003(_0x99529);
-    },
-    'lrTdr': "wzKoy",
-    'ikpvL': function (_0x8cbe1a, _0x480483) {
-      return _0x8cbe1a(_0x480483);
-    },
-    'hptwH': function (_0x4bba7c, _0x476697) {
-      return _0x4bba7c instanceof _0x476697;
-    },
-    'fhtBg': 'DzSIP',
-    'xhHDL': function (_0x4d04d1, _0x52428d, _0x8ede2) {
-      return _0x4d04d1(_0x52428d, _0x8ede2);
-    },
-    'KHuoD': function (_0x3ff0a7, _0x135aec) {
-      return _0x3ff0a7 !== _0x135aec;
-    },
-    'gjXOT': function (_0x59f871, _0x198c2a) {
-      return _0x59f871 !== _0x198c2a;
-    },
-    'cMmwK': "aYMRL",
-    'xvNtJ': function (_0x5ed4b6, _0x36d304) {
-      return _0x5ed4b6(_0x36d304);
-    },
-    'rcyYi': "lov-wa-store-request"
-  };
-  var _0x5cc2ab = new Map(), _0x40b476 = new Map();
-  try {
-    window.addEventListener("message", function (_0x4774aa) {
-      const _0x2573c2 = {
-        'WFZbQ': function (_0xcd8f02, _0x30dda2) {
-          return _0xcd8f02 > _0x30dda2;
-        }
-      };
-      if (_0x4774aa.source !== window || !_0x4774aa.data || _0x4774aa.data.source !== "lov-wa-store" || !Array.isArray(_0x4774aa.data.chats)) return;
-      var _0x2c8b74 = new Map(), _0x381e86 = new Map();
-      for (var _0x4d16b1 = 0; _0x4d16b1 < _0x4774aa.data.chats.length; _0x4d16b1++) {
-        var _0x5eaeba = _0x4774aa.data.chats[_0x4d16b1];
-        if (_0x5eaeba.name) _0x2c8b74.set(String(_0x5eaeba.name).replace(/\s+/g, '\x20').trim().toLowerCase(), !!_0x5eaeba.isGroup);
-        if (_0x5eaeba.id) _0x381e86.set(String(_0x5eaeba.id), !!_0x5eaeba.isGroup);
+    return new Promise(function (v25, v26) {
+      if (!v21) {
+        return v26(new Error("no id"));
       }
-      (_0x5cc2ab = _0x2c8b74, _0x40b476 = _0x381e86);
+      var v27 = ++v20 + "_" + Date.now();
+      var v28 = setTimeout(function () {
+        delete v19[v27];
+        v26(new Error("audio dl timeout"));
+      }, 20000);
+      v19[v27] = {
+        resolve: function (v29) {
+          clearTimeout(v28);
+          delete v19[v27];
+          v25(v29);
+        },
+        reject: function (v30) {
+          clearTimeout(v28);
+          delete v19[v27];
+          console.error("WCE AUDIO ERROR:", v30);
+          v26(v30);
+        }
+      };
+      const v31 = {
+        source: "lov-wa-audio-request",
+        reqId: v27,
+        id: v21
+      };
+      window.postMessage(v31, "*");
     });
-    const _0x27544b = {};
-    (_0x27544b.source = "lov-wa-store-request", window.postMessage(_0x27544b, '*'));
-  } catch (_0x28a449) {}
-  const _0x170bac = {};
-  (_0x170bac.image = "<image omitted>", _0x170bac.video = "<video omitted>", _0x170bac.audio = "<audio omitted>", _0x170bac.voice = "<voice message omitted>", _0x170bac.document = "<document omitted>", _0x170bac.sticker = "<sticker omitted>", _0x170bac.gif = "<gif omitted>", _0x170bac.location = "<location omitted>", _0x170bac.contact = "<contact omitted>", _0x170bac.poll = "<poll omitted>", _0x170bac.deleted = "<message deleted>", _0x170bac.unknown = "<attachment omitted>");
-  var _0x20ba15 = _0x170bac;
-  function _0x202f43(_0x25c626) {
+  };
+  window.addEventListener("message", function (v32) {
+    if (v32.source !== window || !v32.data || v32.data.source !== "lov-wa-audio-response") {
+      return;
+    }
+    var v33 = v19[v32.data.reqId];
+    if (!v33) {
+      return;
+    }
+    if (v32.data.error) {
+      v33.reject(new Error(v32.data.error));
+    } else {
+      v33.resolve(v32.data.data);
+    }
+  });
+})();
+(function () {
+  const v34 = {
+    GLSlD: function (v35, v36) {
+      return v35 > v36;
+    },
+    McqSu: function (v37, v38) {
+      return v37 !== v38;
+    },
+    oXcAz: "cjBdi",
+    kNbLP: function (v39, v40) {
+      return v39 !== v40;
+    },
+    ktjjj: function (v41, v42) {
+      return v41 < v42;
+    },
+    KoEyL: function (v43, v44) {
+      return v43 !== v44;
+    },
+    FrwhZ: function (v45, v46) {
+      return v45(v46);
+    },
+    vOtFg: function (v47, v48) {
+      return v47 < v48;
+    },
+    zQcge: function (v49, v50) {
+      return v49 === v50;
+    },
+    FrPLo: "en-ca",
+    qQgFQ: "MDY",
+    BHfkb: "DMY",
+    JhLrg: function (v51) {
+      return v51();
+    },
+    fDncl: function (v52, v53) {
+      return v52 instanceof v53;
+    },
+    eAGtB: "oApZS",
+    zlikt: function (v54, v55) {
+      return v54 < v55;
+    },
+    GRTUM: function (v56, v57) {
+      return v56 <= v57;
+    },
+    PAbap: function (v58, v59) {
+      return v58 !== v59;
+    },
+    tDcMc: "nnxiY",
+    Froou: function (v60, v61) {
+      return v60 > v61;
+    },
+    kBZTy: "HvUmp",
+    OokYd: function (v62, v63) {
+      return v62 || v63;
+    },
+    UILIM: function (v64, v65) {
+      return v64 + v65;
+    },
+    bmbkM: function (v66, v67) {
+      return v66 * v67;
+    },
+    WRxKm: function (v68, v69, v70) {
+      return v68(v69, v70);
+    },
+    AGZYo: function (v71, v72) {
+      return v71 !== v72;
+    },
+    QFyae: "qZgQD",
+    SLviy: function (v73, v74) {
+      return v73 * v74;
+    },
+    dCmVn: function (v75, v76) {
+      return v75(v76);
+    },
+    tHdCy: "cFKPI",
+    bzsyG: "YziEY",
+    cFYTd: function (v77, v78) {
+      return v77 > v78;
+    },
+    HNGku: function (v79, v80) {
+      return v79 !== v80;
+    },
+    quUdg: "SNdSW",
+    mMwKJ: "sXENJ",
+    uWfKH: function (v81, v82, v83) {
+      return v81(v82, v83);
+    },
+    tRAEq: function (v84, v85) {
+      return v84(v85);
+    },
+    KeZlG: "apFzV",
+    cwmJc: function (v86, v87, v88, v89) {
+      return v86(v87, v88, v89);
+    },
+    NGXBZ: function (v90, v91) {
+      return v90 === v91;
+    },
+    AAJED: "Iunrx",
+    tOzXi: function (v92, v93) {
+      return v92(v93);
+    },
+    xTYIH: function (v94, v95) {
+      return v94 === v95;
+    },
+    IiXwP: "WVMDM",
+    isSfA: function (v96, v97) {
+      return v96 > v97;
+    },
+    KQhlm: function (v98, v99) {
+      return v98 > v99;
+    },
+    wvXHO: function (v100, v101) {
+      return v100 !== v101;
+    },
+    phPGp: function (v102, v103) {
+      return v102(v103);
+    },
+    odTNi: "bGHOx",
+    OGLRJ: "yJAMd",
+    UWkNf: function (v104, v105) {
+      return v104(v105);
+    },
+    mvVWA: "TtwBs",
+    JuDLZ: "UYlXL",
+    yDYHC: function (v106, v107) {
+      return v106(v107);
+    },
+    pCUZW: function (v108, v109) {
+      return v108(v109);
+    },
+    SGiCk: function (v110, v111) {
+      return v110(v111);
+    },
+    Boloq: function (v112, v113) {
+      return v112 !== v113;
+    },
+    xIyZB: "CbUCY",
+    jAOTo: function (v114, v115) {
+      return v114 > v115;
+    },
+    lXwBe: function (v116, v117) {
+      return v116 + v117;
+    },
+    pZIYF: "pzUnj",
+    jWrlc: function (v118, v119) {
+      return v118(v119);
+    },
+    mShXK: function (v120, v121) {
+      return v120(v121);
+    },
+    aQTus: function (v122, v123) {
+      return v122 < v123;
+    },
+    LFTod: "CWmBN",
+    bMXTe: "ysbCp",
+    KeyHz: function (v124, v125) {
+      return v124(v125);
+    },
+    JadmS: function (v126, v127) {
+      return v126 - v127;
+    },
+    jLlIS: function (v128, v129) {
+      return v128 >= v129;
+    },
+    nDhSZ: function (v130, v131) {
+      return v130 * v131;
+    },
+    lMnEV: function (v132, v133) {
+      return v132(v133);
+    },
+    xOVql: "EIPTW",
+    mPKqb: function (v134, v135) {
+      return v134 >= v135;
+    },
+    CGmjs: function (v136, v137) {
+      return v136 > v137;
+    },
+    zVWtP: function (v138, v139) {
+      return v138(v139);
+    },
+    qVCLC: function (v140) {
+      return v140();
+    },
+    qbyCV: function (v141, v142, v143) {
+      return v141(v142, v143);
+    },
+    bFZph: function (v144) {
+      return v144();
+    },
+    ilRYs: function (v145, v146) {
+      return v145(v146);
+    },
+    zNXZd: function (v147, v148) {
+      return v147(v148);
+    },
+    aFvGj: function (v149, v150, v151) {
+      return v149(v150, v151);
+    },
+    EaCHP: function (v152) {
+      return v152();
+    },
+    NBkNF: function (v153, v154) {
+      return v153 !== v154;
+    },
+    ltFkT: "uAevc",
+    qZZhG: function (v155, v156) {
+      return v155 - v156;
+    },
+    WRqrt: function (v157) {
+      return v157();
+    },
+    hKpCg: function (v158) {
+      return v158();
+    },
+    KjBnk: function (v159, v160) {
+      return v159 >= v160;
+    },
+    PNfYS: function (v161) {
+      return v161();
+    },
+    pGBiZ: function (v162, v163) {
+      return v162 > v163;
+    },
+    Ksapf: "IJLEM",
+    RLpxB: function (v164, v165) {
+      return v164(v165);
+    },
+    TaGeo: function (v166, v167) {
+      return v166(v167);
+    },
+    fEeTW: function (v168, v169) {
+      return v168(v169);
+    },
+    KnTtI: function (v170, v171) {
+      return v170 && v171;
+    },
+    twnpO: function (v172, v173) {
+      return v172(v173);
+    },
+    OkUPZ: function (v174, v175, v176) {
+      return v174(v175, v176);
+    },
+    GgmjW: function (v177, v178) {
+      return v177(v178);
+    },
+    utNLC: "last 24 hours",
+    uCAfe: function (v179, v180) {
+      return v179 + v180;
+    },
+    jMnsR: "last ",
+    hXQTg: " days",
+    bWRPi: function (v181, v182, v183) {
+      return v181(v182, v183);
+    },
+    idlkR: function (v184, v185) {
+      return v184 != v185;
+    },
+    noyiY: function (v186, v187) {
+      return v186 === v187;
+    },
+    HQlgA: "ngZON",
+    BweDv: function (v188, v189) {
+      return v188 / v189;
+    },
+    zclna: function (v190, v191) {
+      return v190 % v191;
+    },
+    zPDXk: function (v192, v193) {
+      return v192 >= v193;
+    },
+    DcASG: function (v194, v195) {
+      return v194(v195);
+    },
+    XhGMW: function (v196, v197, v198) {
+      return v196(v197, v198);
+    },
+    OPzqj: function (v199, v200) {
+      return v199 !== v200;
+    },
+    YNVRY: "tpcwW",
+    AFkHh: function (v201, v202, v203) {
+      return v201(v202, v203);
+    },
+    KlHvm: "lov-wa-store",
+    bDqIe: "message",
+    QJYnC: function (v204, v205) {
+      return v204 === v205;
+    },
+    ZalZE: "pYJQG",
+    bMpGP: function (v206, v207) {
+      return v206 === v207;
+    },
+    rkRlY: function (v208, v209) {
+      return v208(v209);
+    },
+    WITES: function (v210) {
+      return v210();
+    },
+    hrbDf: function (v211, v212) {
+      return v211 >= v212;
+    },
+    UDWVG: "PxiaG",
+    HWshn: "VtgMO",
+    vecKT: function (v213) {
+      return v213();
+    },
+    TLqtp: function (v214) {
+      return v214();
+    },
+    aXrxQ: "AgoUd",
+    anBSY: function (v215, v216) {
+      return v215 + v216;
+    },
+    ArWFM: function (v217) {
+      return v217();
+    },
+    eIjKV: function (v218, v219) {
+      return v218 < v219;
+    },
+    xmnGW: function (v220) {
+      return v220();
+    },
+    Lwpql: function (v221, v222) {
+      return v221 !== v222;
+    },
+    iBGus: "CLzKQ",
+    lgPzX: "kKyGj",
+    ZJPCD: function (v223) {
+      return v223();
+    },
+    TpFLf: function (v224) {
+      return v224();
+    },
+    FqeSY: function (v225, v226) {
+      return v225(v226);
+    },
+    USrqY: "VExEw",
+    EzElV: function (v227, v228) {
+      return v227 <= v228;
+    },
+    gDdKS: "WTvqP",
+    kWhxi: function (v229, v230) {
+      return v229 > v230;
+    },
+    ORtBl: function (v231) {
+      return v231();
+    },
+    FxVbF: "tFGhZ",
+    CRpgw: function (v232, v233) {
+      return v232 !== v233;
+    },
+    ZzsqW: "BZFod",
+    QHuRI: function (v234, v235) {
+      return v234(v235);
+    },
+    zCmst: function (v236) {
+      return v236();
+    },
+    JNLIF: function (v237, v238, v239) {
+      return v237(v238, v239);
+    },
+    yfLCD: function (v240, v241, v242, v243, v244) {
+      return v240(v241, v242, v243, v244);
+    },
+    dTLNf: function (v245, v246) {
+      return v245 - v246;
+    },
+    QdJte: function (v247, v248, v249) {
+      return v247(v248, v249);
+    },
+    AjEfO: function (v250, v251) {
+      return v250(v251);
+    },
+    NwLDZ: "ctINx",
+    XHXep: "CxrfC",
+    zHNlc: function (v252, v253) {
+      return v252(v253);
+    },
+    SrSgX: function (v254, v255) {
+      return v254(v255);
+    },
+    xpUHm: "yamQx",
+    Btxlf: function (v256, v257) {
+      return v256 > v257;
+    },
+    jBluS: function (v258, v259) {
+      return v258 > v259;
+    },
+    WhsEL: "eDGZB",
+    lYiSy: function (v260, v261) {
+      return v260 === v261;
+    },
+    LgFOK: function (v262, v263) {
+      return v262(v263);
+    },
+    KktCX: "xncfQ",
+    TYWWj: function (v264, v265) {
+      return v264 > v265;
+    },
+    qHuyB: function (v266, v267) {
+      return v266 + v267;
+    },
+    qXnOn: function (v268, v269, v270) {
+      return v268(v269, v270);
+    },
+    ofBDG: function (v271, v272) {
+      return v271 === v272;
+    },
+    EjEsM: function (v273, v274) {
+      return v273(v274);
+    },
+    HgTvI: function (v275, v276) {
+      return v275(v276);
+    },
+    DTnMn: function (v277, v278) {
+      return v277 !== v278;
+    },
+    qAXJt: "vHBpq",
+    GYRhv: function (v279, v280, v281) {
+      return v279(v280, v281);
+    },
+    PJmEK: function (v282, v283, v284) {
+      return v282(v283, v284);
+    },
+    cFAEQ: function (v285, v286) {
+      return v285 < v286;
+    },
+    jaOSl: function (v287, v288) {
+      return v287 < v288;
+    },
+    iHyFi: "CUTMH",
+    RavEN: function (v289, v290) {
+      return v289(v290);
+    },
+    kUQPa: function (v291, v292) {
+      return v291 + v292;
+    },
+    dujfI: function (v293, v294, v295) {
+      return v293(v294, v295);
+    },
+    wTQXa: function (v296, v297) {
+      return v296(v297);
+    },
+    zzbAq: function (v298, v299) {
+      return v298 === v299;
+    },
+    BxyhX: "GUYrJ",
+    ycQfd: function (v300, v301, v302) {
+      return v300(v301, v302);
+    },
+    mpkDd: function (v303, v304, v305, v306) {
+      return v303(v304, v305, v306);
+    },
+    wdLEW: function (v307, v308, v309) {
+      return v307(v308, v309);
+    },
+    APvKW: function (v310, v311, v312) {
+      return v310(v311, v312);
+    },
+    LhOCs: function (v313, v314, v315) {
+      return v313(v314, v315);
+    },
+    eaZgO: function (v316, v317) {
+      return v316(v317);
+    },
+    OUtNk: function (v318, v319, v320, v321) {
+      return v318(v319, v320, v321);
+    },
+    ZWbGM: function (v322, v323) {
+      return v322(v323);
+    },
+    VASyG: function (v324, v325, v326) {
+      return v324(v325, v326);
+    },
+    nonOv: function (v327, v328, v329) {
+      return v327(v328, v329);
+    },
+    ACXud: function (v330, v331) {
+      return v330(v331);
+    },
+    xDGpK: function (v332, v333) {
+      return v332 <= v333;
+    },
+    hkgai: "lov-wa-audio-response",
+    vlvbU: "MknFd",
+    VENhH: "en-us",
+    KNjLp: function (v334, v335, v336) {
+      return v334(v335, v336);
+    },
+    eEFOz: function (v337, v338) {
+      return v337 > v338;
+    },
+    wkMWv: "2|5|3|7|8|4|0|1|6",
+    SDlYN: "BBzgH",
+    ieBva: function (v339) {
+      return v339();
+    },
+    OTmOl: function (v340, v341) {
+      return v340 === v341;
+    },
+    ubwrp: "robqh",
+    tDMkD: function (v342, v343) {
+      return v342(v343);
+    },
+    KFpzW: function (v344, v345) {
+      return v344(v345);
+    },
+    opOfC: function (v346, v347) {
+      return v346(v347);
+    },
+    OwbKX: function (v348, v349) {
+      return v348(v349);
+    },
+    GDoKX: function (v350, v351) {
+      return v350 - v351;
+    },
+    wkEZk: function (v352, v353) {
+      return v352 <= v353;
+    },
+    Tpksz: function (v354, v355, v356) {
+      return v354(v355, v356);
+    },
+    fbWOq: "StKCF",
+    eKYxA: function (v357, v358) {
+      return v357 === v358;
+    },
+    pmjpc: "CKqsa",
+    wHQMP: function (v359, v360) {
+      return v359(v360);
+    },
+    HyFIk: function (v361, v362) {
+      return v361 === v362;
+    },
+    DWgvy: "CGhxE",
+    GKVMx: function (v363, v364) {
+      return v363(v364);
+    },
+    finoc: function (v365, v366) {
+      return v365(v366);
+    },
+    HRSuR: function (v367, v368) {
+      return v367 < v368;
+    },
+    jRLwI: function (v369, v370) {
+      return v369 != v370;
+    },
+    hXmdw: function (v371, v372) {
+      return v371 > v372;
+    },
+    TxSyf: "AUEFL",
+    GqcUw: function (v373, v374) {
+      return v373(v374);
+    },
+    dsmbw: function (v375, v376) {
+      return v375 === v376;
+    },
+    UreHc: "dcPsZ",
+    Matpo: "wnJfP",
+    XsjCQ: function (v377, v378) {
+      return v377(v378);
+    },
+    qOqtr: function (v379, v380) {
+      return v379 > v380;
+    },
+    IRAfK: function (v381, v382) {
+      return v381 + v382;
+    },
+    dxkld: function (v383, v384) {
+      return v383 === v384;
+    },
+    gJgTQ: function (v385, v386) {
+      return v385(v386);
+    },
+    pNxeO: function (v387, v388) {
+      return v387 > v388;
+    },
+    eDDRl: "NAYrE",
+    YPMvM: function (v389, v390) {
+      return v389(v390);
+    },
+    WkCJA: function (v391, v392) {
+      return v391 < v392;
+    },
+    DRxLY: function (v393, v394) {
+      return v393 != v394;
+    },
+    wqbhe: function (v395, v396) {
+      return v395 <= v396;
+    },
+    MkWZB: "TVIGr",
+    PuoXw: function (v397, v398) {
+      return v397(v398);
+    },
+    kiFjd: function (v399, v400) {
+      return v399 instanceof v400;
+    },
+    uBsID: function (v401, v402) {
+      return v401(v402);
+    },
+    Vrcre: function (v403, v404) {
+      return v403 + v404;
+    },
+    Ddolt: function (v405, v406) {
+      return v405 === v406;
+    },
+    QTRQU: function (v407, v408) {
+      return v407(v408);
+    },
+    dugXR: function (v409, v410) {
+      return v409(v410);
+    },
+    lrTdr: "wzKoy",
+    ikpvL: function (v411, v412) {
+      return v411(v412);
+    },
+    hptwH: function (v413, v414) {
+      return v413 instanceof v414;
+    },
+    fhtBg: "DzSIP",
+    xhHDL: function (v415, v416, v417) {
+      return v415(v416, v417);
+    },
+    KHuoD: function (v418, v419) {
+      return v418 !== v419;
+    },
+    gjXOT: function (v420, v421) {
+      return v420 !== v421;
+    },
+    cMmwK: "aYMRL",
+    xvNtJ: function (v422, v423) {
+      return v422(v423);
+    },
+    rcyYi: "lov-wa-store-request"
+  };
+  var v424 = new Map();
+  var v425 = new Map();
+  try {
+    window.addEventListener("message", function (v426) {
+      const v427 = {
+        WFZbQ: function (v428, v429) {
+          return v428 > v429;
+        }
+      };
+      if (v426.source !== window || !v426.data || v426.data.source !== "lov-wa-store" || !Array.isArray(v426.data.chats)) {
+        return;
+      }
+      var v430 = new Map();
+      var v431 = new Map();
+      for (var v432 = 0; v432 < v426.data.chats.length; v432++) {
+        var v433 = v426.data.chats[v432];
+        if (v433.name) {
+          v430.set(String(v433.name).replace(/\s+/g, " ").trim().toLowerCase(), !!v433.isGroup);
+        }
+        if (v433.id) {
+          v431.set(String(v433.id), !!v433.isGroup);
+        }
+      }
+      v424 = v430;
+      v425 = v431;
+    });
+    window.postMessage({
+      source: "lov-wa-store-request"
+    }, "*");
+  } catch (v434) {}
+  var v435 = {
+    image: "<image omitted>",
+    video: "<video omitted>",
+    audio: "<audio omitted>",
+    voice: "<voice message omitted>",
+    document: "<document omitted>",
+    sticker: "<sticker omitted>",
+    gif: "<gif omitted>",
+    location: "<location omitted>",
+    contact: "<contact omitted>",
+    poll: "<poll omitted>",
+    deleted: "<message deleted>",
+    unknown: "<attachment omitted>"
+  };
+  function v436(v437) {
     // WCE-PATCH (A3): decide once per chat and cache. The original recomputed
     // from whatever subset it was handed, so different calls could disagree
     // about the same chat.
-    if (__wceFmt) return __wceFmt;
-    __wceFmt = __wceDetectFmt(_0x25c626 || []);
+    if (__wceFmt) {
+      return __wceFmt;
+    }
+    __wceFmt = __wceDetectFmt(v437 || []);
     return __wceFmt;
   }
-  function _0x202f43__legacy(_0x25c626) {
-    var _0x1779fd = 0, _0x52526c = 0;
-    for (var _0x51b06d = 0; _0x51b06d < _0x25c626.length; _0x51b06d++) {
-      var _0x27dc2f = _0x25c626[_0x51b06d] && _0x25c626[_0x51b06d].timestamp;
-      if (!_0x27dc2f) continue;
-      var _0x1caea6 = _0x27dc2f.match(/(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4})/);
-      if (!_0x1caea6) continue;
-      var _0x21b5d6 = +_0x1caea6[1], _0x53f344 = +_0x1caea6[2];
-      if (_0x21b5d6 > 12 && _0x53f344 <= 12) _0x1779fd++; else {
-        if (_0x53f344 > 12 && _0x21b5d6 <= 12) _0x52526c++;
+  function v438(v437) {
+    var v439 = 0;
+    var v440 = 0;
+    for (var v441 = 0; v441 < v437.length; v441++) {
+      var v442 = v437[v441] && v437[v441].timestamp;
+      if (!v442) {
+        continue;
+      }
+      var v443 = v442.match(/(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4})/);
+      if (!v443) {
+        continue;
+      }
+      var v444 = +v443[1];
+      var v445 = +v443[2];
+      if (v444 > 12 && v445 <= 12) {
+        v439++;
+      } else if (v445 > 12 && v444 <= 12) {
+        v440++;
       }
     }
-    if (_0x1779fd > _0x52526c) return "DMY";
-    if (_0x52526c > _0x1779fd) return "MDY";
+    if (v439 > v440) {
+      return "DMY";
+    }
+    if (v440 > v439) {
+      return "MDY";
+    }
     try {
-      var _0x5edd15 = (navigator.language || '').toLowerCase();
-      if (_0x5edd15.indexOf("en-us") === 0 || _0x5edd15.indexOf("en-ca") === 0) return "MDY";
-    } catch (_0x1405f1) {}
+      var v446 = (navigator.language || "").toLowerCase();
+      if (v446.indexOf("en-us") === 0 || v446.indexOf("en-ca") === 0) {
+        return "MDY";
+      }
+    } catch (v447) {}
     return "DMY";
   }
-  function _0xd56be3(_0x2c4307, _0x5ab784) {
-    if (!_0x2c4307) return null;
-    var _0xd4cba7 = _0x2c4307.match(/(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4})/);
-    if (!_0xd4cba7) return null;
-    var _0x220d80 = +_0xd4cba7[1], _0x5554ea = +_0xd4cba7[2], _0x8197de = +_0xd4cba7[3];
-    if (_0x8197de < 100) _0x8197de += 2000;
-    var _0x37a37c, _0x14aadd;
-    if (_0x220d80 > 12 && _0x5554ea <= 12) {
-      (_0x37a37c = _0x220d80, _0x14aadd = _0x5554ea);
+  function v448(v449, v450) {
+    if (!v449) {
+      return null;
+    }
+    var v451 = v449.match(/(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4})/);
+    if (!v451) {
+      return null;
+    }
+    var v452 = +v451[1];
+    var v453 = +v451[2];
+    var v454 = +v451[3];
+    if (v454 < 100) {
+      v454 += 2000;
+    }
+    var v455;
+    var v456;
+    if (v452 > 12 && v453 <= 12) {
+      v455 = v452;
+      v456 = v453;
+    } else if (v453 > 12 && v452 <= 12) {
+      v456 = v452;
+      v455 = v453;
     } else {
-      if (_0x5554ea > 12 && _0x220d80 <= 12) (_0x14aadd = _0x220d80, _0x37a37c = _0x5554ea); else {
-        var _0x37d40d = _0x5ab784 || "DMY";
-        _0x37d40d === "MDY" ? (_0x14aadd = _0x220d80, _0x37a37c = _0x5554ea) : (_0x37a37c = _0x220d80, _0x14aadd = _0x5554ea);
+      var v457 = v450 || "DMY";
+      if (v457 === "MDY") {
+        v456 = v452;
+        v455 = v453;
+      } else {
+        v455 = v452;
+        v456 = v453;
       }
     }
-    var _0x55f824 = new Date(_0x8197de, _0x14aadd - 1, _0x37a37c);
-    return isNaN(_0x55f824.getTime()) ? null : _0x55f824;
+    var v458 = new Date(v454, v456 - 1, v455);
+    if (isNaN(v458.getTime())) {
+      return null;
+    } else {
+      return v458;
+    }
   }
-  function _0x5d510b(_0x38ec38) {
-    let _0xf0616e = _0x38ec38.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s*(am|pm)?/i);
-    if (!_0xf0616e) return null;
-    let _0x280dc0 = Number(_0xf0616e[1]), _0x58156c = Number(_0xf0616e[2]), _0x505a92 = _0xf0616e[3]?.toLowerCase();
-    return (_0x505a92 === 'pm' && _0x280dc0 < 12 && (_0x280dc0 += 12), _0x505a92 === 'am' && _0x280dc0 === 12 && (_0x280dc0 = 0), _0x280dc0 > 23 || _0x58156c > 59 ? null : _0x280dc0 * 60 + _0x58156c);
+  function v459(v460) {
+    let v461 = v460.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s*(am|pm)?/i);
+    if (!v461) {
+      return null;
+    }
+    let v462 = Number(v461[1]);
+    let v463 = Number(v461[2]);
+    let v464 = v461[3]?.toLowerCase();
+    if (v464 === "pm" && v462 < 12) {
+      v462 += 12;
+    }
+    if (v464 === "am" && v462 === 12) {
+      v462 = 0;
+    }
+    if (v462 > 23 || v463 > 59) {
+      return null;
+    } else {
+      return v462 * 60 + v463;
+    }
   }
-  function _0x53c332(_0x3a7478) {
-    const _0x537227 = {
-      'OHWeG': function (_0x190005, _0x2deefd, _0x3edf62) {
-        return _0x190005(_0x2deefd, _0x3edf62);
+  function v465(v466) {
+    const v467 = {
+      OHWeG: function (v468, v469, v470) {
+        return v468(v469, v470);
       }
     };
-    let _0x5d7784 = _0x3a7478.match(/^(\d{1,2}):(\d{2})$/);
-    return _0x5d7784 ? Number(_0x5d7784[1]) * 60 + Number(_0x5d7784[2]) : null;
+    let v471 = v466.match(/^(\d{1,2}):(\d{2})$/);
+    if (v471) {
+      return Number(v471[1]) * 60 + Number(v471[2]);
+    } else {
+      return null;
+    }
   }
-  function _0x1de7d4(_0xf28c85, _0x4cf956) {
-    let _0x50b3d8 = _0x4cf956.keyword?.trim().toLowerCase() ?? '';
-    if (!_0x50b3d8) return _0xf28c85;
-    return _0xf28c85.filter(function (_0x3a3d8d) {
-      return (_0x3a3d8d.text ?? '').toLowerCase().includes(_0x50b3d8);
+  function v472(v473, v474) {
+    let v475 = v474.keyword?.trim().toLowerCase() ?? "";
+    if (!v475) {
+      return v473;
+    }
+    return v473.filter(function (v476) {
+      return (v476.text ?? "").toLowerCase().includes(v475);
     });
   }
-  function _0x5718ed(_0x1e63e6, _0x246c5d) {
-    let _0x1a9f30 = [];
-    if (_0x1e63e6.media === "voice") {
-      let _0x2371bd = "[Voice message";
-      if (_0x1e63e6.mediaDuration) _0x2371bd += " Â· " + _0x1e63e6.mediaDuration;
-      (_0x2371bd += ']', _0x1a9f30.push(_0x2371bd));
-    } else {
-      if (_0x1e63e6.media) _0x1a9f30.push(_0x20ba15[_0x1e63e6.media]);
+  function v477(v478, v479) {
+    let v480 = [];
+    if (v478.media === "voice") {
+      let v481 = "[Voice message";
+      if (v478.mediaDuration) {
+        v481 += " Â· " + v478.mediaDuration;
+      }
+      v481 += "]";
+      v480.push(v481);
+    } else if (v478.media) {
+      v480.push(v435[v478.media]);
     }
-    if (_0x1e63e6.text) _0x1a9f30.push(_0x1e63e6.text);
-    return _0x1a9f30.join('\x20').trim();
+    if (v478.text) {
+      v480.push(v478.text);
+    }
+    return v480.join(" ").trim();
   }
-  function _0x1d96d1(_0x51d883, _0x53b05a) {
-    if (_0x51d883.system && !_0x53b05a.includeSystemMessages) return '';
-    let _0x48d07f = _0x5718ed(_0x51d883, _0x53b05a);
-    if (!_0x48d07f && !_0x51d883.system) return '';
-    let _0x20e629 = [];
-    if ((_0x53b05a.includeTimestamps && _0x51d883.timestamp && _0x20e629.push('[' + _0x51d883.timestamp + ']'), _0x51d883.system)) return (_0x20e629.push(_0x48d07f || ''), _0x20e629.join('\x20').trim());
-    let _0xc7d694 = _0x51d883.fromMe ? "You" : _0x51d883.sender;
-    return (_0x53b05a.includeSenderNames && _0xc7d694 && _0x20e629.push(_0xc7d694 + ':'), _0x20e629.push(_0x48d07f), _0x20e629.join('\x20').trim());
+  function v482(v483, v484) {
+    if (v483.system && !v484.includeSystemMessages) {
+      return "";
+    }
+    let v485 = v477(v483, v484);
+    if (!v485 && !v483.system) {
+      return "";
+    }
+    let v486 = [];
+    if (v484.includeTimestamps && v483.timestamp) {
+      v486.push("[" + v483.timestamp + "]");
+    }
+    if (v483.system) {
+      v486.push(v485 || "");
+      return v486.join(" ").trim();
+    }
+    let v487 = v483.fromMe ? "You" : v483.sender;
+    if (v484.includeSenderNames && v487) {
+      v486.push(v487 + ":");
+    }
+    v486.push(v485);
+    return v486.join(" ").trim();
   }
-  function _0x4b934f(_0x374669, _0xa4ee42) {
-    let _0x2a23da = _0x1de7d4(_0x374669.messages, _0xa4ee42);
-    return _0xa4ee42.preserveOrder ? _0x2a23da : [..._0x2a23da].reverse();
+  function v488(v489, v490) {
+    let v491 = v472(v489.messages, v490);
+    if (v490.preserveOrder) {
+      return v491;
+    } else {
+      return [...v491].reverse();
+    }
   }
-  function _0x319483(_0x29e507, _0x467717) {
-    let _0x35c0b1 = _0x4b934f(_0x29e507, _0x467717).map(_0x972af6 => _0x1d96d1(_0x972af6, _0x467717)).filter(_0x299dff => _0x299dff.length > 0);
-    return _0x29e507.title + '\x0a' + ('-').repeat(_0x29e507.title.length) + '\x0a' + _0x35c0b1.join('\x0a') + '\x0a';
+  function v492(v493, v494) {
+    let v495 = v488(v493, v494).map(v496 => v482(v496, v494)).filter(v497 => v497.length > 0);
+    return v493.title + "\n" + "-".repeat(v493.title.length) + "\n" + v495.join("\n") + "\n";
   }
-  var _0x269443 = ('=').repeat(48);
-  function _0x175188(_0x2b66c2, _0xc2709d) {
-    const _0x4e42f0 = {
-      'fphXi': function (_0x42392d, _0x42b257) {
-        return _0x42392d || _0x42b257;
+  var v498 = "=".repeat(48);
+  function v499(v500, v501) {
+    const v502 = {
+      fphXi: function (v503, v504) {
+        return v503 || v504;
       },
-      'nFLpd': "DMY",
-      'dmHAL': function (_0x30e6c8, _0x355fe5) {
-        return _0x30e6c8 === _0x355fe5;
+      nFLpd: "DMY",
+      dmHAL: function (v505, v506) {
+        return v505 === v506;
       },
-      'cCjpH': "MDY",
-      'HmrEn': function (_0xa44d8e, _0x15c4ac) {
-        return _0xa44d8e(_0x15c4ac);
+      cCjpH: "MDY",
+      HmrEn: function (v507, v508) {
+        return v507(v508);
       },
-      'CEyNZ': function (_0x157e55, _0x73fa79) {
-        return _0x157e55 > _0x73fa79;
+      CEyNZ: function (v509, v510) {
+        return v509 > v510;
       },
-      'LDrmu': function (_0x443a88, _0x11d772) {
-        return _0x443a88 + _0x11d772;
+      LDrmu: function (v511, v512) {
+        return v511 + v512;
       }
     };
-    return _0x2b66c2.map(_0x2a522b => {
-      let _0x3a916d = _0x4b934f(_0x2a522b, _0xc2709d).map(_0x40d736 => _0x1d96d1(_0x40d736, _0xc2709d)).filter(_0x2300db => _0x2300db.length > 0);
-      return _0x269443 + '\x0aCHAT:\x20' + _0x2a522b.title + '\x0a' + _0x269443 + '\x0a\x0a' + _0x3a916d.join('\x0a');
-    }).join("\n\n\n") + '\x0a\x0a' + _0x269443 + "\nEND OF EXPORT\n" + _0x269443 + '\x0a';
+    return v500.map(v513 => {
+      let v514 = v488(v513, v501).map(v515 => v482(v515, v501)).filter(v516 => v516.length > 0);
+      return v498 + "\nCHAT: " + v513.title + "\n" + v498 + "\n\n" + v514.join("\n");
+    }).join("\n\n\n") + "\n\n" + v498 + "\nEND OF EXPORT\n" + v498 + "\n";
   }
-  function _0x29904e(_0x2021e5) {
-    return _0x2021e5.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  function v517(v518) {
+    return v518.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
-  function _0x574cfa(_0x2f77d8, _0x11146b) {
-    if (_0x2f77d8.system && !_0x11146b.includeSystemMessages) return '';
-    let _0x48218f = _0x5718ed(_0x2f77d8, _0x11146b);
-    if (!_0x48218f && !_0x2f77d8.system) return '';
-    if (_0x2f77d8.system) return "<div class=\"sys\">" + _0x29904e(_0x48218f) + "</div>";
-    let _0x396eac = _0x2f77d8.fromMe ? "out" : 'in', _0x115472 = _0x2f77d8.fromMe ? "You" : _0x2f77d8.sender, _0x85c43b = [];
-    return (_0x11146b.includeSenderNames && _0x115472 && _0x85c43b.push("<span class=\"who\">" + _0x29904e(_0x115472) + "</span>"), _0x11146b.includeTimestamps && _0x2f77d8.timestamp && _0x85c43b.push("<span class=\"ts\">" + _0x29904e(_0x2f77d8.timestamp) + '</span>'), "<div class=\"row " + _0x396eac + "\"><div class=\"bubble\">" + (_0x85c43b.length ? "<div class=\"meta\">" + _0x85c43b.join('\x20') + "</div>" : '') + "<div class=\"text\">" + _0x29904e(_0x48218f).replace(/\n/g, "<br>") + "</div></div></div>");
+  function v519(v520, v521) {
+    if (v520.system && !v521.includeSystemMessages) {
+      return "";
+    }
+    let v522 = v477(v520, v521);
+    if (!v522 && !v520.system) {
+      return "";
+    }
+    if (v520.system) {
+      return "<div class=\"sys\">" + v517(v522) + "</div>";
+    }
+    let v523 = v520.fromMe ? "out" : "in";
+    let v524 = v520.fromMe ? "You" : v520.sender;
+    let v525 = [];
+    if (v521.includeSenderNames && v524) {
+      v525.push("<span class=\"who\">" + v517(v524) + "</span>");
+    }
+    if (v521.includeTimestamps && v520.timestamp) {
+      v525.push("<span class=\"ts\">" + v517(v520.timestamp) + "</span>");
+    }
+    return "<div class=\"row " + v523 + "\"><div class=\"bubble\">" + (v525.length ? "<div class=\"meta\">" + v525.join(" ") + "</div>" : "") + "<div class=\"text\">" + v517(v522).replace(/\n/g, "<br>") + "</div></div></div>";
   }
-  function _0x3fa7bb(_0xfc31d1, _0x33a660) {
-    return "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>" + _0x29904e(_0xfc31d1) + "</title>\n<style>\n  :root { color-scheme: light dark; }\n  body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background: #e5ddd5; color: #111; }\n  header { position: sticky; top: 0; background: #075e54; color: #fff; padding: 14px 18px; font-weight: 700; }\n  main { max-width: 780px; margin: 0 auto; padding: 16px; }\n  h2 { font-size: 15px; margin: 24px 0 8px; color: #075e54; }\n  .row { display: flex; margin: 4px 0; }\n  .row.out { justify-content: flex-end; }\n  .bubble { max-width: 78%; padding: 6px 9px; border-radius: 8px; background: #fff; box-shadow: 0 1px 0.5px rgba(0,0,0,.13); }\n  .row.out .bubble { background: #dcf8c6; }\n  .meta { font-size: 11px; color: #667781; margin-bottom: 2px; display: flex; gap: 8px; }\n  .who { font-weight: 700; color: #075e54; }\n  .text { font-size: 14px; white-space: pre-wrap; word-wrap: break-word; }\n  .sys { text-align: center; margin: 10px 0; }\n  .sys::before { content: \"\"; }\n  .sys { font-size: 12px; color: #54656f; background: #fdf4c8; display: inline-block; padding: 4px 10px; border-radius: 6px; }\n  .sys-wrap { text-align: center; }\n</style>\n</head>\n<body>\n<header>WhatsApp Chat Export</header>\n<main>\n" + _0x33a660 + "\n</main>\n</body>\n</html>";
+  function v526(v527, v528) {
+    return "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>" + v517(v527) + "</title>\n<style>\n  :root { color-scheme: light dark; }\n  body { margin: 0; font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; background: #e5ddd5; color: #111; }\n  header { position: sticky; top: 0; background: #075e54; color: #fff; padding: 14px 18px; font-weight: 700; }\n  main { max-width: 780px; margin: 0 auto; padding: 16px; }\n  h2 { font-size: 15px; margin: 24px 0 8px; color: #075e54; }\n  .row { display: flex; margin: 4px 0; }\n  .row.out { justify-content: flex-end; }\n  .bubble { max-width: 78%; padding: 6px 9px; border-radius: 8px; background: #fff; box-shadow: 0 1px 0.5px rgba(0,0,0,.13); }\n  .row.out .bubble { background: #dcf8c6; }\n  .meta { font-size: 11px; color: #667781; margin-bottom: 2px; display: flex; gap: 8px; }\n  .who { font-weight: 700; color: #075e54; }\n  .text { font-size: 14px; white-space: pre-wrap; word-wrap: break-word; }\n  .sys { text-align: center; margin: 10px 0; }\n  .sys::before { content: \"\"; }\n  .sys { font-size: 12px; color: #54656f; background: #fdf4c8; display: inline-block; padding: 4px 10px; border-radius: 6px; }\n  .sys-wrap { text-align: center; }\n</style>\n</head>\n<body>\n<header>WhatsApp Chat Export</header>\n<main>\n" + v528 + "\n</main>\n</body>\n</html>";
   }
-  function _0x23f360(_0x503a17, _0x562166, _0x2c5e05) {
-    let _0x449330 = _0x4b934f(_0x503a17, _0x562166).map(_0xa45840 => _0x574cfa(_0xa45840, _0x562166)).filter(_0x29df05 => _0x29df05.length > 0).join('\x0a');
-    return '' + (_0x2c5e05 ? "<h2>" + _0x29904e(_0x503a17.title) + "</h2>\n" : '') + _0x449330;
+  function v529(v530, v531, v532) {
+    let v533 = v488(v530, v531).map(v534 => v519(v534, v531)).filter(v535 => v535.length > 0).join("\n");
+    return "" + (v532 ? "<h2>" + v517(v530.title) + "</h2>\n" : "") + v533;
   }
-  function _0x9cb3ab(_0x491b08, _0xd41097) {
-    return "apFzV" === "apFzV" ? _0x3fa7bb(_0x491b08.title, _0x23f360(_0x491b08, _0xd41097, !1)) : (_0x2d87d9[_0x3f5209] = !0, _0x1191c1[_0x5bc9d6]);
-  }
-  function _0x180e35(_0x501fa8, _0x24b262) {
-    return _0x3fa7bb("Combined export", _0x501fa8.map(_0x1fa5ac => _0x23f360(_0x1fa5ac, _0x24b262, !0)).join('\x0a'));
-  }
-  var _0x16b465 = _0x59e80b => new Promise(_0x4440d9 => setTimeout(_0x4440d9, _0x59e80b)), _0x56cd35 = 1200, _0x678c29 = 2500;
-  async function _0x1fb3ff(_0x1385ee, {timeout: _0x3287d8 = 15000, interval: _0x457526 = 25} = {}) {
-    let _0x456e40 = Date.now();
-    for (; ; ) {
-      let _0x7e8a3d = _0x1385ee();
-      if (_0x7e8a3d) return _0x7e8a3d;
-      if (Date.now() - _0x456e40 > _0x3287d8) throw Error("Timed out waiting for WhatsApp UI");
-      await _0x16b465(_0x457526);
+  function v536(v537, v538) {
+    if ("apFzV" === "apFzV") {
+      return v526(v537.title, v529(v537, v538, false));
+    } else {
+      v539[v540] = true;
+      return v541[v542];
     }
   }
-  function _0x35b16a() {
-    return (((document.querySelector("#pane-side") ?? document.querySelector("[aria-label=\"Chat list\"]")) ?? document.querySelector("div[role=\"grid\"]")) ?? document.querySelector("[role=\"listitem\"]")?.parentElement) ?? null;
+  function v543(v544, v545) {
+    return v526("Combined export", v544.map(v546 => v529(v546, v545, true)).join("\n"));
   }
-  function _0x56b226() {
-    let _0x1c93b2 = _0x35b16a() ?? document, _0x5d9f91 = Array.from(_0x1c93b2.querySelectorAll("[role=\"listitem\"]"));
-    if ((_0x5d9f91.length === 0 && (_0x5d9f91 = Array.from(_0x1c93b2.querySelectorAll("div[role=\"row\"], [role=\"gridcell\"]"))), _0x5d9f91.length === 0)) {
-      let _0x9b776d = new Set();
-      _0x5d9f91 = Array.from(_0x1c93b2.querySelectorAll("span[title]")).map(_0x388aed => _0x388aed.closest("[role=\"listitem\"], div[role=\"row\"], li")).filter(_0x12c768 => !_0x12c768 || _0x9b776d.has(_0x12c768) ? !1 : (_0x9b776d.add(_0x12c768), !0));
+  var v547 = v548 => new Promise(v549 => setTimeout(v549, v548));
+  var v550 = 1200;
+  var v551 = 2500;
+  async function v552(v553, {
+    timeout: v554 = 15000,
+    interval: v555 = 25
+  } = {}) {
+    let v556 = Date.now();
+    while (true) {
+      let v557 = v553();
+      if (v557) {
+        return v557;
+      }
+      if (Date.now() - v556 > v554) {
+        throw Error("Timed out waiting for WhatsApp UI");
+      }
+      await v547(v555);
     }
-    return _0x5d9f91;
   }
-  function _0x3b6cd1(_0x2bb5df) {
-    let _0x41a30 = _0x2bb5df.querySelector("span[title]");
-    return _0x41a30?.getAttribute("title") ? _0x41a30.getAttribute('title').trim() : (_0x2bb5df.querySelector("span[dir=\"auto\"]")?.textContent ?? '').trim();
+  function v558() {
+    return document.querySelector("#pane-side") ?? document.querySelector("[aria-label=\"Chat list\"]") ?? document.querySelector("div[role=\"grid\"]") ?? document.querySelector("[role=\"listitem\"]")?.parentElement ?? null;
   }
-  function _0xff7b5b(_0x2ebf7b) {
-    let _0x1f7b77 = _0x2ebf7b.querySelectorAll("span[dir=\"auto\"]");
-    return (_0x1f7b77.length > 1 ? _0x1f7b77[_0x1f7b77.length - 1].textContent?.trim() : '') || void 0;
+  function v559() {
+    let v560 = v558() ?? document;
+    let v561 = Array.from(v560.querySelectorAll("[role=\"listitem\"]"));
+    if (v561.length === 0) {
+      v561 = Array.from(v560.querySelectorAll("div[role=\"row\"], [role=\"gridcell\"]"));
+    }
+    if (v561.length === 0) {
+      let v562 = new Set();
+      v561 = Array.from(v560.querySelectorAll("span[title]")).map(v563 => v563.closest("[role=\"listitem\"], div[role=\"row\"], li")).filter(v564 => !v564 || v562.has(v564) ? false : (v562.add(v564), true));
+    }
+    return v561;
+  }
+  function v565(v566) {
+    let v567 = v566.querySelector("span[title]");
+    if (v567?.getAttribute("title")) {
+      return v567.getAttribute("title").trim();
+    } else {
+      return (v566.querySelector("span[dir=\"auto\"]")?.textContent ?? "").trim();
+    }
+  }
+  function v568(v569) {
+    let v570 = v569.querySelectorAll("span[dir=\"auto\"]");
+    return (v570.length > 1 ? v570[v570.length - 1].textContent?.trim() : "") || undefined;
   }
   // Detect whether a WhatsApp chat is currently unread.
-function __wceIsUnreadChat(row) {
-  if (!row) return false;
-
-  try {
-    var targetName = String(_0x3b6cd1(row) || '')
-      .replace(/[\u202A-\u202E\u2066-\u2069]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .toLowerCase();
-
-    if (!targetName) return false;
-
-    var rows = Array.from(
-      document.querySelectorAll('[role="listitem"]')
-    );
-
-    if (!rows.length) {
-      rows = Array.from(
-        document.querySelectorAll('div[role="row"]')
-      );
+  function __wceIsUnreadChat(row) {
+    if (!row) {
+      return false;
     }
-
-    if (!rows.length) {
-      rows = Array.from(
-        document.querySelectorAll('[role="gridcell"]')
-      );
+    try {
+      var targetName = String(v565(row) || "").replace(/[\u202A-\u202E\u2066-\u2069]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+      if (!targetName) {
+        return false;
+      }
+      var rows = Array.from(document.querySelectorAll("[role=\"listitem\"]"));
+      if (!rows.length) {
+        rows = Array.from(document.querySelectorAll("div[role=\"row\"]"));
+      }
+      if (!rows.length) {
+        rows = Array.from(document.querySelectorAll("[role=\"gridcell\"]"));
+      }
+      var badges = document.querySelectorAll("[data-testid=\"icon-unread-count\"]");
+      for (var i = 0; i < badges.length; i++) {
+        var br = badges[i].getBoundingClientRect();
+        var y = (br.top + br.bottom) / 2;
+        var matches = rows.filter(function (candidate) {
+          var r = candidate.getBoundingClientRect();
+          return y >= r.top && y <= r.bottom && candidate.querySelector("span[title]");
+        });
+        matches.sort(function (a, b) {
+          return b.getBoundingClientRect().width - a.getBoundingClientRect().width;
+        });
+        if (!matches.length) {
+          continue;
+        }
+        var titleEl = matches[0].querySelector("span[title]");
+        if (!titleEl) {
+          continue;
+        }
+        var unreadName = String(titleEl.getAttribute("title") || "").replace(/[\u202A-\u202E\u2066-\u2069]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+        if (unreadName === targetName) {
+          return true;
+        }
+      }
+    } catch (e) {
+      console.log("[WCE] unread check error:", e);
     }
-
-    var badges = document.querySelectorAll(
-      '[data-testid="icon-unread-count"]'
-    );
-
-    for (var i = 0; i < badges.length; i++) {
-      var br = badges[i].getBoundingClientRect();
-      var y = (br.top + br.bottom) / 2;
-
-      var matches = rows.filter(function(candidate) {
-        var r = candidate.getBoundingClientRect();
-
-        return (
-          y >= r.top &&
-          y <= r.bottom &&
-          candidate.querySelector('span[title]')
-        );
-      });
-
-      matches.sort(function(a, b) {
-        return (
-          b.getBoundingClientRect().width -
-          a.getBoundingClientRect().width
-        );
-      });
-
-      if (!matches.length) continue;
-
-      var titleEl = matches[0].querySelector('span[title]');
-      if (!titleEl) continue;
-
-      var unreadName = String(
-        titleEl.getAttribute('title') || ''
-      )
-        .replace(/[\u202A-\u202E\u2066-\u2069]/g, '')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .toLowerCase();
-
-      if (unreadName === targetName) {
+    return false;
+  }
+  function v571(v572) {
+    try {
+      let v573 = (v572.querySelector("span[title]")?.getAttribute("title") || "").replace(/\s+/g, " ").trim();
+      if (v573) {
+        let v574 = v424.get(v573.toLowerCase());
+        if (v574 !== undefined) {
+          return v574;
+        }
+      }
+    } catch (v575) {}
+    if (v572.querySelector("[data-icon=\"default-group\"], [data-icon=\"default-group-refreshed\"], [data-icon=\"group\"]")) {
+      return true;
+    }
+    let v576 = (v572.getAttribute("aria-label") || "").toLowerCase();
+    if (/\bgroup\b/.test(v576) || /\bgruppe\b/.test(v576) || /\bgrupo\b/.test(v576) || /\bgroupe\b/.test(v576)) {
+      return true;
+    }
+    let v577 = v572.querySelectorAll("span[dir=\"auto\"]");
+    let v578 = v577.length > 1 ? (v577[v577.length - 1].textContent || "").trim() : "";
+    let v579 = v578.match(/^([^:\n]{1,40}):\s+\S/);
+    if (v579) {
+      let v580 = v579[1].trim();
+      let v581 = (v572.querySelector("span[title]")?.getAttribute("title") || "").trim();
+      if (v580 && v580.toLowerCase() !== "you" && v580.toLowerCase() !== v581.toLowerCase()) {
         return true;
       }
     }
-  } catch (e) {
-    console.log("[WCE] unread check error:", e);
+    return false;
   }
-
-  return false;
-}
-  function _0x4f9d2a(_0x394a87) {
-    try {
-      let _0x52d6bb = (_0x394a87.querySelector("span[title]")?.getAttribute("title") || '').replace(/\s+/g, '\x20').trim();
-      if (_0x52d6bb) {
-        let _0x3adcd3 = _0x5cc2ab.get(_0x52d6bb.toLowerCase());
-        if (_0x3adcd3 !== void 0) return _0x3adcd3;
-      }
-    } catch (_0x1378f9) {}
-    if (_0x394a87.querySelector("[data-icon=\"default-group\"], [data-icon=\"default-group-refreshed\"], [data-icon=\"group\"]")) return !0;
-    let _0xfa158a = (_0x394a87.getAttribute("aria-label") || '').toLowerCase();
-    if ((/\bgroup\b/).test(_0xfa158a) || (/\bgruppe\b/).test(_0xfa158a) || (/\bgrupo\b/).test(_0xfa158a) || (/\bgroupe\b/).test(_0xfa158a)) return !0;
-    let _0x5b677d = _0x394a87.querySelectorAll("span[dir=\"auto\"]"), _0x40c24b = _0x5b677d.length > 1 ? (_0x5b677d[_0x5b677d.length - 1].textContent || '').trim() : '', _0x9aeddc = _0x40c24b.match(/^([^:\n]{1,40}):\s+\S/);
-    if (_0x9aeddc) {
-      let _0xd98b71 = _0x9aeddc[1].trim(), _0x551dd5 = (_0x394a87.querySelector("span[title]")?.getAttribute("title") || '').trim();
-      if (_0xd98b71 && _0xd98b71.toLowerCase() !== "you" && _0xd98b71.toLowerCase() !== _0x551dd5.toLowerCase()) return !0;
-    }
-    return !1;
-  }
-  function _0x36a86d(_0x3f3690) {
-    const _0x242771 = {
-      'YbXHK': function (_0x20f857, _0x3ea519, _0x54d2b8) {
-        return _0x20f857(_0x3ea519, _0x54d2b8);
+  function v582(v583) {
+    const v584 = {
+      YbXHK: function (v585, v586, v587) {
+        return v585(v586, v587);
       },
-      'RGXVF': function (_0x416b08, _0x400298) {
-        return _0x416b08(_0x400298);
+      RGXVF: function (v588, v589) {
+        return v588(v589);
       },
-      'SLOOj': function (_0x499a6e, _0x25de8c) {
-        return _0x499a6e === _0x25de8c;
+      SLOOj: function (v590, v591) {
+        return v590 === v591;
       },
-      'LIhEs': "bGHOx"
+      LIhEs: "bGHOx"
     };
-    let _0x5bfc33 = new Set();
-    return (_0x3f3690.querySelectorAll("[aria-label]").forEach(_0x8a849b => {
-      const _0x5b8d58 = {
-        'cVotQ': function (_0x50fe55, _0x1016ca, _0x356695) {
-          return _0x50fe55(_0x1016ca, _0x356695);
+    let v592 = new Set();
+    v583.querySelectorAll("[aria-label]").forEach(v593 => {
+      const v594 = {
+        cVotQ: function (v595, v596, v597) {
+          return v595(v596, v597);
         },
-        'MgIcs': function (_0x1c86c8, _0x892c6c) {
-          return _0x242771.RGXVF(_0x1c86c8, _0x892c6c);
+        MgIcs: function (v598, v599) {
+          return v584.RGXVF(v598, v599);
         }
       };
-      if (_0x242771.SLOOj("gAjoj", "bGHOx")) {
-        if (_0x1a7dce.system && !_0x2b0d6e.includeSystemMessages) return '';
-        let _0x45214d = AmiOmf.cVotQ(_0x22b7a4, _0x446fa5, _0x407f75);
-        if (!_0x45214d && !_0x3bc724.system) return '';
-        if (_0x38a967.system) return "<div class=\"sys\">" + AmiOmf.MgIcs(_0x3c1823, _0x45214d) + '</div>';
-        let _0x5b360d = _0xf6f3b5.fromMe ? "out" : 'in', _0xe454e5 = _0x237ef6.fromMe ? "You" : _0x5c8c90.sender, _0x240bf4 = [];
-        return (_0x4a760b.includeSenderNames && _0xe454e5 && _0x240bf4.push("<span class=\"who\">" + AmiOmf.MgIcs(_0x505e39, _0xe454e5) + "</span>"), _0xf8c07e.includeTimestamps && _0x1bb762.timestamp && _0x240bf4.push("<span class=\"ts\">" + _0x20be62(_0x1f2449.timestamp) + "</span>"), "<div class=\"row " + _0x5b360d + "\"><div class=\"bubble\">" + (_0x240bf4.length ? "<div class=\"meta\">" + _0x240bf4.join('\x20') + "</div>" : '') + "<div class=\"text\">" + _0xf0f892(_0x45214d).replace(/\n/g, "<br>") + "</div></div></div>");
+      if (v584.SLOOj("gAjoj", "bGHOx")) {
+        if (v600.system && !v601.includeSystemMessages) {
+          return "";
+        }
+        let v602 = AmiOmf.cVotQ(v603, v604, v605);
+        if (!v602 && !v606.system) {
+          return "";
+        }
+        if (v607.system) {
+          return "<div class=\"sys\">" + AmiOmf.MgIcs(v608, v602) + "</div>";
+        }
+        let v609 = v610.fromMe ? "out" : "in";
+        let v611 = v612.fromMe ? "You" : v613.sender;
+        let v614 = [];
+        if (v615.includeSenderNames && v611) {
+          v614.push("<span class=\"who\">" + AmiOmf.MgIcs(v616, v611) + "</span>");
+        }
+        if (v617.includeTimestamps && v618.timestamp) {
+          v614.push("<span class=\"ts\">" + v619(v620.timestamp) + "</span>");
+        }
+        return "<div class=\"row " + v609 + "\"><div class=\"bubble\">" + (v614.length ? "<div class=\"meta\">" + v614.join(" ") + "</div>" : "") + "<div class=\"text\">" + v621(v602).replace(/\n/g, "<br>") + "</div></div></div>";
       } else {
-        let _0x1ef1ee = _0x8a849b.getAttribute("data-icon") ?? '';
-        if ((/label/i).test(_0x1ef1ee)) {
-          let _0x491cfc = (_0x8a849b.getAttribute("aria-label") || '').trim();
-          _0x491cfc && _0x5bfc33.add(_0x491cfc);
+        let v622 = v593.getAttribute("data-icon") ?? "";
+        if (/label/i.test(v622)) {
+          let v623 = (v593.getAttribute("aria-label") || "").trim();
+          if (v623) {
+            v592.add(v623);
+          }
         }
       }
-    }), Array.from(_0x5bfc33));
+    });
+    return Array.from(v592);
   }
-  function _0x1f7357(_0x28dc3a) {
-    const _0x391dc2 = {
-      'TtzlJ': function (_0x2e0042, _0x17b093) {
-        return _0x2e0042(_0x17b093);
+  function v624(v625) {
+    const v626 = {
+      TtzlJ: function (v627, v628) {
+        return v627(v628);
       }
     };
-    for (let _0x40f054 of _0x56b226()) {
-      let _0x508e74 = _0x3b6cd1(_0x40f054);
-      !_0x508e74 || _0x28dc3a.has(_0x508e74) || _0x28dc3a.set(_0x508e74, {
-        'id': _0x508e74,
-        'title': _0x508e74,
-        'preview': _0xff7b5b(_0x40f054),
-        'isGroup': _0x4f9d2a(_0x40f054),
-        'labels': _0x36a86d(_0x40f054)
-      });
+    for (let v629 of v559()) {
+      let v630 = v565(v629);
+      if (!!v630 && !v625.has(v630)) {
+        v625.set(v630, {
+          id: v630,
+          title: v630,
+          preview: v568(v629),
+          isGroup: v571(v629),
+          labels: v582(v629)
+        });
+      }
     }
   }
-  var _0x3896b1 = new Map();
-  function _0x2a492f(_0x132726) {
+  var v631 = new Map();
+  function v632(v633) {
     try {
-      var _0x149b4d = _0x132726.scrollTop;
-      for (var _0x5e9921 of _0x56b226()) {
-        var _0x3458fd = _0x128711(_0x3b6cd1(_0x5e9921));
-        if (_0x3458fd) _0x3896b1.set(_0x3458fd, _0x149b4d);
+      var v634 = v633.scrollTop;
+      for (var v635 of v559()) {
+        var v636 = v637(v565(v635));
+        if (v636) {
+          v631.set(v636, v634);
+        }
       }
-    } catch (_0x39d33c) {}
+    } catch (v638) {}
   }
-  function _0xb45ec0(_0x56ad09) {
-    const _0x3ac729 = {
-      'wuVdA': function (_0x200819, _0x38897a) {
-        return _0x200819(_0x38897a);
+  function v639(v640) {
+    const v641 = {
+      wuVdA: function (v642, v643) {
+        return v642(v643);
       },
-      'lpOpd': function (_0xadf87c, _0x394885) {
-        return _0xadf87c !== _0x394885;
+      lpOpd: function (v644, v645) {
+        return v644 !== v645;
       },
-      'NxpdX': "lov-wa-store"
+      NxpdX: "lov-wa-store"
     };
-    return _0x56ad09.scrollHeight > _0x56ad09.clientHeight + 20 ? _0x56ad09 : Array.from(_0x56ad09.querySelectorAll("div")).find(_0x3a028c => {
-      let _0xe5f23e = getComputedStyle(_0x3a028c);
-      return (/(auto|scroll)/).test(_0xe5f23e.overflowY) && _0x3a028c.scrollHeight > _0x3a028c.clientHeight + 20;
-    }) ?? _0x56ad09;
+    if (v640.scrollHeight > v640.clientHeight + 20) {
+      return v640;
+    } else {
+      return Array.from(v640.querySelectorAll("div")).find(v646 => {
+        let v647 = getComputedStyle(v646);
+        return /(auto|scroll)/.test(v647.overflowY) && v646.scrollHeight > v646.clientHeight + 20;
+      }) ?? v640;
+    }
   }
   var __LOV_TIME_RE = /^(\d{1,2})[:.](\d{2})(?:\s*([ap])\.?\s?m?\.?)?$/i;
   var __LOV_DATE_RE = /^(\d{1,2})[\/.\-](\d{1,2})[\/.\-](\d{2,4})$/;
-  var __lovNamesCache = null, __lovNamesDay = null;
+  var __lovNamesCache = null;
+  var __lovNamesDay = null;
   function __lovNorm(v) {
-    return String(v == null ? '' : v).toLowerCase().replace(/[\s.,\u00a0]+/g, '');
+    return String(v == null ? "" : v).toLowerCase().replace(/[\s.,\u00a0]+/g, "");
   }
   function __lovDayNames() {
     var stamp = new Date().toDateString();
-    if (__lovNamesCache && __lovNamesDay === stamp) return __lovNamesCache;
+    if (__lovNamesCache && __lovNamesDay === stamp) {
+      return __lovNamesCache;
+    }
     var map = Object.create(null);
     try {
-      var lang = document.documentElement && document.documentElement.lang || navigator.language || 'en';
+      var lang = document.documentElement && document.documentElement.lang || navigator.language || "en";
       var longFmt = new Intl.DateTimeFormat(lang, {
-        weekday: 'long'
+        weekday: "long"
       });
       var shortFmt = new Intl.DateTimeFormat(lang, {
-        weekday: 'short'
+        weekday: "short"
       });
       var today = new Date();
       for (var i = 0; i <= 6; i++) {
         var d = new Date(today.getTime());
         d.setDate(today.getDate() - i);
-        var a = __lovNorm(longFmt.format(d)), b = __lovNorm(shortFmt.format(d));
-        if (a && map[a] === undefined) map[a] = i;
-        if (b && map[b] === undefined) map[b] = i;
+        var a = __lovNorm(longFmt.format(d));
+        var b = __lovNorm(shortFmt.format(d));
+        if (a && map[a] === undefined) {
+          map[a] = i;
+        }
+        if (b && map[b] === undefined) {
+          map[b] = i;
+        }
       }
       try {
         var rtf = new Intl.RelativeTimeFormat(lang, {
-          numeric: 'auto'
+          numeric: "auto"
         });
-        var t0 = __lovNorm(rtf.format(0, 'day')), t1 = __lovNorm(rtf.format(-1, 'day'));
-        if (t0) map[t0] = 0;
-        if (t1) map[t1] = 1;
+        var t0 = __lovNorm(rtf.format(0, "day"));
+        var t1 = __lovNorm(rtf.format(-1, "day"));
+        if (t0) {
+          map[t0] = 0;
+        }
+        if (t1) {
+          map[t1] = 1;
+        }
       } catch (e) {}
     } catch (e) {}
     map.today = 0;
@@ -1115,138 +1281,186 @@ function __wceIsUnreadChat(row) {
     return map;
   }
   function __lovLooksLikeStamp(t) {
-    if (!t) return false;
-    if (__LOV_TIME_RE.test(t) || __LOV_DATE_RE.test(t)) return true;
+    if (!t) {
+      return false;
+    }
+    if (__LOV_TIME_RE.test(t) || __LOV_DATE_RE.test(t)) {
+      return true;
+    }
     return __lovDayNames()[__lovNorm(t)] !== undefined;
   }
-  function __lovRowLabel(_0xrow) {
+  function __lovRowLabel(v648) {
     try {
-      var nodes = _0xrow.querySelectorAll('span,div');
+      var nodes = v648.querySelectorAll("span,div");
       for (var i = 0; i < nodes.length; i++) {
         var n = nodes[i];
-        if (n.firstElementChild) continue;
-        var t = (n.textContent || '').trim();
-        if (!t || t.length > 24) continue;
-        if (__lovLooksLikeStamp(t)) return t;
+        if (n.firstElementChild) {
+          continue;
+        }
+        var t = (n.textContent || "").trim();
+        if (!t || t.length > 24) {
+          continue;
+        }
+        if (__lovLooksLikeStamp(t)) {
+          return t;
+        }
       }
     } catch (e) {}
     return null;
   }
   function __lovDateOrder() {
     try {
-      var rows = _0x56b226(), samples = [];
+      var rows = v559();
+      var samples = [];
       for (var i = 0; i < rows.length; i++) {
         var l = __lovRowLabel(rows[i]);
-        if (l && __LOV_DATE_RE.test(l)) samples.push({
-          'timestamp': l
-        });
+        if (l && __LOV_DATE_RE.test(l)) {
+          samples.push({
+            timestamp: l
+          });
+        }
       }
-      return _0x202f43(samples);
+      return v436(samples);
     } catch (e) {
       try {
-        return _0x202f43([]);
+        return v436([]);
       } catch (e2) {
-        return 'DMY';
+        return "DMY";
       }
     }
   }
   function __lovParseDate(s, order) {
     var limit = Date.now() + 86400000;
-    var orders = [order, order === 'MDY' ? 'DMY' : 'MDY'];
+    var orders = [order, order === "MDY" ? "DMY" : "MDY"];
     for (var i = 0; i < orders.length; i++) {
-      var d = _0xd56be3(s, orders[i]);
-      if (!d) continue;
+      var d = v448(s, orders[i]);
+      if (!d) {
+        continue;
+      }
       d = new Date(d.getTime());
       d.setHours(23, 59, 59, 999);
-      if (d.getTime() <= limit) return d;
+      if (d.getTime() <= limit) {
+        return d;
+      }
     }
     return null;
   }
   function __lovLabelToDate(label, order) {
-    var s = String(label || '').trim(), m;
-    if (__LOV_DATE_RE.test(s)) return __lovParseDate(s, order);
+    var s = String(label || "").trim();
+    var m;
+    if (__LOV_DATE_RE.test(s)) {
+      return __lovParseDate(s, order);
+    }
     if (m = s.match(__LOV_TIME_RE)) {
-      var h = +m[1], mi = +m[2];
+      var h = +m[1];
+      var mi = +m[2];
       if (m[3]) {
         h = h % 12;
-        if ((/p/i).test(m[3])) h += 12;
+        if (/p/i.test(m[3])) {
+          h += 12;
+        }
       }
       var t = new Date();
       t.setHours(h, mi, 0, 0);
-      if (t.getTime() > Date.now() + 60000) t.setDate(t.getDate() - 1);
+      if (t.getTime() > Date.now() + 60000) {
+        t.setDate(t.getDate() - 1);
+      }
       return t;
     }
     var back = __lovDayNames()[__lovNorm(s)];
-    if (back === undefined) return null;
+    if (back === undefined) {
+      return null;
+    }
     var w = new Date();
     w.setHours(23, 59, 59, 999);
     w.setDate(w.getDate() - back);
     return w;
   }
-  function __lovIsPinned(_0xrow) {
+  function __lovIsPinned(v648) {
     try {
-      return !!_0xrow.querySelector('[data-icon="pinned"],[data-icon="pinned2"],[data-icon="pinned-refreshed"],[data-icon="status-pinned"]');
+      return !!v648.querySelector("[data-icon=\"pinned\"],[data-icon=\"pinned2\"],[data-icon=\"pinned-refreshed\"],[data-icon=\"status-pinned\"]");
     } catch (e) {
       return false;
     }
   }
-  function __lovRowState(_0xrow, ctx) {
-    var label = __lovRowLabel(_0xrow);
-    if (!label) return 'unknown';
+  function __lovRowState(v648, ctx) {
+    var label = __lovRowLabel(v648);
+    if (!label) {
+      return "unknown";
+    }
     var d = __lovLabelToDate(label, ctx.order);
-    if (!d) return 'unknown';
-    return d.getTime() >= ctx.cutoffTime ? 'fresh' : 'stale';
+    if (!d) {
+      return "unknown";
+    }
+    if (d.getTime() >= ctx.cutoffTime) {
+      return "fresh";
+    } else {
+      return "stale";
+    }
   }
   async function __lovMakeCtx(__lovOpts) {
     var opts = __lovOpts;
     try {
       if (!opts || opts.dayRange == null) {
-        var got = await chrome.storage.local.get('export-options');
-        var saved = got && got['export-options'];
-        if (saved && saved.dayRange != null) opts = {
-          'dayRange': saved.dayRange
-        };
+        var got = await chrome.storage.local.get("export-options");
+        var saved = got && got["export-options"];
+        if (saved && saved.dayRange != null) {
+          opts = {
+            dayRange: saved.dayRange
+          };
+        }
       }
     } catch (e) {}
     try {
-      var cutoff = _0x1d0711(opts);
+      var cutoff = v649(opts);
       return {
-        'days': _0x13219d(opts),
-        'cutoffTime': cutoff.getTime(),
-        'order': __lovDateOrder(),
-        'stopAfter': 8,
-        'minScans': 3,
-        'scans': 0,
-        'trailingStale': 0,
-        'kept': 0,
-        'skippedIds': new Set()
+        days: v650(opts),
+        cutoffTime: cutoff.getTime(),
+        order: __lovDateOrder(),
+        stopAfter: 8,
+        minScans: 3,
+        scans: 0,
+        trailingStale: 0,
+        kept: 0,
+        skippedIds: new Set()
       };
     } catch (e) {
       return null;
     }
   }
-  function __lovCollect(_0x28dc3a, ctx) {
-    if (!ctx) return _0x1f7357(_0x28dc3a);
-    var rows = _0x56b226(), trailing = 0;
+  function __lovCollect(v625, ctx) {
+    if (!ctx) {
+      return v624(v625);
+    }
+    var rows = v559();
+    var trailing = 0;
     ctx.scans++;
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
-      var id = _0x3b6cd1(row);
-      if (!id) continue;
-      var state = __lovRowState(row, ctx);
-      if (state === 'stale') {
-        if (!__lovIsPinned(row)) trailing++;
-        if (!_0x28dc3a.has(id)) ctx.skippedIds.add(id);
+      var id = v565(row);
+      if (!id) {
         continue;
       }
-      if (state === 'fresh') trailing = 0;
-      if (!_0x28dc3a.has(id)) {
-        _0x28dc3a.set(id, {
-          'id': id,
-          'title': id,
-          'preview': _0xff7b5b(row),
-          'isGroup': _0x4f9d2a(row),
-          'labels': _0x36a86d(row)
+      var state = __lovRowState(row, ctx);
+      if (state === "stale") {
+        if (!__lovIsPinned(row)) {
+          trailing++;
+        }
+        if (!v625.has(id)) {
+          ctx.skippedIds.add(id);
+        }
+        continue;
+      }
+      if (state === "fresh") {
+        trailing = 0;
+      }
+      if (!v625.has(id)) {
+        v625.set(id, {
+          id: id,
+          title: id,
+          preview: v568(row),
+          isGroup: v571(row),
+          labels: v582(row)
         });
         ctx.kept++;
       }
@@ -1255,310 +1469,382 @@ function __wceIsUnreadChat(row) {
     return trailing;
   }
   function __lovShouldStop(ctx) {
-    return !!(ctx && ctx.scans >= ctx.minScans && ctx.trailingStale >= ctx.stopAfter);
+    return !!ctx && !!(ctx.scans >= ctx.minScans) && !!(ctx.trailingStale >= ctx.stopAfter);
   }
-  async function _0xbb32dd(__lovOpts) {
+  async function v651(__lovOpts) {
     const __lovCtx = await __lovMakeCtx(__lovOpts);
-    const _0x4a570e = {};
-    _0x4a570e.timeout = 0x4e20;
-    let _0x54d768 = _0xb45ec0(await _0x1fb3ff(() => _0x56b226().length > 0 ? _0x35b16a() : null, _0x4a570e)), _0x2ae613 = _0x54d768.scrollTop, _0x52e4c4 = new Map();
-    (__lovCollect(_0x52e4c4, __lovCtx), _0x2a492f(_0x54d768), _0x54d768.scrollTop = 0, _0x54d768.dispatchEvent(new Event("scroll", {
-      'bubbles': !0
-    })), await _0x16b465(60));
-    let _0x5bce3f = 0;
-    for (let _0x5b5e81 = 0; _0x5b5e81 < _0x56cd35; _0x5b5e81++) {
-      (__lovCollect(_0x52e4c4, __lovCtx), _0x2a492f(_0x54d768));
-      if (__lovShouldStop(__lovCtx)) break;
-      let _0x154c26 = Math.max(0, _0x54d768.scrollHeight - _0x54d768.clientHeight);
-      if (_0x54d768.scrollTop >= _0x154c26 - 4) {
-        if ((_0x5bce3f += 1, _0x5bce3f >= 2)) break;
-        await _0x16b465(60);
-      } else (_0x5bce3f = 0, _0x54d768.scrollTop = Math.min(_0x154c26, _0x54d768.scrollTop + Math.max(200, _0x54d768.clientHeight * 0.8)), _0x54d768.dispatchEvent(new Event("scroll", {
-        'bubbles': !0
-      })), await _0x16b465(35));
+    let v652 = v639(await v552(() => v559().length > 0 ? v558() : null, {
+      timeout: 20000
+    }));
+    let v653 = v652.scrollTop;
+    let v654 = new Map();
+    __lovCollect(v654, __lovCtx);
+    v632(v652);
+    v652.scrollTop = 0;
+    v652.dispatchEvent(new Event("scroll", {
+      bubbles: true
+    }));
+    await v547(60);
+    let v655 = 0;
+    for (let v656 = 0; v656 < v550; v656++) {
+      __lovCollect(v654, __lovCtx);
+      v632(v652);
+      if (__lovShouldStop(__lovCtx)) {
+        break;
+      }
+      let v657 = Math.max(0, v652.scrollHeight - v652.clientHeight);
+      if (v652.scrollTop >= v657 - 4) {
+        v655 += 1;
+        if (v655 >= 2) {
+          break;
+        }
+        await v547(60);
+      } else {
+        v655 = 0;
+        v652.scrollTop = Math.min(v657, v652.scrollTop + Math.max(200, v652.clientHeight * 0.8));
+        v652.dispatchEvent(new Event("scroll", {
+          bubbles: true
+        }));
+        await v547(35);
+      }
     }
-   const _0x5d9abf = {};
+    const v658 = {};
+    function __wceNorm(value) {
+      return String(value || "").replace(/[\u202A-\u202E\u2066-\u2069]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+    }
+    var __wceUnreadKeys = new Set(Array.from(__lovCtx && __lovCtx.__wceUnreadIds || []).map(__wceNorm));
+    var __wceFinalChats = Array.from(v654.values()).filter(function (chat) {
+      return !__wceUnreadKeys.has(__wceNorm(chat && chat.id));
+    });
+    console.log("[WCE] FINAL FILTERED CHATS:", __wceFinalChats.map(function (c) {
+      return c.id;
+    }));
+    v658.bubbles = true;
+    v652.scrollTop = v653;
+    v652.dispatchEvent(new Event("scroll", v658));
+    var __wceFinalUnreadSummary = Array.from(__lovCtx && __lovCtx.__wceUnreadSummary || []);
 
-var __wceNorm = function (value) {
-  return String(value || '')
-    .replace(/[\u202A-\u202E\u2066-\u2069]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .toLowerCase();
-};
+    // Keep the latest unread summary available to UI/export/audit code.
+    window.__wceLastUnreadSummary = __wceFinalUnreadSummary;
+    try {
+      chrome.storage.local.set({
+        "wce-unread-summary": __wceFinalUnreadSummary,
+        "wce-unread-count": __wceFinalUnreadSummary.length
+      });
+    } catch (e) {}
 
-var __wceUnreadKeys = new Set(
-  Array.from(
-    (__lovCtx && __lovCtx.__wceUnreadIds) || []
-  ).map(__wceNorm)
-);
-
-var __wceFinalChats = Array.from(
-  _0x52e4c4.values()
-).filter(function (chat) {
-  return !__wceUnreadKeys.has(
-    __wceNorm(chat && chat.id)
-  );
-});
-
-console.log(
-  "[WCE] FINAL FILTERED CHATS:",
-  __wceFinalChats.map(function (c) {
-    return c.id;
-  })
-);
-
-_0x5d9abf.bubbles = true;
-
-_0x54d768.scrollTop = _0x2ae613;
-
-_0x54d768.dispatchEvent(
-  new Event("scroll", _0x5d9abf)
-);
-
-var __wceFinalUnreadSummary = Array.from(
-  (__lovCtx && __lovCtx.__wceUnreadSummary) || []
-);
-
-// Keep the latest unread summary available to UI/export/audit code.
-window.__wceLastUnreadSummary = __wceFinalUnreadSummary;
-
-try {
-  chrome.storage.local.set({
-    "wce-unread-summary": __wceFinalUnreadSummary,
-    "wce-unread-count": __wceFinalUnreadSummary.length
-  });
-} catch (e) {}
-
-// Useful internally; GET_CHATS also returns explicit metadata below.
-__wceFinalChats.__wceUnreadSummary = __wceFinalUnreadSummary;
-
-return __wceFinalChats;
+    // Useful internally; GET_CHATS also returns explicit metadata below.
+    __wceFinalChats.__wceUnreadSummary = __wceFinalUnreadSummary;
+    return __wceFinalChats;
   }
-  function _0x128711(_0x332d60) {
-    return _0x332d60.replace(/\s+/g, '\x20').trim().toLowerCase();
+  function v637(v659) {
+    return v659.replace(/\s+/g, " ").trim().toLowerCase();
   }
-  function _0x1b2868(_0x2bf840) {
-    const _0x1bf7a5 = {};
-    (_0x1bf7a5.bubbles = !0, _0x1bf7a5.cancelable = !0, _0x1bf7a5.view = window);
-    let _0x1918d7 = _0x1bf7a5;
-    for (let _0x21665e of ["pointerdown", "mousedown", "pointerup", 'mouseup', "click"]) _0x2bf840.dispatchEvent(new MouseEvent(_0x21665e, _0x1918d7));
+  function v660(v661) {
+    const v662 = {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    };
+    let v663 = v662;
+    for (let v664 of ["pointerdown", "mousedown", "pointerup", "mouseup", "click"]) {
+      v661.dispatchEvent(new MouseEvent(v664, v663));
+    }
   }
-  async function _0x4d1267(_0x426b6e) {
-    const _0x110098 = {
-      'YGnXM': "EIPTW",
-      'NTDzx': function (_0x550a0a, _0x5d072f) {
-        return _0x550a0a(_0x5d072f);
+  async function v665(v666) {
+    const v667 = {
+      YGnXM: "EIPTW",
+      NTDzx: function (v668, v669) {
+        return v668(v669);
       },
-      'xWLMf': function (_0x55ae17) {
-        return _0x55ae17();
+      xWLMf: function (v670) {
+        return v670();
       },
-      'QIIlt': function (_0x211517, _0x31ff58) {
-        return _0x211517 >= _0x31ff58;
+      QIIlt: function (v671, v672) {
+        return v671 >= v672;
       },
-      'fbnWM': function (_0x10da99, _0x54939f) {
-        return _0x10da99 !== _0x54939f;
+      fbnWM: function (v673, v674) {
+        return v673 !== v674;
       },
-      'weCva': function (_0xac86ea, _0x11dba8) {
-        return _0xac86ea > _0x11dba8;
+      weCva: function (v675, v676) {
+        return v675 > v676;
       }
     };
-    let _0x23ab9d = _0x128711(_0x426b6e), _0x1fd981 = _0x128711(_0x4e35f6());
-    for (let _0x55a7ea = 0; _0x55a7ea < 3; _0x55a7ea++) {
-      let _0x448839 = await _0x26c38f(_0x426b6e);
-      if (!_0x448839) throw Error("Chat \"" + _0x426b6e + "\" not found in list");
-      _0x1b2868((_0x448839.querySelector("span[title]") ?? _0x448839.querySelector("[role=\"button\"], [tabindex]")) ?? _0x448839);
-      const _0x3fa693 = {};
-      (_0x3fa693.timeout = 0x9c4, _0x3fa693.interval = 0x14);
-      let _0x3639d1 = await _0x1fb3ff(() => {
-        let _0x3e41a4 = _0x110098.NTDzx(_0x128711, _0x110098.xWLMf(_0x4e35f6));
-        if (_0x3e41a4 === _0x23ab9d) return !0;
-        if (_0x110098.QIIlt(_0x55a7ea, 1) && _0x3e41a4 && _0x110098.fbnWM(_0x3e41a4, _0x1fd981) && _0x110098.weCva(_0x385460().length, 0)) return !0;
+    let v677 = v637(v666);
+    let v678 = v637(v679());
+    for (let v680 = 0; v680 < 3; v680++) {
+      let v681 = await v682(v666);
+      if (!v681) {
+        throw Error("Chat \"" + v666 + "\" not found in list");
+      }
+      v660(v681.querySelector("span[title]") ?? v681.querySelector("[role=\"button\"], [tabindex]") ?? v681);
+      let v683 = await v552(() => {
+        let v684 = v667.NTDzx(v637, v667.xWLMf(v679));
+        if (v684 === v677) {
+          return true;
+        }
+        if (v667.QIIlt(v680, 1) && v684 && v667.fbnWM(v684, v678) && v667.weCva(v685().length, 0)) {
+          return true;
+        }
         return null;
-      }, _0x3fa693).catch(() => !1);
-      const _0x362edd = {};
-      _0x362edd.timeout = 0x1f40;
-      if ((await _0x1fb3ff(() => _0x385460().length > 0 ? !0 : _0x2a89e5(), _0x362edd), _0x3639d1)) return;
-      (_0x1fd981 = _0x128711(_0x4e35f6()), await _0x16b465(120));
+      }, {
+        timeout: 2500,
+        interval: 20
+      }).catch(() => false);
+      await v552(() => v685().length > 0 ? true : v686(), {
+        timeout: 8000
+      });
+      if (v683) {
+        return;
+      }
+      v678 = v637(v679());
+      await v547(120);
     }
-    throw Error("WhatsApp did not switch to \"" + _0x426b6e + '\x22');
+    throw Error("WhatsApp did not switch to \"" + v666 + "\"");
   }
-  async function _0x26c38f(_0x2322e2) {
-    const _0x23ded6 = {};
-    _0x23ded6.timeout = 0x4e20;
-    let _0x18a630 = _0xb45ec0(await _0x1fb3ff(() => _0x35b16a(), _0x23ded6)), _0x281b4e = _0x128711(_0x2322e2), _0x394773 = () => _0x56b226().find(_0x463e9b => _0x128711(_0x3b6cd1(_0x463e9b)) === _0x281b4e), _0x3368bc = _0x394773();
-    if (_0x3368bc) return _0x3368bc;
-    if (_0x3896b1.has(_0x281b4e)) {
-      let _0xb089e5 = _0x3896b1.get(_0x281b4e);
-      if (Math.abs(_0xb089e5 - _0x18a630.scrollTop) > 4) {
-        _0x18a630.scrollTop = _0xb089e5;
-        const _0x446253 = {};
-        (_0x446253.bubbles = !0, _0x18a630.dispatchEvent(new Event("scroll", _0x446253)), await _0x16b465(40));
-        let _0x255b96 = _0x394773();
-        if (_0x255b96) return _0x255b96;
+  async function v682(v687) {
+    let v688 = v639(await v552(() => v558(), {
+      timeout: 20000
+    }));
+    let v689 = v637(v687);
+    let v690 = () => v559().find(v691 => v637(v565(v691)) === v689);
+    let v692 = v690();
+    if (v692) {
+      return v692;
+    }
+    if (v631.has(v689)) {
+      let v693 = v631.get(v689);
+      if (Math.abs(v693 - v688.scrollTop) > 4) {
+        v688.scrollTop = v693;
+        v688.dispatchEvent(new Event("scroll", {
+          bubbles: true
+        }));
+        await v547(40);
+        let v694 = v690();
+        if (v694) {
+          return v694;
+        }
       }
     }
-    let _0x28ea08 = () => Math.max(0, _0x18a630.scrollHeight - _0x18a630.clientHeight), _0x4d28a6 = () => Math.max(200, _0x18a630.clientHeight * 0.8), _0x4b990c = _0x18a630.scrollTop, _0x12ca1b = async _0x15d148 => {
-      _0x18a630.scrollTop = _0x15d148;
-      const _0x1c447e = {};
-      (_0x1c447e.bubbles = !0, _0x18a630.dispatchEvent(new Event("scroll", _0x1c447e)), await _0x16b465(40));
+    let v695 = () => Math.max(0, v688.scrollHeight - v688.clientHeight);
+    let v696 = () => Math.max(200, v688.clientHeight * 0.8);
+    let v697 = v688.scrollTop;
+    let v698 = async v699 => {
+      v688.scrollTop = v699;
+      v688.dispatchEvent(new Event("scroll", {
+        bubbles: true
+      }));
+      await v547(40);
     };
-    for (let _0x5c3edb = 0; _0x5c3edb < _0x56cd35; _0x5c3edb++) {
-      let _0x2ee20e = _0x28ea08();
-      if (_0x18a630.scrollTop >= _0x2ee20e - 4) break;
-      await _0x12ca1b(Math.min(_0x2ee20e, _0x18a630.scrollTop + _0x4d28a6()));
-      let _0x434f3c = _0x394773();
-      if (_0x434f3c) return _0x434f3c;
+    for (let v700 = 0; v700 < v550; v700++) {
+      let v701 = v695();
+      if (v688.scrollTop >= v701 - 4) {
+        break;
+      }
+      await v698(Math.min(v701, v688.scrollTop + v696()));
+      let v702 = v690();
+      if (v702) {
+        return v702;
+      }
     }
-    if (_0x4b990c > 4) {
-      await _0x12ca1b(0);
-      let _0x58a105 = _0x394773();
-      if (_0x58a105) return _0x58a105;
-      for (let _0x16f23f = 0; _0x16f23f < _0x56cd35; _0x16f23f++) {
-        let _0x20fed5 = _0x28ea08();
-        if (_0x18a630.scrollTop >= _0x4b990c || _0x18a630.scrollTop >= _0x20fed5 - 4) break;
-        await _0x12ca1b(Math.min(_0x20fed5, _0x18a630.scrollTop + _0x4d28a6()));
-        let _0x6773f6 = _0x394773();
-        if (_0x6773f6) return _0x6773f6;
+    if (v697 > 4) {
+      await v698(0);
+      let v703 = v690();
+      if (v703) {
+        return v703;
+      }
+      for (let v704 = 0; v704 < v550; v704++) {
+        let v705 = v695();
+        if (v688.scrollTop >= v697 || v688.scrollTop >= v705 - 4) {
+          break;
+        }
+        await v698(Math.min(v705, v688.scrollTop + v696()));
+        let v706 = v690();
+        if (v706) {
+          return v706;
+        }
       }
     }
     return null;
   }
-  function _0x2a89e5() {
-    return (document.querySelector("#main") ?? document.querySelector("div[role=\"application\"]")?.closest("div")) ?? null;
+  function v686() {
+    return document.querySelector("#main") ?? document.querySelector("div[role=\"application\"]")?.closest("div") ?? null;
   }
-  function _0x4e35f6() {
-    let _0x2c0298 = _0x2a89e5(), _0x547d8d = (_0x2c0298?.querySelector("header span[title]") ?? _0x2c0298?.querySelector("header span[dir='auto']")) ?? null;
-    return _0x547d8d?.getAttribute('title')?.trim() || _0x547d8d?.textContent?.trim() || "Chat";
+  function v679() {
+    let v707 = v686();
+    let v708 = v707?.querySelector("header span[title]") ?? v707?.querySelector("header span[dir='auto']") ?? null;
+    return v708?.getAttribute("title")?.trim() || v708?.textContent?.trim() || "Chat";
   }
-  function _0x1a0052() {
-    let _0x2e05e4 = _0x2a89e5();
-    if (!_0x2e05e4) return null;
-    let _0x3bce45 = _0x2e05e4.querySelector("div[role=\"application\"]");
-    if (_0x3bce45 && _0x3bce45.querySelector(".message-in, .message-out, div[data-id]")) return _0x3bce45;
-    let _0x123d71 = _0x2e05e4.querySelector(".copyable-area");
-    return _0x123d71 && _0x123d71.querySelector(".message-in, .message-out, div[data-id]") ? _0x123d71 : _0x2e05e4.querySelector(".message-in, .message-out, div[data-id]")?.parentElement ?? _0x2e05e4;
+  function v709() {
+    let v710 = v686();
+    if (!v710) {
+      return null;
+    }
+    let v711 = v710.querySelector("div[role=\"application\"]");
+    if (v711 && v711.querySelector(".message-in, .message-out, div[data-id]")) {
+      return v711;
+    }
+    let v712 = v710.querySelector(".copyable-area");
+    if (v712 && v712.querySelector(".message-in, .message-out, div[data-id]")) {
+      return v712;
+    } else {
+      return v710.querySelector(".message-in, .message-out, div[data-id]")?.parentElement ?? v710;
+    }
   }
-  function _0x2d9f26() {
-    const _0x38d23c = {
-      'CeKpG': function (_0x4dbbab, _0x54e42f) {
-        return _0x4dbbab !== _0x54e42f;
+  function v713() {
+    const v714 = {
+      CeKpG: function (v715, v716) {
+        return v715 !== v716;
       },
-      'zZUOQ': "sLXvB",
-      'tipmg': function (_0x400038, _0x3c8295) {
-        return _0x400038(_0x3c8295);
+      zZUOQ: "sLXvB",
+      tipmg: function (v717, v718) {
+        return v717(v718);
       },
-      'gMKyW': function (_0x3bc930, _0x2730fa) {
-        return _0x3bc930 + _0x2730fa;
+      gMKyW: function (v719, v720) {
+        return v719 + v720;
       }
     };
-    let _0x3ff5cf = _0x2a89e5();
-    if (!_0x3ff5cf) return null;
-    let _0x100867 = Array.from(_0x3ff5cf.querySelectorAll('div')).filter(_0xf1e994 => {
-      const _0x5b3570 = {
-        'Ausxq': function (_0x276766) {
-          return _0x276766();
+    let v721 = v686();
+    if (!v721) {
+      return null;
+    }
+    let v722 = Array.from(v721.querySelectorAll("div")).filter(v723 => {
+      const v724 = {
+        Ausxq: function (v725) {
+          return v725();
         }
       };
-      if (_0x38d23c.CeKpG("sLXvB", "sLXvB")) {
-        let _0x225369 = bYkdRS.Ausxq(_0x5c5f3f) ?? _0x40afea, _0x1f7adf = _0x1cbffb.from(_0x225369.querySelectorAll("[role=\"listitem\"]"));
-        if ((_0x1f7adf.length === 0 && (_0x1f7adf = _0x8880ae.from(_0x225369.querySelectorAll("div[role=\"row\"], [role=\"gridcell\"]"))), _0x1f7adf.length === 0)) {
-          let _0x3d343d = new _0x43c113();
-          _0x1f7adf = _0x57f9c9.from(_0x225369.querySelectorAll("span[title]")).map(_0x5c2e9f => _0x5c2e9f.closest("[role=\"listitem\"], div[role=\"row\"], li")).filter(_0x3c9c76 => !_0x3c9c76 || _0x3d343d.has(_0x3c9c76) ? !1 : (_0x3d343d.add(_0x3c9c76), !0));
+      if (v714.CeKpG("sLXvB", "sLXvB")) {
+        let v726 = bYkdRS.Ausxq(v727) ?? v728;
+        let v729 = v730.from(v726.querySelectorAll("[role=\"listitem\"]"));
+        if (v729.length === 0) {
+          v729 = v731.from(v726.querySelectorAll("div[role=\"row\"], [role=\"gridcell\"]"));
         }
-        return _0x1f7adf;
+        if (v729.length === 0) {
+          let v732 = new v733();
+          v729 = v734.from(v726.querySelectorAll("span[title]")).map(v735 => v735.closest("[role=\"listitem\"], div[role=\"row\"], li")).filter(v736 => !v736 || v732.has(v736) ? false : (v732.add(v736), true));
+        }
+        return v729;
       } else {
-        let _0x2c0690 = getComputedStyle(_0xf1e994);
-        return (/(auto|scroll)/).test(_0x2c0690.overflowY) && _0xf1e994.scrollHeight > _0xf1e994.clientHeight + 40;
+        let v737 = getComputedStyle(v723);
+        return /(auto|scroll)/.test(v737.overflowY) && v723.scrollHeight > v723.clientHeight + 40;
       }
-    }), _0x3aae4e = _0x100867.filter(_0x216961 => _0x216961.querySelector(".message-in, .message-out, div[data-id]"));
-    if (_0x3aae4e.length > 0) return _0x3aae4e.sort((_0x28dcaf, _0x2b0af3) => _0x2b0af3.scrollHeight - _0x2b0af3.clientHeight - (_0x28dcaf.scrollHeight - _0x28dcaf.clientHeight))[0];
-    if (_0x100867.length > 0) return _0x100867.sort((_0x58fae7, _0x44b6bb) => _0x44b6bb.scrollHeight - _0x44b6bb.clientHeight - (_0x58fae7.scrollHeight - _0x58fae7.clientHeight))[0];
-    let _0xa2413c = _0x1a0052();
-    for (; _0xa2413c; ) {
-      let _0x5eac3e = getComputedStyle(_0xa2413c);
-      if ((/(auto|scroll)/).test(_0x5eac3e.overflowY) && _0xa2413c.scrollHeight > _0xa2413c.clientHeight) return _0xa2413c;
-      _0xa2413c = _0xa2413c.parentElement;
+    });
+    let v738 = v722.filter(v739 => v739.querySelector(".message-in, .message-out, div[data-id]"));
+    if (v738.length > 0) {
+      return v738.sort((v740, v741) => v741.scrollHeight - v741.clientHeight - (v740.scrollHeight - v740.clientHeight))[0];
     }
-    return _0x3ff5cf.querySelector(".copyable-area") ?? _0x3ff5cf;
+    if (v722.length > 0) {
+      return v722.sort((v742, v743) => v743.scrollHeight - v743.clientHeight - (v742.scrollHeight - v742.clientHeight))[0];
+    }
+    let v744 = v709();
+    while (v744) {
+      let v745 = getComputedStyle(v744);
+      if (/(auto|scroll)/.test(v745.overflowY) && v744.scrollHeight > v744.clientHeight) {
+        return v744;
+      }
+      v744 = v744.parentElement;
+    }
+    return v721.querySelector(".copyable-area") ?? v721;
   }
   // WCE-PATCH (VOICE-2026): WhatsApp now keeps the message id on an
   // ancestor (data-testid="conv-msg-...") instead of the inner msg-container.
   function __wceFindDataId(el) {
-   if (!el) return '';
-
-   var p = el;
-
-   for (var i = 0; i < 25 && p; i++, p = p.parentElement) {
-     var id = p.getAttribute?.("data-id");
-     if (id) return id;
-
-     var testid = p.getAttribute?.("data-testid");
-     if (testid && testid.startsWith("conv-msg-")) {
-      return testid.replace("conv-msg-", "");
+    if (!el) {
+      return "";
+    }
+    var p = el;
+    for (var i = 0; i < 25 && p; i++, p = p.parentElement) {
+      var id = p.getAttribute?.("data-id");
+      if (id) {
+        return id;
+      }
+      var testid = p.getAttribute?.("data-testid");
+      if (testid && testid.startsWith("conv-msg-")) {
+        return testid.replace("conv-msg-", "");
+      }
+    }
+    var child = el.querySelector?.("[data-id]");
+    if (child) {
+      return child.getAttribute("data-id") || "";
+    }
+    var conv = el.querySelector?.("[data-testid^=\"conv-msg-\"]");
+    if (conv) {
+      return (conv.getAttribute("data-testid") || "").replace("conv-msg-", "");
+    }
+    return "";
+  }
+  function v746(v747, v748) {
+    return __wceFindDataId(v747) || [v748.timestamp, v748.sender, v748.fromMe ? "out" : "in", v748.system ? "system" : "message", v748.media ?? "", v748.text].join("|");
+  }
+  function v749(v750) {
+    let v751 = v750.querySelector("img[src^='blob:'], img[src^='data:'], video[src^='blob:'], video[src^='data:'], audio[src^='blob:'], audio[src^='data:']")?.getAttribute("src") ?? undefined;
+    if (v751 && (v751.startsWith("blob:") || v751.startsWith("data:"))) {
+      return v751;
+    } else {
+      return undefined;
     }
   }
-
-  var child = el.querySelector?.("[data-id]");
-  if (child) return child.getAttribute("data-id") || '';
-
-  var conv = el.querySelector?.('[data-testid^="conv-msg-"]');
-  if (conv) {
-    return (conv.getAttribute("data-testid") || "").replace("conv-msg-", "");
-  }
-
-  return '';
-}
-
-  function _0x3bd8ca(_0x93d6ee, _0x419df5) {
-    return __wceFindDataId(_0x93d6ee) || [_0x419df5.timestamp, _0x419df5.sender, _0x419df5.fromMe ? "out" : 'in', _0x419df5.system ? "system" : "message", _0x419df5.media ?? '', _0x419df5.text].join('|');
-  }
-  function _0xdd3742(_0x32247c) {
-    let _0x25abde = _0x32247c.querySelector("img[src^='blob:'], img[src^='data:'], video[src^='blob:'], video[src^='data:'], audio[src^='blob:'], audio[src^='data:']")?.getAttribute("src") ?? void 0;
-    return _0x25abde && (_0x25abde.startsWith('blob:') || _0x25abde.startsWith("data:")) ? _0x25abde : void 0;
-  }
-  function _0x24f8cd() {
-    let _0x2aebd5 = [];
-    for (let _0x44ee18 of _0x385460()) {
+  function v752() {
+    let v753 = [];
+    for (let v754 of v685()) {
       // WCE-PATCH (P1): the loading loop rescanned every rendered bubble on
       // each poll and re-ran the full parse over all of them. Results are now
       // cached against the node, so a rescan costs a WeakMap lookup.
-      let __hit = __wceNodeCache.get(_0x44ee18);
-      if (__hit !== undefined) { if (__hit !== null) _0x2aebd5.push(__hit); continue; }
-      let _0x297579 = _0x10b11f(_0x44ee18), _0xcda488 = _0x44ee18.classList.contains("message-out"), {timestamp: _0x4514ec, sender: _0x25a201} = _0x35bc2b(_0x44ee18), _0x5ea328 = _0x297579 ? void 0 : _0x303451(_0x44ee18), _0xfc5815 = _0x34d46d(_0x44ee18);
-      if (!_0xfc5815 && !_0x5ea328 && !_0x297579) { __wceNodeCache.set(_0x44ee18, null); continue; }
-      let _0x2760dd = {
-        'timestamp': _0x4514ec,
-        'sender': _0x25a201 || (_0xcda488 ? "You" : ''),
-        'fromMe': _0xcda488,
-        'text': _0x297579 ? (_0x44ee18.innerText ?? '').trim() : _0xfc5815,
-        'system': _0x297579,
-        'media': _0x5ea328,
-        'mediaUrl': _0x5ea328 ? _0xdd3742(_0x44ee18) : void 0,
-        'mediaDuration': _0x5ea328 === "voice" ? __lovDur__(_0x44ee18) : void 0
+      let __hit = __wceNodeCache.get(v754);
+      if (__hit !== undefined) {
+        if (__hit !== null) {
+          v753.push(__hit);
+        }
+        continue;
+      }
+      let v755 = v756(v754);
+      let v757 = v754.classList.contains("message-out");
+      let {
+        timestamp: v758,
+        sender: v759
+      } = v760(v754);
+      let v761 = v755 ? undefined : v762(v754);
+      let v763 = v764(v754);
+      if (!v763 && !v761 && !v755) {
+        __wceNodeCache.set(v754, null);
+        continue;
+      }
+      let v765 = {
+        timestamp: v758,
+        sender: v759 || (v757 ? "You" : ""),
+        fromMe: v757,
+        text: v755 ? (v754.innerText ?? "").trim() : v763,
+        system: v755,
+        media: v761,
+        mediaUrl: v761 ? v749(v754) : undefined,
+        mediaDuration: v761 === "voice" ? __lovDur__(v754) : undefined
       };
       let __entry = {
-        'key': _0x3bd8ca(_0x44ee18, _0x2760dd),
-        'message': _0x2760dd
+        key: v746(v754, v765),
+        message: v765
       };
       // Only cache fully-rendered bubbles: a node still hydrating can report an
       // empty timestamp, and caching that would freeze the bad value in place.
-      if (_0x4514ec) __wceNodeCache.set(_0x44ee18, __entry);
-      _0x2aebd5.push(__entry);
+      if (v758) {
+        __wceNodeCache.set(v754, __entry);
+      }
+      v753.push(__entry);
     }
-    return _0x2aebd5;
+    return v753;
   }
-  async function _0x1e1d4e(_0x1724b3) {
-    let _0xea8f3f = await (await fetch(_0x1724b3)).blob();
-    return await new Promise((_0x14e10c, _0x196231) => {
-      let _0x1f37e4 = new FileReader();
-      (_0x1f37e4.onload = () => _0x14e10c(String(_0x1f37e4.result)), _0x1f37e4.onerror = () => _0x196231(_0x1f37e4.error ?? Error("read failed")), _0x1f37e4.readAsDataURL(_0xea8f3f));
+  async function v766(v767) {
+    let v768 = await (await fetch(v767)).blob();
+    return await new Promise((v769, v770) => {
+      let v771 = new FileReader();
+      v771.onload = () => v769(String(v771.result));
+      v771.onerror = () => v770(v771.error ?? Error("read failed"));
+      v771.readAsDataURL(v768);
     });
   }
-  var _0x89daa2 = new Map(), _0x2ae742 = 7;
-
+  var v772 = new Map();
+  var v773 = 7;
   /* ===================== WCE-PATCH: helpers ===================== */
-
   // Parsed-bubble cache, keyed on the DOM node. The loading loop rescans the
   // pane constantly; without this, every rescan re-ran the full parse (regex,
   // media probe, innerText) across every rendered bubble.
@@ -1571,42 +1857,73 @@ return __wceFinalChats;
   var __wceTsMap = new WeakMap();
   function __wceGetTs(m) {
     var e = __wceTsMap.get(m);
-    return e ? e.ts : undefined;
+    if (e) {
+      return e.ts;
+    } else {
+      return undefined;
+    }
   }
 
   // Per-chat date-format decision, reset when a chat is opened.
   var __wceFmt = null;
-  function __wceResetFmt() { __wceFmt = null; }
+  function __wceResetFmt() {
+    __wceFmt = null;
+  }
 
   // Build a Date from (a, b, y) under an explicit ordering. Returns null if the
   // result is not a real calendar date, so 31/02 is rejected rather than
   // rolling over into March.
   function __wceMake(a, b, y, order) {
-    if (y < 100) y += 2000;
-    var day = order === 'MDY' ? b : a;
-    var mon = order === 'MDY' ? a : b;
-    if (mon < 1 || mon > 12 || day < 1 || day > 31) return null;
+    if (y < 100) {
+      y += 2000;
+    }
+    var day = order === "MDY" ? b : a;
+    var mon = order === "MDY" ? a : b;
+    if (mon < 1 || mon > 12 || day < 1 || day > 31) {
+      return null;
+    }
     var dt = new Date(y, mon - 1, day);
-    if (isNaN(dt.getTime())) return null;
-    if (dt.getDate() !== day || dt.getMonth() !== mon - 1) return null;
+    if (isNaN(dt.getTime())) {
+      return null;
+    }
+    if (dt.getDate() !== day || dt.getMonth() !== mon - 1) {
+      return null;
+    }
     return dt;
   }
-
   function __wceTriple(ts) {
-    if (!ts) return null;
+    if (!ts) {
+      return null;
+    }
     var m = String(ts).match(/(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4})/);
-    return m ? { a: +m[1], b: +m[2], y: +m[3] } : null;
+    if (m) {
+      return {
+        a: +m[1],
+        b: +m[2],
+        y: +m[3]
+      };
+    } else {
+      return null;
+    }
   }
 
   // WhatsApp shows relative labels instead of a date for recent days.
   function __wceRelative(ts) {
-    if (!ts) return null;
-    var s = String(ts).toLowerCase(), now = new Date();
+    if (!ts) {
+      return null;
+    }
+    var s = String(ts).toLowerCase();
+    var now = new Date();
     if (/\btoday\b|\bhoy\b|\baujourd/.test(s)) {
-      var d0 = new Date(now); d0.setHours(0, 0, 0, 0); return d0;
+      var d0 = new Date(now);
+      d0.setHours(0, 0, 0, 0);
+      return d0;
     }
     if (/\byesterday\b|\bayer\b|\bhier\b/.test(s)) {
-      var d1 = new Date(now); d1.setHours(0, 0, 0, 0); d1.setDate(d1.getDate() - 1); return d1;
+      var d1 = new Date(now);
+      d1.setHours(0, 0, 0, 0);
+      d1.setDate(d1.getDate() - 1);
+      return d1;
     }
     return null;
   }
@@ -1618,59 +1935,99 @@ return __wceFinalChats;
   // fell straight through to locale, which silently inverts dates for anyone
   // whose WhatsApp locale differs from their browser locale.
   function __wceDetectFmt(msgs) {
-    var dmy = 0, mdy = 0, triples = [];
+    var dmy = 0;
+    var mdy = 0;
+    var triples = [];
     for (var i = 0; i < msgs.length; i++) {
       var t = __wceTriple(msgs[i] && msgs[i].timestamp);
-      if (!t) continue;
+      if (!t) {
+        continue;
+      }
       triples.push(t);
-      if (t.a > 12 && t.b <= 12) dmy++;
-      else if (t.b > 12 && t.a <= 12) mdy++;
+      if (t.a > 12 && t.b <= 12) {
+        dmy++;
+      } else if (t.b > 12 && t.a <= 12) {
+        mdy++;
+      }
     }
     // 1. A component above 12 cannot be a month. Conclusive.
-    if (dmy > mdy) return 'DMY';
-    if (mdy > dmy) return 'MDY';
+    if (dmy > mdy) {
+      return "DMY";
+    }
+    if (mdy > dmy) {
+      return "MDY";
+    }
 
     // 2. No message can be dated in the future. If one reading puts dates past
     //    today and the other does not, the other is correct. e.g. on 25 Aug,
     //    "05/09" read as DMY is 5 Sep, which has not happened yet.
     if (triples.length > 0) {
       var horizon = Date.now() + 172800000; // +2d absorbs timezone skew
-      var future = { DMY: 0, MDY: 0 };
-      ['DMY', 'MDY'].forEach(function (ord) {
+      var future = {
+        DMY: 0,
+        MDY: 0
+      };
+      ["DMY", "MDY"].forEach(function (ord) {
         for (var k = 0; k < triples.length; k++) {
           var d = __wceMake(triples[k].a, triples[k].b, triples[k].y, ord);
-          if (d && d.getTime() > horizon) future[ord]++;
+          if (d && d.getTime() > horizon) {
+            future[ord]++;
+          }
         }
       });
-      if (future.DMY === 0 && future.MDY > 0) return 'DMY';
-      if (future.MDY === 0 && future.DMY > 0) return 'MDY';
+      if (future.DMY === 0 && future.MDY > 0) {
+        return "DMY";
+      }
+      if (future.MDY === 0 && future.DMY > 0) {
+        return "MDY";
+      }
     }
 
     // 3. Messages arrive oldest-first, so the correct reading is the one that
     //    yields a non-decreasing sequence.
     if (triples.length > 1) {
-      var score = { DMY: 0, MDY: 0 };
-      ['DMY', 'MDY'].forEach(function (ord) {
-        var prev = null, ok = 0, bad = 0;
+      var score = {
+        DMY: 0,
+        MDY: 0
+      };
+      ["DMY", "MDY"].forEach(function (ord) {
+        var prev = null;
+        var ok = 0;
+        var bad = 0;
         for (var j = 0; j < triples.length; j++) {
           var d = __wceMake(triples[j].a, triples[j].b, triples[j].y, ord);
-          if (!d) { bad += 2; continue; }
-          if (prev !== null) { if (d.getTime() >= prev) ok++; else bad++; }
+          if (!d) {
+            bad += 2;
+            continue;
+          }
+          if (prev !== null) {
+            if (d.getTime() >= prev) {
+              ok++;
+            } else {
+              bad++;
+            }
+          }
           prev = d.getTime();
         }
         score[ord] = ok - bad;
       });
-      if (score.DMY > score.MDY) return 'DMY';
-      if (score.MDY > score.DMY) return 'MDY';
+      if (score.DMY > score.MDY) {
+        return "DMY";
+      }
+      if (score.MDY > score.DMY) {
+        return "MDY";
+      }
     }
 
     // 4. Locale. Only reached when both readings are genuinely consistent with
     //    the data, in which case no signal can distinguish them.
     try {
-      var lang = (navigator.language || '').toLowerCase();
-      if (lang.indexOf('en-us') === 0 || lang.indexOf('en-ca') === 0) return 'MDY';
+      var lang = (navigator.language || "").toLowerCase();
+      if (lang.indexOf("en-us") === 0 || lang.indexOf("en-ca") === 0) {
+        return "MDY";
+      }
     } catch (e) {}
-    return 'DMY';
+    return "DMY";
   }
 
   // Resolve every message to a concrete epoch, recorded in __wceTsMap.
@@ -1679,46 +2036,91 @@ return __wceFinalChats;
   // chronological neighbours instead of being discarded. That discard is what
   // made in-range messages disappear from exports with no error.
   function __wceResolve(msgs, fmt) {
-    if (!msgs || !msgs.length) return msgs;
+    if (!msgs || !msgs.length) {
+      return msgs;
+    }
     fmt = fmt || __wceDetectFmt(msgs);
-    var i, m, dt, tod;
+    var i;
+    var m;
+    var dt;
+    var tod;
     for (i = 0; i < msgs.length; i++) {
       m = msgs[i];
-      if (!m) continue;
+      if (!m) {
+        continue;
+      }
       dt = __wceRelative(m.timestamp);
       if (!dt) {
         var t = __wceTriple(m.timestamp);
         dt = t ? __wceMake(t.a, t.b, t.y, fmt) : null;
         // If the chosen ordering yields an impossible date, the other ordering
         // is the only remaining reading -- take it rather than lose the message.
-        if (!dt && t) dt = __wceMake(t.a, t.b, t.y, fmt === 'DMY' ? 'MDY' : 'DMY');
+        if (!dt && t) {
+          dt = __wceMake(t.a, t.b, t.y, fmt === "DMY" ? "MDY" : "DMY");
+        }
       }
       if (dt) {
-        tod = _0x5d510b(m.timestamp || '');
+        tod = v459(m.timestamp || "");
         if (tod != null) {
           dt = new Date(dt.getTime());
           dt.setHours(Math.floor(tod / 60), tod % 60, 0, 0);
         }
-        __wceTsMap.set(m, { ts: dt.getTime(), exact: true, inferred: false });
+        __wceTsMap.set(m, {
+          ts: dt.getTime(),
+          exact: true,
+          inferred: false
+        });
+      } else if (m.tsMs != null) {
+        // Voice/media bubbles carry no data-pre-plain-text date text, but the
+        // collector already derived a day from the nearest day-divider (msg.tsMs).
+        // Use it (inferred) so voice-only/media-only chats are not left date-less
+        // and unsortable. The backend accepts 'inferred' timestamps.
+        __wceTsMap.set(m, {
+          ts: m.tsMs,
+          exact: false,
+          inferred: true
+        });
       } else {
-        __wceTsMap.set(m, { ts: null, exact: false, inferred: false });
+        __wceTsMap.set(m, {
+          ts: null,
+          exact: false,
+          inferred: false
+        });
       }
     }
     // Backward fill: an undated message is no older than the next dated one.
     var next = null;
     for (i = msgs.length - 1; i >= 0; i--) {
-      if (!msgs[i]) continue;
+      if (!msgs[i]) {
+        continue;
+      }
       var e = __wceTsMap.get(msgs[i]);
-      if (e && e.ts != null) next = e.ts;
-      else if (next != null) __wceTsMap.set(msgs[i], { ts: next, exact: false, inferred: true });
+      if (e && e.ts != null) {
+        next = e.ts;
+      } else if (next != null) {
+        __wceTsMap.set(msgs[i], {
+          ts: next,
+          exact: false,
+          inferred: true
+        });
+      }
     }
     // Forward fill for any remaining leading gap.
     var prev = null;
     for (i = 0; i < msgs.length; i++) {
-      if (!msgs[i]) continue;
+      if (!msgs[i]) {
+        continue;
+      }
       var e2 = __wceTsMap.get(msgs[i]);
-      if (e2 && e2.ts != null) prev = e2.ts;
-      else if (prev != null) __wceTsMap.set(msgs[i], { ts: prev, exact: false, inferred: true });
+      if (e2 && e2.ts != null) {
+        prev = e2.ts;
+      } else if (prev != null) {
+        __wceTsMap.set(msgs[i], {
+          ts: prev,
+          exact: false,
+          inferred: true
+        });
+      }
     }
     return msgs;
   }
@@ -1731,105 +2133,170 @@ return __wceFinalChats;
   // `stopOnMutation` returns at the first sign of life, so that probe is cheap.
   function __wceAwaitMutation(el, budgetMs, predicate, stopOnMutation) {
     return new Promise(function (resolve) {
-      var done = false, obs = null, timer = null, poll = null, mutated = false;
+      var done = false;
+      var obs = null;
+      var timer = null;
+      var poll = null;
+      var mutated = false;
       function finish(v) {
-        if (done) return;
+        if (done) {
+          return;
+        }
         done = true;
-        if (obs) { try { obs.disconnect(); } catch (e) {} }
-        if (timer) clearTimeout(timer);
-        if (poll) clearInterval(poll);
-        resolve({ hit: v, mutated: mutated });
+        if (obs) {
+          try {
+            obs.disconnect();
+          } catch (e) {}
+        }
+        if (timer) {
+          clearTimeout(timer);
+        }
+        if (poll) {
+          clearInterval(poll);
+        }
+        resolve({
+          hit: v,
+          mutated: mutated
+        });
       }
-      function check() { try { if (predicate && predicate()) finish(true); } catch (e) {} }
-      function onMut() { mutated = true; check(); if (stopOnMutation) finish(false); }
+      function check() {
+        try {
+          if (predicate && predicate()) {
+            finish(true);
+          }
+        } catch (e) {}
+      }
+      function onMut() {
+        mutated = true;
+        check();
+        if (stopOnMutation) {
+          finish(false);
+        }
+      }
       try {
         obs = new MutationObserver(onMut);
-        obs.observe(el, { childList: true, subtree: true });
-      } catch (e) { obs = null; }
+        obs.observe(el, {
+          childList: true,
+          subtree: true
+        });
+      } catch (e) {
+        obs = null;
+      }
       // Safety net: catches attribute-only reflows, and keeps things moving if
       // the observer failed to attach at all.
       poll = setInterval(check, 120);
-      timer = setTimeout(function () { finish(false); }, budgetMs);
+      timer = setTimeout(function () {
+        finish(false);
+      }, budgetMs);
       check();
     });
   }
 
   /* =================== end WCE-PATCH: helpers =================== */
 
-  function _0x13219d(_0x57cd62) {
-    var _0x43a0c5 = _0x57cd62 && _0x57cd62.dayRange;
-    return (_0x43a0c5 = Number(_0x43a0c5), isFinite(_0x43a0c5) && _0x43a0c5 > 0 ? _0x43a0c5 : _0x2ae742);
-  }
-  function _0x551df0(_0xbf678a) {
-    var _0x3565fe = _0x13219d(_0xbf678a);
-    return _0x3565fe <= 1 ? "last 24 hours" : "last " + _0x3565fe + " days";
-  }
-  function _0xdddfaa(_0x22258b, _0x57c520) {
-    var _0x330054 = _0xd56be3(_0x22258b.timestamp, _0x57c520);
-    if (!_0x330054) return null;
-    var _0x5dc36e = _0x5d510b(_0x22258b.timestamp);
-    if (_0x5dc36e != null) {
-      (_0x330054 = new Date(_0x330054.getTime()), _0x330054.setHours(Math.floor(_0x5dc36e / 60), _0x5dc36e % 60, 0, 0));
+  function v650(v774) {
+    var v775 = v774 && v774.dayRange;
+    v775 = Number(v775);
+    if (isFinite(v775) && v775 > 0) {
+      return v775;
+    } else {
+      return v773;
     }
-    return _0x330054;
   }
-  function _0x238f6f(_0x568a22, _0x128ff1) {
-    const _0x1652d8 = {
-      'aoBLU': function (_0x35159b, _0x44d0eb, _0x42b80a) {
-        return _0x35159b(_0x44d0eb, _0x42b80a);
+  function v776(v777) {
+    var v778 = v650(v777);
+    if (v778 <= 1) {
+      return "last 24 hours";
+    } else {
+      return "last " + v778 + " days";
+    }
+  }
+  function v779(v780, v781) {
+    var v782 = v448(v780.timestamp, v781);
+    if (!v782) {
+      return null;
+    }
+    var v783 = v459(v780.timestamp);
+    if (v783 != null) {
+      v782 = new Date(v782.getTime());
+      v782.setHours(Math.floor(v783 / 60), v783 % 60, 0, 0);
+    }
+    return v782;
+  }
+  function v784(v785, v786) {
+    const v787 = {
+      aoBLU: function (v788, v789, v790) {
+        return v788(v789, v790);
       },
-      'obuzF': function (_0xb5c824, _0x583e64) {
-        return _0xb5c824 >= _0x583e64;
+      obuzF: function (v791, v792) {
+        return v791 >= v792;
       }
     };
-    if (!_0x128ff1) return _0x568a22;
+    if (!v786) {
+      return v785;
+    }
     // WCE-PATCH (A1): this read `!!ts && ts >= cutoff`, so any message whose
     // timestamp string failed to parse was dropped outright -- in-range
     // messages vanishing from the export with no error anywhere. Resolve
     // against neighbours first, then compare; anything still unresolvable is
     // kept rather than lost.
-    var _0x8c5830 = _0x202f43(_0x568a22);
-    __wceResolve(_0x568a22, _0x8c5830);
-    var __cut = _0x128ff1.getTime();
-    return _0x568a22.filter(function (_0x50ec61) {
-      if (!_0x50ec61) return false;
-      var t = __wceGetTs(_0x50ec61);
-      if (t == null) return true;
+    var v793 = v436(v785);
+    __wceResolve(v785, v793);
+    var __cut = v786.getTime();
+    return v785.filter(function (v794) {
+      if (!v794) {
+        return false;
+      }
+      var t = __wceGetTs(v794);
+      if (t == null) {
+        return true;
+      }
       return t >= __cut;
     });
   }
-  function _0x943666(_0x12d9f3) {
-    return _0x238f6f(_0x12d9f3, _0x1d0711());
+  function v795(v796) {
+    return v784(v796, v649());
   }
-  function _0xdfd21c(_0x562253, _0x57f49f) {
-    if (!_0x57f49f) return !1;
-    var _0x2fd7ed = _0xdddfaa(_0x562253, 'DMY'), _0x1c78ad = _0xdddfaa(_0x562253, "MDY");
-    if (!_0x2fd7ed && !_0x1c78ad) return null;
-    return (!_0x2fd7ed || _0x2fd7ed < _0x57f49f) && (!_0x1c78ad || _0x1c78ad < _0x57f49f);
-  }
-  function _0x1086b6(_0xdbdc04, _0x379b9e) {
-    var _0x146129 = _0xdfd21c(_0xdbdc04, _0x379b9e);
-    return _0x146129 === null ? !0 : !_0x146129;
-  }
-  function _0x325fee(_0x781113, _0x542147) {
-    const _0xa4c66c = {
-      'zKaPJ': function (_0x1397f1, _0x20b679) {
-        return _0x1397f1 !== _0x20b679;
-      },
-      'FaaZq': "lov-wa-store",
-      'HvKDb': function (_0x394b12, _0x1c1ce4) {
-        return _0x394b12 < _0x1c1ce4;
-      },
-      'BZMtK': function (_0x1cac95, _0x7ac1ab) {
-        return _0x1cac95(_0x7ac1ab);
-      },
-      'MCqei': "message"
-    };
-    for (let _0x7239f0 of _0x781113) {
-      let _0x2a3631 = _0xdfd21c(_0x7239f0, _0x542147);
-      if (_0x2a3631 !== null) return _0x2a3631;
+  function v797(v798, v799) {
+    if (!v799) {
+      return false;
     }
-    return !1;
+    var v800 = v779(v798, "DMY");
+    var v801 = v779(v798, "MDY");
+    if (!v800 && !v801) {
+      return null;
+    }
+    return (!v800 || v800 < v799) && (!v801 || v801 < v799);
+  }
+  function v802(v803, v804) {
+    var v805 = v797(v803, v804);
+    if (v805 === null) {
+      return true;
+    } else {
+      return !v805;
+    }
+  }
+  function v806(v807, v808) {
+    const v809 = {
+      zKaPJ: function (v810, v811) {
+        return v810 !== v811;
+      },
+      FaaZq: "lov-wa-store",
+      HvKDb: function (v812, v813) {
+        return v812 < v813;
+      },
+      BZMtK: function (v814, v815) {
+        return v814(v815);
+      },
+      MCqei: "message"
+    };
+    for (let v816 of v807) {
+      let v817 = v797(v816, v808);
+      if (v817 !== null) {
+        return v817;
+      }
+    }
+    return false;
   }
   // ===================== WCE-PATCH: rewritten loader =====================
   //
@@ -1857,14 +2324,15 @@ return __wceFinalChats;
   //     which is what fixes the truncation, while an inert pane is confirmed
   //     in 2 quick rounds.
   //   * Append-then-reverse instead of unshift, and a per-chat wall clock.
-  async function _0x45c37c(_0x215db7, _0x4a12c0, _0x310ab3 = !1, _0x1c7614) {
+  async function v818(v819, v820, v821 = false, v822) {
     __wceResetFmt();
-    let _0x48cfc6 = _0x2d9f26();
-    if (!_0x48cfc6) return _0x24f8cd().map(_0x387092 => _0x387092.message);
-
-    let seen = new Set();      // dedupe keys across rounds
-    let olderPages = [];       // pages loaded by scrolling up, newest page last
-    let initial = [];          // what was on screen when we started
+    let v823 = v713();
+    if (!v823) {
+      return v752().map(v824 => v824.message);
+    }
+    let seen = new Set(); // dedupe keys across rounds
+    let olderPages = []; // pages loaded by scrolling up, newest page last
+    let initial = []; // what was on screen when we started
     let mediaQueue = [];
     let startedAt = Date.now();
 
@@ -1876,34 +2344,47 @@ return __wceFinalChats;
     // Append without spreading: `push(...arr)` passes every element as an
     // argument, which is exactly the overflow the original unshift hit.
     const appendAll = (dst, srcArr) => {
-      for (let i = 0; i < srcArr.length; i++) dst.push(srcArr[i]);
+      for (let i = 0; i < srcArr.length; i++) {
+        dst.push(srcArr[i]);
+      }
       return dst;
     };
-
-    const collect = (prepend) => {
+    const collect = prepend => {
       let fresh = [];
-      for (let entry of _0x24f8cd()) {
-        if (seen.has(entry.key)) continue;
+      for (let entry of v752()) {
+        if (seen.has(entry.key)) {
+          continue;
+        }
         seen.add(entry.key);
         let msg = entry.message;
-        if ((msg.media === 'voice' || msg.media === 'audio') && entry.key && String(entry.key).length <= 200 && !String(entry.key).includes('|')) msg.sourceMessageId = String(entry.key);
-        if (_0x310ab3 && _0x1086b6(msg, _0x1c7614)) {
-          mediaQueue.push({ 'm': msg, 'k': entry.key });
+        if ((msg.media === "voice" || msg.media === "audio") && entry.key && String(entry.key).length <= 200 && !String(entry.key).includes("|")) {
+          msg.sourceMessageId = String(entry.key);
+        }
+        if (v821 && v802(msg, v822)) {
+          mediaQueue.push({
+            m: msg,
+            k: entry.key
+          });
         }
         fresh.push(msg);
       }
       if (fresh.length > 0) {
-        if (prepend) olderPages.push(fresh);   // reversed on the way out
-        else appendAll(initial, fresh);
+        if (prepend) {
+          olderPages.push(fresh); // reversed on the way out
+        } else {
+          appendAll(initial, fresh);
+        }
       }
-      _0x215db7(seen.size);
+      v819(seen.size);
       return fresh.length;
     };
 
     // Oldest history first, then whatever was initially on screen.
     const assemble = () => {
       let out = [];
-      for (let p = olderPages.length - 1; p >= 0; p--) appendAll(out, olderPages[p]);
+      for (let p = olderPages.length - 1; p >= 0; p--) {
+        appendAll(out, olderPages[p]);
+      }
       appendAll(out, initial);
       return out;
     };
@@ -1911,19 +2392,18 @@ return __wceFinalChats;
     // The cutoff check only ever needs the oldest messages, which live in the
     // most recently loaded page. Rebuilding the whole array each iteration just
     // to inspect its head would put the quadratic cost straight back in.
-    const oldestSlice = () =>
-      olderPages.length > 0 ? olderPages[olderPages.length - 1] : initial;
-
+    const oldestSlice = () => olderPages.length > 0 ? olderPages[olderPages.length - 1] : initial;
     const fireScroll = () => {
-      _0x48cfc6.dispatchEvent(new Event("scroll", { 'bubbles': !0 }));
+      v823.dispatchEvent(new Event("scroll", {
+        bubbles: true
+      }));
     };
 
     // Load latency observed in this chat, used to size every wait. A chat
     // delivering pages in 50ms does not need a multi-second budget to confirm
     // it has reached the top; a genuinely slow one still gets a generous one.
     let maxLoadMs = 120;
-    const budget = (mult, lo, hi) =>
-      Math.max(lo, Math.min(hi, Math.round(maxLoadMs * mult)));
+    const budget = (mult, lo, hi) => Math.max(lo, Math.min(hi, Math.round(maxLoadMs * mult)));
 
     // Two-phase wait.
     //   Phase A: give the pane a short window to show ANY activity. WhatsApp
@@ -1933,114 +2413,143 @@ return __wceFinalChats;
     //     This is what makes short chats cheap.
     //   Phase B: only once the pane has stirred do we spend the larger budget
     //     waiting for messages to actually land.
-    const awaitNew = async (contentBudgetMs) => {
-      let got = collect(!0);
-      if (got > 0) return { count: got, mutated: true };
-
-      let baseline = _0x385460().length;
-      let baseH = _0x48cfc6.scrollHeight;
-      const arrived = () =>
-        _0x385460().length !== baseline || _0x48cfc6.scrollHeight !== baseH;
-
+    const awaitNew = async contentBudgetMs => {
+      let got = collect(true);
+      if (got > 0) {
+        return {
+          count: got,
+          mutated: true
+        };
+      }
+      let baseline = v685().length;
+      let baseH = v823.scrollHeight;
+      const arrived = () => v685().length !== baseline || v823.scrollHeight !== baseH;
       let t0 = Date.now();
-      let a = await __wceAwaitMutation(_0x48cfc6, budget(2.5, 250, 1000), arrived, true);
-      let count = collect(!0);
+      let a = await __wceAwaitMutation(v823, budget(2.5, 250, 1000), arrived, true);
+      let count = collect(true);
       if (count > 0) {
         let took = Date.now() - t0;
-        if (took > maxLoadMs) maxLoadMs = Math.min(took, 5000);
-        return { count: count, mutated: true };
+        if (took > maxLoadMs) {
+          maxLoadMs = Math.min(took, 5000);
+        }
+        return {
+          count: count,
+          mutated: true
+        };
       }
-      if (!a.mutated) return { count: 0, mutated: false };   // inert -> at top
+      if (!a.mutated) {
+        return {
+          count: 0,
+          mutated: false
+        };
+      } // inert -> at top
 
       let spent = Date.now() - t0;
       let remaining = Math.max(200, contentBudgetMs - spent);
-      await __wceAwaitMutation(_0x48cfc6, remaining, arrived, false);
-      count = collect(!0);
+      await __wceAwaitMutation(v823, remaining, arrived, false);
+      count = collect(true);
       if (count > 0) {
         let took = Date.now() - t0;
-        if (took > maxLoadMs) maxLoadMs = Math.min(took, 5000);
+        if (took > maxLoadMs) {
+          maxLoadMs = Math.min(took, 5000);
+        }
       }
-      return { count: count, mutated: true };
+      return {
+        count: count,
+        mutated: true
+      };
     };
 
     // Prime: jump to the bottom and wait for the first render.
-    _0x48cfc6.scrollTop = _0x48cfc6.scrollHeight;
+    v823.scrollTop = v823.scrollHeight;
     fireScroll();
-    await __wceAwaitMutation(_0x48cfc6, 4000, () => _0x385460().length > 0, false);
-    collect(!1);
+    await __wceAwaitMutation(v823, 4000, () => v685().length > 0, false);
+    collect(false);
+    let reachedCutoff = !!v822 && !!v806(oldestSlice(), v822);
+    let softStalls = 0; // pane reacted but produced nothing -> still loading
+    let hardStalls = 0; // pane completely inert -> top of history
 
-    let reachedCutoff = !!(_0x1c7614 && _0x325fee(oldestSlice(), _0x1c7614));
-    let softStalls = 0;   // pane reacted but produced nothing -> still loading
-    let hardStalls = 0;   // pane completely inert -> top of history
-
-    for (let i = 0; i < _0x678c29 && !reachedCutoff && !_0x4a12c0(); i++) {
-      if (budgetExceeded()) break;
-
-      _0x48cfc6.scrollTop = 0;
+    for (let i = 0; i < v551 && !reachedCutoff && !v820(); i++) {
+      if (budgetExceeded()) {
+        break;
+      }
+      v823.scrollTop = 0;
       fireScroll();
-
       let r = await awaitNew(budget(6, 300, 2500));
-
-      if (_0x1c7614 && _0x325fee(oldestSlice(), _0x1c7614)) { reachedCutoff = !0; break; }
-
-      if (r.count > 0) { softStalls = 0; hardStalls = 0; continue; }
+      if (v822 && v806(oldestSlice(), v822)) {
+        reachedCutoff = true;
+        break;
+      }
+      if (r.count > 0) {
+        softStalls = 0;
+        hardStalls = 0;
+        continue;
+      }
 
       // Nothing new. If the pane never mutated, WhatsApp did not even render a
       // spinner, so there is no more history -- confirm once and stop, rather
       // than waiting out several escalating budgets for a chat that has ended.
       if (!r.mutated) {
         hardStalls++;
-        if (hardStalls >= 2) break;
+        if (hardStalls >= 2) {
+          break;
+        }
       } else {
         // Alive but slow: keep escalating. 5 attempts, not 2 -- this is the
         // truncation fix.
         softStalls++;
-        if (softStalls >= 5) break;
+        if (softStalls >= 5) {
+          break;
+        }
       }
-
       let attempt = softStalls + hardStalls;
-      _0x48cfc6.scrollTop = 24 + attempt * 8;
+      v823.scrollTop = 24 + attempt * 8;
       fireScroll();
-      await _0x16b465(60);
-      _0x48cfc6.scrollTop = 0;
+      await v547(60);
+      v823.scrollTop = 0;
       fireScroll();
 
       // After an inert round the only question is "is it really inert?", which
       // resolves fast. Escalating budgets are for a demonstrably live pane.
-      let r2 = await awaitNew(r.mutated ? budget(8 + attempt * 4, 400, 4000)
-                                        : budget(3, 300, 1000));
+      let r2 = await awaitNew(r.mutated ? budget(8 + attempt * 4, 400, 4000) : budget(3, 300, 1000));
       if (r2.count > 0) {
-        softStalls = 0; hardStalls = 0;
-        if (_0x1c7614 && _0x325fee(oldestSlice(), _0x1c7614)) { reachedCutoff = !0; break; }
+        softStalls = 0;
+        hardStalls = 0;
+        if (v822 && v806(oldestSlice(), v822)) {
+          reachedCutoff = true;
+          break;
+        }
       } else if (!r2.mutated) {
         hardStalls++;
-        if (hardStalls >= 2) break;
+        if (hardStalls >= 2) {
+          break;
+        }
       }
     }
 
     // Final sweep: pick up anything rendered during the last wait.
-    collect(!0);
-
-    if (_0x310ab3 && mediaQueue.length > 0 && !_0x4a12c0()) {
+    collect(true);
+    if (v821 && mediaQueue.length > 0 && !v820()) {
       let cursor = 0;
       let worker = async () => {
-        for (;;) {
+        while (true) {
           let idx = cursor++;
-          if (idx >= mediaQueue.length || _0x4a12c0()) return;
+          if (idx >= mediaQueue.length || v820()) {
+            return;
+          }
           let msg = mediaQueue[idx].m;
           if (msg.mediaUrl) {
-            msg.mediaData = await _0x1e1d4e(msg.mediaUrl).catch(() => void 0);
+            msg.mediaData = await v766(msg.mediaUrl).catch(() => undefined);
           } else if (msg.media === "voice") {
-            msg.mediaData = await (window.__lovDlAudio__
-              ? window.__lovDlAudio__(mediaQueue[idx].k)
-              : Promise.resolve()).catch(() => void 0);
+            msg.mediaData = await (window.__lovDlAudio__ ? window.__lovDlAudio__(mediaQueue[idx].k) : Promise.resolve()).catch(() => undefined);
           }
         }
       };
-      await Promise.all(Array.from({ 'length': Math.min(6, mediaQueue.length) }, worker));
+      await Promise.all(Array.from({
+        length: Math.min(6, mediaQueue.length)
+      }, worker));
     }
-
-    _0x48cfc6.scrollTop = _0x48cfc6.scrollHeight;
+    v823.scrollTop = v823.scrollHeight;
     return assemble();
   }
   // =================== end WCE-PATCH: rewritten loader ===================
@@ -2052,605 +2561,912 @@ return __wceFinalChats;
   // In v4.5 the broad call sweep was removed to prevent group-header false
   // positives, but genuine event-only rows also disappeared. The second pass
   // now stays inside the active conversation and requires a real call event.
-  function _0x385460() {
-    var root = _0x1a0052() ?? document;
-    var raw = Array.from(root.querySelectorAll(
-      "div.message-in, div.message-out, div[data-id][data-testid^='conv-msg-'], " +
-      "div[data-testid^='conv-msg-'], [data-testid='msg-container'], " +
-      "[data-testid='call-event'], [data-testid='call-log-message'], [data-testid='call-message']"
-    ));
+  function v685() {
+    var root = v709() ?? document;
+    var raw = Array.from(root.querySelectorAll("div.message-in, div.message-out, div[data-id][data-testid^='conv-msg-'], div[data-testid^='conv-msg-'], [data-testid='msg-container'], [data-testid='call-event'], [data-testid='call-log-message'], [data-testid='call-message']"));
     // Do not scan the whole WhatsApp page, group header or Calls tab.
     // Include genuine call rows that lack the usual message-in/out selectors.
-    var candidateRows = root.querySelectorAll(
-      "[role='row'], [data-testid*='call-event'], [data-testid*='call-log'], div[data-id]"
-    );
-    for (var c=0; c<candidateRows.length && c<1500; c++) {
+    var candidateRows = root.querySelectorAll("[role='row'], [data-testid*='call-event'], [data-testid*='call-log'], div[data-id]");
+    for (var c = 0; c < candidateRows.length && c < 1500; c++) {
       var candidate = candidateRows[c];
-      if (typeof __lovIsCallRow === 'function' && __lovIsCallRow(candidate)) raw.push(candidate);
+      if (typeof __lovIsCallRow === "function" && __lovIsCallRow(candidate)) {
+        raw.push(candidate);
+      }
     }
     function canonical(node) {
-      if (!node || !node.closest) return node;
-      var bubble = node.closest('.message-in, .message-out, [data-testid^="conv-msg-"]');
-      if (bubble) return bubble.closest('.message-in, .message-out') || bubble;
+      if (!node || !node.closest) {
+        return node;
+      }
+      var bubble = node.closest(".message-in, .message-out, [data-testid^=\"conv-msg-\"]");
+      if (bubble) {
+        return bubble.closest(".message-in, .message-out") || bubble;
+      }
       var p = node;
-      for (var depth=0; depth<8 && p; depth++,p=p.parentElement) {
-        if (p === root || p.id === 'main' || p.classList?.contains('copyable-area')) break;
-        var id = p.getAttribute?.('data-id') ||
-          String(p.getAttribute?.('data-testid') || '').replace(/^conv-msg-/, '');
-        if (/^(?:true|false)_[^\s|]{6,}$/i.test(id)) return p;
+      for (var depth = 0; depth < 8 && p; depth++, p = p.parentElement) {
+        if (p === root || p.id === "main" || p.classList?.contains("copyable-area")) {
+          break;
+        }
+        var id = p.getAttribute?.("data-id") || String(p.getAttribute?.("data-testid") || "").replace(/^conv-msg-/, "");
+        if (/^(?:true|false)_[^\s|]{6,}$/i.test(id)) {
+          return p;
+        }
       }
       return node;
     }
-    var seenIds = new Set(), seenNodes = new Set(), result = [];
-    for (var i=0; i<raw.length; i++) {
-      var node=canonical(raw[i]);
-      if (!node || seenNodes.has(node)) continue;
-      var id=__csrTrustedMessageId(node);
-      if (id && seenIds.has(id)) continue;
-      var ancestor=node.parentElement, nested=false;
-      for (var depth=0;depth<8 && ancestor;depth++,ancestor=ancestor.parentElement) {
-        if (seenNodes.has(ancestor)) {nested=true;break;}
-        if (ancestor===root) break;
+    var seenIds = new Set();
+    var seenNodes = new Set();
+    var result = [];
+    for (var i = 0; i < raw.length; i++) {
+      var node = canonical(raw[i]);
+      if (!node || seenNodes.has(node)) {
+        continue;
       }
-      if (!id && nested) continue;
+      var id = __csrTrustedMessageId(node);
+      if (id && seenIds.has(id)) {
+        continue;
+      }
+      var ancestor = node.parentElement;
+      var nested = false;
+      for (var depth = 0; depth < 8 && ancestor; depth++, ancestor = ancestor.parentElement) {
+        if (seenNodes.has(ancestor)) {
+          nested = true;
+          break;
+        }
+        if (ancestor === root) {
+          break;
+        }
+      }
+      if (!id && nested) {
+        continue;
+      }
       seenNodes.add(node);
-      if (id) seenIds.add(id);
+      if (id) {
+        seenIds.add(id);
+      }
       result.push(node);
     }
     // Mixed native wrappers and event-only rows must be processed in DOM order
     // so neighboring day dividers supply the correct timestamp context.
-    try {result.sort(function(a,b){
-      if(a===b)return 0;
-      var rel=a.compareDocumentPosition(b);
-      if(rel & 4)return -1;
-      if(rel & 2)return 1;
-      return 0;
-    });}catch(_){}
+    try {
+      result.sort(function (a, b) {
+        if (a === b) {
+          return 0;
+        }
+        var rel = a.compareDocumentPosition(b);
+        if (rel & 4) {
+          return -1;
+        }
+        if (rel & 2) {
+          return 1;
+        }
+        return 0;
+      });
+    } catch (_) {}
     return result;
   }
-  function _0x9406c2(_0x3edf56) {
-    const _0xa04155 = {
-      'QUyQK': function (_0x5ee5d3) {
-        return _0x5ee5d3();
+  function v825(v826) {
+    const v827 = {
+      QUyQK: function (v828) {
+        return v828();
       }
     };
-    return (_0x3edf56.querySelector("[data-pre-plain-text]") ?? _0x3edf56.closest("[data-pre-plain-text]")) ?? null;
+    return v826.querySelector("[data-pre-plain-text]") ?? v826.closest("[data-pre-plain-text]") ?? null;
   }
-  function _0x35bc2b(_0x273d1d) {
-    let _0x32a5cb = _0x9406c2(_0x273d1d)?.getAttribute("data-pre-plain-text") ?? '', _0xf3f252 = _0x32a5cb.match(/^\[(.+?)\]\s*(.*?):\s*$/);
-    if (_0xf3f252) return {
-      'timestamp': _0xf3f252[1].trim(),
-      'sender': _0xf3f252[2].trim()
-    };
-    let _0x3ddbd6 = _0x32a5cb.match(/^\[(.+?)\]/);
-    return {
-      'timestamp': _0x3ddbd6 ? _0x3ddbd6[1].trim() : '',
-      'sender': ''
-    };
-  }
-  function _0x303451(_0x44ab71) {
-    if (_0x44ab71.querySelector("[data-icon=\"media-cancel\"], [aria-label*=\"This message was deleted\"]")) return "deleted";
-    if (_0x44ab71.querySelector(
-      "[data-icon=\"audio-play\"], [data-icon=\"ptt-status\"], audio, " +
-      "button[aria-label=\"Play voice message\"], span[aria-label=\"Voice message\"], " +
-      "div[aria-label=\"Voice note progress slider\"]"
-    )) return 'voice';
-    if (_0x44ab71.querySelector("img[src^='blob:'], img[src^='data:'], [data-icon='media-download'] + img, [aria-label*='Photo']")) return "image";
-    if (_0x44ab71.querySelector("video, [aria-label*='Video']")) return "video";
-    if (_0x44ab71.querySelector("[data-icon=\"sticker\"], [aria-label*=\"Sticker\"]")) return "sticker";
-    if (_0x44ab71.querySelector("[data-icon=\"document\"], [data-icon=\"doc\"], [aria-label*=\"Document\"]")) return "document";
-    if (_0x44ab71.querySelector("[data-icon=\"poll\"], [aria-label*=\"Poll\"]")) return "poll";
-    if (_0x44ab71.querySelector("[data-icon=\"location\"], [aria-label*=\"Location\"]")) return 'location';
-    if (_0x44ab71.querySelector("[data-icon=\"contact\"], [aria-label*=\"Contact card\"]")) return "contact";
-  }
-  function _0x34d46d(_0x4a09ef) {
-    let _0x11041c = Array.from(_0x4a09ef.querySelectorAll(".copyable-text span.selectable-text, span.selectable-text, .selectable-text.copyable-text"));
-    if (_0x11041c.length > 0) {
-      let _0x3a6875 = _0x11041c.map(_0x136aff => ((_0x136aff.innerText ?? _0x136aff.textContent) ?? '').trim()).filter(_0x2b3354 => _0x2b3354.length > 0);
-      if (_0x3a6875.length > 0) return _0x3a6875.sort((_0x2a8c10, _0x160f53) => _0x160f53.length - _0x2a8c10.length)[0];
+  function v760(v829) {
+    let v830 = v825(v829)?.getAttribute("data-pre-plain-text") ?? "";
+    let v831 = v830.match(/^\[(.+?)\]\s*(.*?):\s*$/);
+    if (v831) {
+      return {
+        timestamp: v831[1].trim(),
+        sender: v831[2].trim()
+      };
     }
-    return '';
+    let v832 = v830.match(/^\[(.+?)\]/);
+    return {
+      timestamp: v832 ? v832[1].trim() : "",
+      sender: ""
+    };
   }
-  function _0x10b11f(_0x5ab652) {
+  function v762(v833) {
+    if (v833.querySelector("[data-icon=\"media-cancel\"], [aria-label*=\"This message was deleted\"]")) {
+      return "deleted";
+    }
+    if (v833.querySelector("[data-icon=\"audio-play\"], [data-icon=\"ptt-status\"], audio, button[aria-label=\"Play voice message\"], span[aria-label=\"Voice message\"], div[aria-label=\"Voice note progress slider\"]")) {
+      return "voice";
+    }
+    if (v833.querySelector("img[src^='blob:'], img[src^='data:'], [data-icon='media-download'] + img, [aria-label*='Photo']")) {
+      return "image";
+    }
+    if (v833.querySelector("video, [aria-label*='Video']")) {
+      return "video";
+    }
+    if (v833.querySelector("[data-icon=\"sticker\"], [aria-label*=\"Sticker\"]")) {
+      return "sticker";
+    }
+    if (v833.querySelector("[data-icon=\"document\"], [data-icon=\"doc\"], [aria-label*=\"Document\"]")) {
+      return "document";
+    }
+    if (v833.querySelector("[data-icon=\"poll\"], [aria-label*=\"Poll\"]")) {
+      return "poll";
+    }
+    if (v833.querySelector("[data-icon=\"location\"], [aria-label*=\"Location\"]")) {
+      return "location";
+    }
+    if (v833.querySelector("[data-icon=\"contact\"], [aria-label*=\"Contact card\"]")) {
+      return "contact";
+    }
+  }
+  function v764(v834) {
+    let v835 = Array.from(v834.querySelectorAll(".copyable-text span.selectable-text, span.selectable-text, .selectable-text.copyable-text"));
+    if (v835.length > 0) {
+      let v836 = v835.map(v837 => (v837.innerText ?? v837.textContent ?? "").trim()).filter(v838 => v838.length > 0);
+      if (v836.length > 0) {
+        return v836.sort((v839, v840) => v840.length - v839.length)[0];
+      }
+    }
+    return "";
+  }
+  function v756(v841) {
     // Current WhatsApp messages no longer always have message-in/message-out
     // or data-pre-plain-text. A conv-msg/msg-container is still a real message,
     // not a system row.
-    if (_0x5ab652.classList.contains("message-in") || _0x5ab652.classList.contains("message-out")) return !1;
-    if (_0x5ab652.matches?.("[data-testid^='conv-msg-']") || _0x5ab652.querySelector?.("[data-testid='msg-container']")) return !1;
-    return !_0x9406c2(_0x5ab652);
+    if (v841.classList.contains("message-in") || v841.classList.contains("message-out")) {
+      return false;
+    }
+    if (v841.matches?.("[data-testid^='conv-msg-']") || v841.querySelector?.("[data-testid='msg-container']")) {
+      return false;
+    }
+    return !v825(v841);
   }
-  function _0x2ca145() {
-    let _0x158344 = [], _0x868b8e = new Set();
-    for (let _0x3bd1ab of _0x24f8cd()) _0x868b8e.has(_0x3bd1ab.key) || (_0x868b8e.add(_0x3bd1ab.key), _0x158344.push(_0x3bd1ab.message));
-    return _0x158344;
-  }
-  async function _0x408f81(_0x4596ff, _0x370985 = !1, _0x241188) {
-    const _0x3625c6 = {};
-    (_0x3625c6.timeout = 0x4e20, await _0x1fb3ff(() => _0x385460().length > 0 ? !0 : _0x2a89e5(), _0x3625c6));
-    let _0x56e621 = _0x4e35f6();
-    const _0x1d32fa = {};
-    (_0x1d32fa.phase = "loading", _0x1d32fa.currentTitle = _0x56e621, _0x1d32fa.messagesProcessed = 0x0, _0x4596ff.emit(_0x1d32fa));
-    let _0x671d96 = await _0x45c37c(_0x2b01db => _0x4596ff.emit({
-      'phase': "loading",
-      'currentTitle': _0x56e621,
-      'messagesProcessed': _0x2b01db
-    }), _0x4596ff.shouldCancel, _0x370985, _0x241188);
-    const _0x3c82d2 = {};
-    (_0x3c82d2.phase = "parsing", _0x3c82d2.currentTitle = _0x56e621, _0x4596ff.emit(_0x3c82d2));
-    let _0x3016c3 = _0x671d96.length > 0 ? _0x671d96 : _0x2ca145();
-    const _0x4be035 = {};
-    return (_0x4be035.phase = 'parsing', _0x4be035.currentTitle = _0x56e621, _0x4be035.messagesProcessed = _0x3016c3.length, (_0x4596ff.emit(_0x4be035), {
-      'title': _0x56e621,
-      'messages': _0x3016c3
-    }));
-  }
-  async function _0x334d95(_0x5b1b0c, _0x4178d1, _0x483ca2 = !1, _0x544ca4) {
-    let _0x387ba4 = [], _0x530dc0 = [];
-    for (let _0x3d28f5 = 0; _0x3d28f5 < _0x5b1b0c.length && !_0x4178d1.shouldCancel(); _0x3d28f5++) {
-      const _0x5e0ed9 = {};
-      (_0x5e0ed9.phase = "scanning", _0x5e0ed9.currentIndex = _0x3d28f5, _0x5e0ed9.currentTitle = _0x5b1b0c[_0x3d28f5], _0x5e0ed9.totalChats = _0x5b1b0c.length, _0x4178d1.emit(_0x5e0ed9));
-      let _0x2d2e9d = null, _0x1aed37 = null;
-      for (let _0x46008d = 0; _0x46008d < 2 && !_0x4178d1.shouldCancel(); _0x46008d++) {
-        try {
-          (await _0x4d1267(_0x5b1b0c[_0x3d28f5]), _0x1aed37 = await _0x2054ea({
-            'emit': _0x5a0c61 => _0x4178d1.emit({
-              ..._0x5a0c61,
-              'currentIndex': _0x3d28f5,
-              'totalChats': _0x5b1b0c.length
-            }),
-            'shouldCancel': _0x4178d1.shouldCancel
-          }, _0x483ca2, _0x544ca4, _0x5b1b0c[_0x3d28f5]), _0x2d2e9d = null);
-          break;
-        } catch (_0xaa2a88) {
-          (_0x2d2e9d = _0xaa2a88 instanceof Error ? _0xaa2a88.message : String(_0xaa2a88), _0x1aed37 = null, await _0x16b465(250));
-        }
-      }
-      if (_0x1aed37) {
-        const _0x1aa9e1 = {
-          ..._0x1aed37
-        };
-        (_0x1aa9e1.reqId = _0x5b1b0c[_0x3d28f5], _0x387ba4.push(_0x1aa9e1));
-      } else {
-        const _0x3aa5bd = {};
-        (_0x3aa5bd.id = _0x5b1b0c[_0x3d28f5], _0x3aa5bd.title = _0x5b1b0c[_0x3d28f5], _0x3aa5bd.error = _0x2d2e9d || "Could not read this chat", _0x530dc0.push(_0x3aa5bd));
-        const _0x2151aa = {};
-        (_0x2151aa.phase = "skipped", _0x2151aa.currentIndex = _0x3d28f5, _0x2151aa.currentTitle = _0x5b1b0c[_0x3d28f5], _0x2151aa.totalChats = _0x5b1b0c.length, _0x4178d1.emit(_0x2151aa));
+  function v842() {
+    let v843 = [];
+    let v844 = new Set();
+    for (let v845 of v752()) {
+      if (!v844.has(v845.key)) {
+        v844.add(v845.key);
+        v843.push(v845.message);
       }
     }
-    return (_0x387ba4.skipped = _0x530dc0, _0x387ba4);
+    return v843;
   }
-  function _0x3385e2(_0x46491d, _0x422771 = "chat") {
-    return (_0x46491d.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '\x20').replace(/\s+/g, '\x20').trim().replace(/\.+$/, '') || _0x422771).slice(0, 120);
+  async function v846(v847, v848 = false, v849) {
+    await v552(() => v685().length > 0 ? true : v686(), {
+      timeout: 20000
+    });
+    let v850 = v679();
+    const v851 = {
+      phase: "loading",
+      currentTitle: v850,
+      messagesProcessed: 0
+    };
+    v847.emit(v851);
+    let v852 = await v818(v853 => v847.emit({
+      phase: "loading",
+      currentTitle: v850,
+      messagesProcessed: v853
+    }), v847.shouldCancel, v848, v849);
+    const v854 = {
+      phase: "parsing",
+      currentTitle: v850
+    };
+    v847.emit(v854);
+    let v855 = v852.length > 0 ? v852 : v842();
+    const v856 = {
+      phase: "parsing",
+      currentTitle: v850,
+      messagesProcessed: v855.length
+    };
+    v847.emit(v856);
+    return {
+      title: v850,
+      messages: v855
+    };
   }
-  function _0xd6a8ef() {
-    const _0x2979aa = {
-      'WWjWA': function (_0x455c44, _0xa4fd79) {
-        return _0x455c44 + _0xa4fd79;
+  async function v857(v858, v859, v860 = false, v861) {
+    let v862 = [];
+    let v863 = [];
+    for (let v864 = 0; v864 < v858.length && !v859.shouldCancel(); v864++) {
+      const v865 = {
+        phase: "scanning",
+        currentIndex: v864,
+        currentTitle: v858[v864],
+        totalChats: v858.length
+      };
+      v859.emit(v865);
+      let v866 = null;
+      let v867 = null;
+      for (let v868 = 0; v868 < 2 && !v859.shouldCancel(); v868++) {
+        try {
+          await v665(v858[v864]);
+          v867 = await v869({
+            emit: v870 => v859.emit({
+              ...v870,
+              currentIndex: v864,
+              totalChats: v858.length
+            }),
+            shouldCancel: v859.shouldCancel
+          }, v860, v861, v858[v864]);
+          v866 = null;
+          break;
+        } catch (v871) {
+          v866 = v871 instanceof Error ? v871.message : String(v871);
+          v867 = null;
+          await v547(250);
+        }
+      }
+      if (v867) {
+        const v872 = {
+          ...v867
+        };
+        v872.reqId = v858[v864];
+        v862.push(v872);
+      } else {
+        const v873 = {
+          id: v858[v864],
+          title: v858[v864],
+          error: v866 || "Could not read this chat"
+        };
+        v863.push(v873);
+        const v874 = {
+          phase: "skipped",
+          currentIndex: v864,
+          currentTitle: v858[v864],
+          totalChats: v858.length
+        };
+        v859.emit(v874);
+      }
+    }
+    v862.skipped = v863;
+    return v862;
+  }
+  function v875(v876, v877 = "chat") {
+    return (v876.replace(/[<>:"/\\|?*\u0000-\u001f]/g, " ").replace(/\s+/g, " ").trim().replace(/\.+$/, "") || v877).slice(0, 120);
+  }
+  function v878() {
+    const v879 = {
+      WWjWA: function (v880, v881) {
+        return v880 + v881;
       }
     };
-    let _0x826ab9 = new Map();
-    return _0x193ec1 => {
-      let _0x90d363 = _0x826ab9.get(_0x193ec1) ?? 0;
-      return (_0x826ab9.set(_0x193ec1, _0x2979aa.WWjWA(_0x90d363, 1)), _0x90d363 === 0 ? _0x193ec1 : _0x193ec1 + '\x20(' + _0x90d363 + ')');
-    };
-  }
-  function _0x12bc33(_0x53b165, _0x33f062, _0x34f22f) {
-    const _0x474041 = {};
-    return (_0x474041.type = "DOWNLOAD", _0x474041.filename = _0x53b165, _0x474041.text = _0x33f062, _0x474041.mime = _0x34f22f, _0x36bf6e(_0x474041));
-  }
-  function _0x1d0bff(_0x37f0de, _0xcd7762) {
-    const _0x3a0483 = {
-      'tipiI': function (_0x1a09fd, _0x9353ad) {
-        return _0x1a09fd(_0x9353ad);
-      },
-      'ICNKs': function (_0x74ca8d, _0x252697) {
-        return _0x74ca8d > _0x252697;
-      },
-      'AVxpH': function (_0x536431, _0x2a1f69) {
-        return _0x536431 + _0x2a1f69;
-      },
-      'HTYQE': function (_0x3e43b2, _0x129217) {
-        return _0x3e43b2 > _0x129217;
-      },
-      'zHrqu': function (_0xe1b740) {
-        return _0xe1b740();
-      },
-      'pATGb': function (_0x14e382, _0x1a012d) {
-        return _0x14e382 > _0x1a012d;
+    let v882 = new Map();
+    return v883 => {
+      let v884 = v882.get(v883) ?? 0;
+      v882.set(v883, v879.WWjWA(v884, 1));
+      if (v884 === 0) {
+        return v883;
+      } else {
+        return v883 + " (" + v884 + ")";
       }
     };
-    const _0x53df3d = {};
-    return (_0x53df3d.type = "DOWNLOAD", _0x53df3d.filename = _0x37f0de, _0x53df3d.dataUrl = _0xcd7762, _0x36bf6e(_0x53df3d));
   }
-  function _0x36bf6e(_0x5f4d0e) {
-    const _0x21063d = {
-      'FhuSb': function (_0x1219ec, _0x25d59e) {
-        return _0x1219ec(_0x25d59e);
+  function v885(v886, v887, v888) {
+    const v889 = {
+      type: "DOWNLOAD",
+      filename: v886,
+      text: v887,
+      mime: v888
+    };
+    return v890(v889);
+  }
+  function v891(v892, v893) {
+    const v894 = {
+      tipiI: function (v895, v896) {
+        return v895(v896);
       },
-      'Ttrky': function (_0x760f5a) {
-        return _0x760f5a();
+      ICNKs: function (v897, v898) {
+        return v897 > v898;
+      },
+      AVxpH: function (v899, v900) {
+        return v899 + v900;
+      },
+      HTYQE: function (v901, v902) {
+        return v901 > v902;
+      },
+      zHrqu: function (v903) {
+        return v903();
+      },
+      pATGb: function (v904, v905) {
+        return v904 > v905;
       }
     };
-    return new Promise((_0x30f4e6, _0x155ec0) => {
-      chrome.runtime.sendMessage(_0x5f4d0e, _0x447e9d => {
-        let _0x4f1a7e = chrome.runtime.lastError;
-        if (_0x4f1a7e) return _0x21063d.FhuSb(_0x155ec0, Error(_0x4f1a7e.message));
-        _0x447e9d?.ok ? _0x21063d.Ttrky(_0x30f4e6) : _0x21063d.FhuSb(_0x155ec0, _0x21063d.FhuSb(Error, _0x447e9d?.error ?? "Download failed"));
+    const v906 = {
+      type: "DOWNLOAD",
+      filename: v892,
+      dataUrl: v893
+    };
+    return v890(v906);
+  }
+  function v890(v907) {
+    const v908 = {
+      FhuSb: function (v909, v910) {
+        return v909(v910);
+      },
+      Ttrky: function (v911) {
+        return v911();
+      }
+    };
+    return new Promise((v912, v913) => {
+      chrome.runtime.sendMessage(v907, v914 => {
+        let v915 = chrome.runtime.lastError;
+        if (v915) {
+          return v908.FhuSb(v913, Error(v915.message));
+        }
+        if (v914?.ok) {
+          v908.Ttrky(v912);
+        } else {
+          v908.FhuSb(v913, v908.FhuSb(Error, v914?.error ?? "Download failed"));
+        }
       });
     });
   }
-  function _0x562fda(_0x2e2a45) {
-    return _0x2e2a45.format === "html" ? 'html' : "txt";
+  function v916(v917) {
+    if (v917.format === "html") {
+      return "html";
+    } else {
+      return "txt";
+    }
   }
-  function _0x5c88c5(_0x501e23) {
-    return _0x501e23.format === "html" ? "text/html" : "text/plain";
+  function v918(v919) {
+    if (v919.format === "html") {
+      return "text/html";
+    } else {
+      return "text/plain";
+    }
   }
-  function _0x4fec83(_0x17c193, _0xc45193) {
-    return _0xc45193.format === "html" ? _0x9cb3ab(_0x17c193, _0xc45193) : _0x319483(_0x17c193, _0xc45193);
+  function v920(v921, v922) {
+    if (v922.format === "html") {
+      return v536(v921, v922);
+    } else {
+      return v492(v921, v922);
+    }
   }
   function __wceGetUnreadSummary() {
-    return Array.isArray(window.__wceLastUnreadSummary)
-      ? window.__wceLastUnreadSummary
-      : [];
+    if (Array.isArray(window.__wceLastUnreadSummary)) {
+      return window.__wceLastUnreadSummary;
+    } else {
+      return [];
+    }
   }
   function __wceUnreadTextBlock() {
     var list = __wceGetUnreadSummary();
-    var lines = [
-      "UNREAD CHATS SKIPPED: " + list.length
-    ];
+    var lines = ["UNREAD CHATS SKIPPED: " + list.length];
     if (list.length) {
       lines.push("");
       for (var i = 0; i < list.length; i++) {
-        lines.push((i + 1) + ". " + list[i]);
+        lines.push(i + 1 + ". " + list[i]);
       }
     }
-    lines.push("", _0x269443, "");
+    lines.push("", v498, "");
     return lines.join("\n");
   }
   function __wceUnreadHtmlBlock() {
     var list = __wceGetUnreadSummary();
     var items = list.map(function (item) {
-      return "<li>" + _0x29904e(String(item)) + "</li>";
+      return "<li>" + v517(String(item)) + "</li>";
     }).join("");
-    return "<section style=\"margin:0 0 18px;padding:12px 14px;border-radius:8px;background:#fff3cd;color:#111;\">" +
-      "<strong>Unread chats skipped: " + list.length + "</strong>" +
-      (list.length ? "<ol style=\"margin:8px 0 0 20px;padding:0;\">" + items + "</ol>" : "") +
-      "</section>";
+    return "<section style=\"margin:0 0 18px;padding:12px 14px;border-radius:8px;background:#fff3cd;color:#111;\"><strong>Unread chats skipped: " + list.length + "</strong>" + (list.length ? "<ol style=\"margin:8px 0 0 20px;padding:0;\">" + items + "</ol>" : "") + "</section>";
   }
-  function _0x2d09d7(_0x300448, _0x276c5a) {
-    if (_0x276c5a.format === "html") {
-      var html = _0x180e35(_0x300448, _0x276c5a);
+  function v923(v924, v925) {
+    if (v925.format === "html") {
+      var html = v543(v924, v925);
       return html.replace("<main>\n", "<main>\n" + __wceUnreadHtmlBlock() + "\n");
     }
-    return __wceUnreadTextBlock() + _0x175188(_0x300448, _0x276c5a);
+    return __wceUnreadTextBlock() + v499(v924, v925);
   }
-  function _0x1371ee(_0x551760) {
-    let _0x38f19d = _0x551760.slice(5, _0x551760.indexOf(';'));
-    const _0x3fcb03 = {};
-    return (_0x3fcb03["image/jpeg"] = "jpg", _0x3fcb03["image/jpg"] = "jpg", _0x3fcb03["image/png"] = "png", _0x3fcb03["image/webp"] = "webp", _0x3fcb03["image/gif"] = "gif", _0x3fcb03["video/mp4"] = "mp4", _0x3fcb03["video/webm"] = "webm", _0x3fcb03["audio/ogg"] = "ogg", _0x3fcb03["audio/mpeg"] = "mp3", _0x3fcb03["audio/mp4"] = "m4a", _0x3fcb03["audio/wav"] = "wav", _0x3fcb03[_0x38f19d] ?? (_0x38f19d.split('/')[1] || "bin"));
+  function v926(v927) {
+    let v928 = v927.slice(5, v927.indexOf(";"));
+    return {
+      "image/jpeg": "jpg",
+      "image/jpg": "jpg",
+      "image/png": "png",
+      "image/webp": "webp",
+      "image/gif": "gif",
+      "video/mp4": "mp4",
+      "video/webm": "webm",
+      "audio/ogg": "ogg",
+      "audio/mpeg": "mp3",
+      "audio/mp4": "m4a",
+      "audio/wav": "wav"
+    }[v928] ?? (v928.split("/")[1] || "bin");
   }
-  async function _0x379496(_0x1d1616, _0x414c6f) {
-    let _0x3226f6 = _0x1de7d4(_0x1d1616.messages, _0x414c6f).filter(_0x33da74 => !!_0x33da74.mediaData);
-    if (_0x3226f6.length === 0) return 0;
-    let _0x3f3b3f = _0x3385e2(_0x1d1616.title) || "chat", _0x595b1d = 0;
-    for (let _0x4acfca = 0; _0x4acfca < _0x3226f6.length; _0x4acfca++) {
-      let _0x1b52e5 = _0x3226f6[_0x4acfca], _0x1dc133 = _0x1371ee(_0x1b52e5.mediaData), _0x42d4b6 = _0x3f3b3f + '/' + String(_0x4acfca + 1).padStart(4, '0') + '-' + (_0x1b52e5.media ?? "media") + '.' + _0x1dc133;
+  async function v929(v930, v931) {
+    let v932 = v472(v930.messages, v931).filter(v933 => !!v933.mediaData);
+    if (v932.length === 0) {
+      return 0;
+    }
+    let v934 = v875(v930.title) || "chat";
+    let v935 = 0;
+    for (let v936 = 0; v936 < v932.length; v936++) {
+      let v937 = v932[v936];
+      let v938 = v926(v937.mediaData);
+      let v939 = v934 + "/" + String(v936 + 1).padStart(4, "0") + "-" + (v937.media ?? "media") + "." + v938;
       try {
-        (await _0x1d0bff(_0x42d4b6, _0x1b52e5.mediaData), _0x595b1d += 1);
+        await v891(v939, v937.mediaData);
+        v935 += 1;
       } catch {}
     }
-    return _0x595b1d;
+    return v935;
   }
-  async function _0x5264bb(_0x566719, _0x27e6e0) {
-    let _0x261bf9 = _0x1de7d4(_0x566719.messages, _0x27e6e0).filter(_0x559d82 => !!_0x559d82.mediaData && (_0x559d82.media === 'audio' || _0x559d82.media === "voice"));
-    if (_0x261bf9.length === 0) return 0;
-    let _0x477c66 = _0x3385e2(_0x566719.title) || "chat", _0x280cd0 = 0;
-    for (let _0x283a65 = 0; _0x283a65 < _0x261bf9.length; _0x283a65++) {
-      let _0x5812f3 = _0x261bf9[_0x283a65], _0x2812a0 = _0x1371ee(_0x5812f3.mediaData), _0x38c3ad = _0x477c66 + "/audio/" + String(_0x283a65 + 1).padStart(4, '0') + '-' + (_0x5812f3.media ?? "audio") + '.' + _0x2812a0;
+  async function v940(v941, v942) {
+    let v943 = v472(v941.messages, v942).filter(v944 => !!v944.mediaData && (v944.media === "audio" || v944.media === "voice"));
+    if (v943.length === 0) {
+      return 0;
+    }
+    let v945 = v875(v941.title) || "chat";
+    let v946 = 0;
+    for (let v947 = 0; v947 < v943.length; v947++) {
+      let v948 = v943[v947];
+      let v949 = v926(v948.mediaData);
+      let v950 = v945 + "/audio/" + String(v947 + 1).padStart(4, "0") + "-" + (v948.media ?? "audio") + "." + v949;
       try {
-        (await _0x1d0bff(_0x38c3ad, _0x5812f3.mediaData), _0x280cd0 += 1);
+        await v891(v950, v948.mediaData);
+        v946 += 1;
       } catch {}
     }
-    return _0x280cd0;
+    return v946;
   }
-  async function _0x2950f4(_0x2e2af9, _0x49ad72) {
-    const _0x45fe74 = {
-      'xNquc': function (_0xa7dc3d, _0x249121) {
-        return _0xa7dc3d(_0x249121);
+  async function v951(v952, v953) {
+    const v954 = {
+      xNquc: function (v955, v956) {
+        return v955(v956);
       }
     };
-    let _0x5e1149 = _0xd6a8ef(), _0x6ce8b6 = _0x562fda(_0x49ad72), _0x4e5d04 = _0x5c88c5(_0x49ad72), _0x5d4d23 = 0;
-    for (let _0x4b174f of _0x2e2af9) {
-      let _0x27a20a = _0x4fec83(_0x4b174f, _0x49ad72);
-      (await _0x12bc33(_0x5e1149(_0x3385e2(_0x4b174f.title)) + '.' + _0x6ce8b6, _0x27a20a, _0x4e5d04), _0x49ad72.exportMedia && await _0x379496(_0x4b174f, _0x49ad72), _0x49ad72.exportAudio && await _0x5264bb(_0x4b174f, _0x49ad72), _0x5d4d23 += 1);
+    let v957 = v878();
+    let v958 = v916(v953);
+    let v959 = v918(v953);
+    let v960 = 0;
+    for (let v961 of v952) {
+      let v962 = v920(v961, v953);
+      await v885(v957(v875(v961.title)) + "." + v958, v962, v959);
+      if (v953.exportMedia) {
+        await v929(v961, v953);
+      }
+      if (v953.exportAudio) {
+        await v940(v961, v953);
+      }
+      v960 += 1;
     }
-    return _0x5d4d23;
+    return v960;
   }
-  async function _0x10e69f(_0x215059, _0x32527e, _0x1d85a3 = "whatsapp-export-combined") {
-    let _0x47ea5c = _0x2d09d7(_0x215059, _0x32527e), _0x86418c = _0x562fda(_0x32527e);
-    if ((await _0x12bc33(_0x3385e2(_0x1d85a3) + '.' + _0x86418c, _0x47ea5c, _0x5c88c5(_0x32527e)), _0x32527e.exportMedia)) {
-      for (let _0x2cef83 of _0x215059) await _0x379496(_0x2cef83, _0x32527e);
+  async function v963(v964, v965, v966 = "whatsapp-export-combined") {
+    let v967 = v923(v964, v965);
+    let v968 = v916(v965);
+    await v885(v875(v966) + "." + v968, v967, v918(v965));
+    if (v965.exportMedia) {
+      for (let v969 of v964) {
+        await v929(v969, v965);
+      }
     }
-    if (_0x32527e.exportAudio) {
-      for (let _0x5874f7 of _0x215059) await _0x5264bb(_0x5874f7, _0x32527e);
+    if (v965.exportAudio) {
+      for (let v970 of v964) {
+        await v940(v970, v965);
+      }
     }
   }
-  var _0x159ef8 = !1;
-  function _0x1d0711(_0x68aba2) {
-    let _0x41a612 = _0x13219d(_0x68aba2);
+  var v971 = false;
+  function v649(v972) {
+    let v973 = v650(v972);
     // WCE-PATCH (A2): this used a rolling 24h window for dayRange <= 1 but a
     // midnight-aligned one for anything larger, so "last 7 days" actually
     // returned up to 8 calendar days. One rolling window for every range now,
     // matching the "last N days" wording the UI shows.
-    return new Date(Date.now() - _0x41a612 * 86400000);
+    return new Date(Date.now() - v973 * 86400000);
   }
-  function _0x4afdbc(_0x517273) {
-    const _0xe0735e = {};
-    (_0xe0735e.type = "PROGRESS", _0xe0735e.progress = _0x517273);
-    let _0x4878bf = _0xe0735e;
-    chrome.runtime.sendMessage(_0x4878bf).catch(() => void 0);
+  function v974(v975) {
+    const v976 = {
+      type: "PROGRESS",
+      progress: v975
+    };
+    let v977 = v976;
+    chrome.runtime.sendMessage(v977).catch(() => undefined);
   }
-  function _0x146022(_0x181e82) {
+  function v978(v979) {
     return {
-      'emit': _0x10470a => _0x4afdbc({
-        'totalChats': 0x1,
-        'currentIndex': 0x0,
-        'currentTitle': '',
-        'messagesProcessed': 0x0,
-        ..._0x181e82,
-        ..._0x10470a
+      emit: v980 => v974({
+        totalChats: 1,
+        currentIndex: 0,
+        currentTitle: "",
+        messagesProcessed: 0,
+        ...v979,
+        ...v980
       }),
-      'shouldCancel': () => _0x159ef8
+      shouldCancel: () => v971
     };
   }
-  (chrome.runtime.onMessage.addListener((_0x33ecf7, _0x4ab0b5, _0x5cc8ef) => ((async () => {
-    const _0x413297 = {
-      'VjvPr': function (_0x291d28, _0x1d7c8f) {
-        return _0x291d28 === _0x1d7c8f;
-      },
-      'fZfki': "BBzgH",
-      'UnGVH': function (_0x4b1408, _0x436a20) {
-        return _0x4b1408(_0x436a20);
-      },
-      'VFhxf': function (_0x3ffa00) {
-        return _0x3ffa00();
-      }
-    };
-    try {
-      switch (_0x33ecf7.type) {
-        case "CSR_FETCH_VOICE": {
-          const sourceId = String(_0x33ecf7.sourceMessageId || '');
-          if (!sourceId || sourceId.length > 500) throw new Error('Voice source ID missing');
-          if (typeof window.__lovDlAudio__ !== 'function') throw new Error('WhatsApp voice resolver unavailable');
-          const dataUrl = await window.__lovDlAudio__(sourceId);
-          if (typeof dataUrl !== 'string' || !/^data:audio\/(?:ogg|mpeg|mp3|mp4|webm|wav|x-wav)(?:;\s*codecs\s*=\s*\"?[a-z0-9._+-]+\"?)?;base64,/i.test(dataUrl))
-            throw new Error('WhatsApp did not provide playable audio');
-          if (dataUrl.length > 5_600_000) throw new Error('Voice exceeds the 4 MiB upload limit');
-          _0x5cc8ef({ok:true,dataUrl});
-          return;
+  chrome.runtime.onMessage.addListener((v981, v982, v983) => {
+    (async () => {
+      const v984 = {
+        VjvPr: function (v985, v986) {
+          return v985 === v986;
+        },
+        fZfki: "BBzgH",
+        UnGVH: function (v987, v988) {
+          return v987(v988);
+        },
+        VFhxf: function (v989) {
+          return v989();
         }
-        case "PING":
-          const _0x374c0f = {};
-          (_0x374c0f.ok = !0, _0x374c0f.type = 'PONG', _0x5cc8ef(_0x374c0f));
-          return;
-        case "GET_CHATS":
-          {
-            const __wceDays = Number(_0x33ecf7.dayRange);
-            const __wceChats = await _0xbb32dd(Number.isFinite(__wceDays) && __wceDays > 0 ? { dayRange: Math.min(730, Math.ceil(__wceDays)) } : undefined);
-            const __wceUnreadChats = Array.from(
-              (__wceChats && __wceChats.__wceUnreadSummary) ||
-              window.__wceLastUnreadSummary ||
-              []
-            );
-            _0x5cc8ef({
-              'ok': !0,
-              'type': "CHATS",
-              'chats': __wceChats,
-              'unreadCount': __wceUnreadChats.length,
-              'unreadChats': __wceUnreadChats
-            });
-            return;
-          }
-        case "SCRAPE_CURRENT":
-          {
-            _0x159ef8 = !1;
-            const _0x2e1ee2 = {};
-            _0x2e1ee2.totalChats = 0x1;
-            let _0x245591 = await _0x2054ea(_0x146022(_0x2e1ee2));
-            const _0x16033e = {};
-            (_0x16033e.totalChats = 0x1, _0x16033e.currentIndex = 0x0, _0x16033e.currentTitle = _0x245591.title, _0x16033e.messagesProcessed = _0x245591.messages.length, _0x16033e.phase = "done", (_0x4afdbc(_0x16033e), _0x5cc8ef({
-              'ok': !0,
-              'type': "SCRAPED",
-              'chats': [_0x245591]
-            })));
-            return;
-          }
-        case "SCRAPE_CHATS":
-          {
-            _0x159ef8 = !1;
-            let _0x1c673c = await _0x334d95(_0x33ecf7.ids, _0x146022({
-              'totalChats': _0x33ecf7.ids.length
-            }), false, Number.isFinite(Number(_0x33ecf7.cutoffMs)) && Number(_0x33ecf7.cutoffMs) > 946684800000 ? new Date(Number(_0x33ecf7.cutoffMs)) : (_0x33ecf7.windowHours === 25 ? new Date(Date.now() - 25 * 60 * 60 * 1000) : undefined));
-            (_0x4afdbc({
-              'totalChats': _0x33ecf7.ids.length,
-              'currentIndex': _0x33ecf7.ids.length,
-              'currentTitle': '',
-              'messagesProcessed': _0x1c673c.reduce((_0x298d58, _0x11c356) => _0x298d58 + _0x11c356.messages.length, 0),
-              'phase': _0x159ef8 ? "cancelled" : 'done'
-            }), _0x5cc8ef({
-              'ok': !0,
-              'type': "SCRAPED",
-              'chats': _0x1c673c.map(function(chat){
-                const msgs=chat.messages||[];
-                __wceResolve(msgs,__wceDetectFmt(msgs));
-                return {...chat, messages:msgs.map(function(m){
-                  const entry=__wceTsMap.get(m);
-                  return {...m, timestampMs:entry && entry.ts != null ? entry.ts : null,
-                    timestampQuality:entry ? (entry.exact ? 'exact' : (entry.inferred ? 'inferred' : 'unknown')) : 'unknown'};
-                })};
-              }),
-              'skipped': _0x1c673c.skipped || []
-            }));
-            return;
-          }
-        case "EXPORT_CURRENT":
-          {
-            _0x159ef8 = !1;
-            let _0x29ef95 = !!(_0x33ecf7.options.exportMedia || _0x33ecf7.options.exportAudio), _0x352c9a = _0x89daa2.get(_0x128711(_0x4e35f6())), _0x512a9b = _0x1d0711(_0x33ecf7.options), _0x5ec63d;
-            if (_0x352c9a && Date.now() - _0x352c9a.cachedAt < 900000 && (_0x352c9a.hasMedia || !_0x29ef95) && _0x352c9a.cutoff != null && _0x352c9a.cutoff <= _0x512a9b.getTime()) {
-              _0x5ec63d = {
-                'title': _0x352c9a.title,
-                'messages': _0x238f6f(_0x352c9a.messages, _0x512a9b)
-              };
-              const _0x4c5cd6 = {};
-              (_0x4c5cd6.totalChats = 0x1, _0x4c5cd6.currentIndex = 0x1, _0x4c5cd6.currentTitle = _0x5ec63d.title, _0x4c5cd6.messagesProcessed = _0x5ec63d.messages.length, _0x4c5cd6.phase = 'done', _0x4afdbc(_0x4c5cd6));
-            } else {
-              const _0x1790c6 = {};
-              (_0x1790c6.totalChats = 0x1, _0x5ec63d = await _0x2054ea(_0x146022(_0x1790c6), _0x33ecf7.options.exportMedia || _0x33ecf7.options.exportAudio, _0x512a9b));
-            }
-            if (!_0x5ec63d.messages || _0x5ec63d.messages.length === 0) {
-              const _0x5e0053 = {};
-              (_0x5e0053.totalChats = 0x1, _0x5e0053.currentIndex = 0x1, _0x5e0053.currentTitle = _0x5ec63d.title, _0x5e0053.messagesProcessed = 0x0, _0x5e0053.phase = _0x159ef8 ? "cancelled" : "done", _0x4afdbc(_0x5e0053), _0x5cc8ef({
-                'ok': !0,
-                'type': "EXPORTED",
-                'summary': '\x22' + _0x5ec63d.title + "\" has no messages in the " + _0x551df0(_0x33ecf7.options) + " â€” nothing exported."
-              }));
+      };
+      try {
+        switch (v981.type) {
+          case "CSR_FETCH_VOICE":
+            {
+              const sourceId = String(v981.sourceMessageId || "");
+              if (!sourceId || sourceId.length > 500) {
+                throw new Error("Voice source ID missing");
+              }
+              if (typeof window.__lovDlAudio__ !== "function") {
+                throw new Error("WhatsApp voice resolver unavailable");
+              }
+              const dataUrl = await window.__lovDlAudio__(sourceId);
+              if (typeof dataUrl !== "string" || !/^data:audio\/(?:ogg|mpeg|mp3|mp4|webm|wav|x-wav)(?:;\s*codecs\s*=\s*\"?[a-z0-9._+-]+\"?)?;base64,/i.test(dataUrl)) {
+                throw new Error("WhatsApp did not provide playable audio");
+              }
+              if (dataUrl.length > 5600000) {
+                throw new Error("Voice exceeds the 4 MiB upload limit");
+              }
+              v983({
+                ok: true,
+                dataUrl
+              });
               return;
             }
-            await _0x2950f4([_0x5ec63d], _0x33ecf7.options);
-            const _0x500705 = {};
-            (_0x500705.totalChats = 0x1, _0x500705.currentIndex = 0x1, _0x500705.currentTitle = _0x5ec63d.title, _0x500705.messagesProcessed = _0x5ec63d.messages.length, _0x500705.phase = _0x159ef8 ? "cancelled" : "done", _0x4afdbc(_0x500705));
-            const _0x572a5b = {};
-            (_0x572a5b.ok = !0, _0x572a5b.type = "EXPORTED", _0x572a5b.summary = "Done successfully â€” exported \"" + _0x5ec63d.title + "\" (" + _0x5ec63d.messages.length + " messages).", _0x5cc8ef(_0x572a5b));
-            return;
-          }
-        case "EXPORT_CHATS":
-          {
-            _0x159ef8 = !1;
-            let _0x236c9f = !!(_0x33ecf7.options.exportMedia || _0x33ecf7.options.exportAudio), _0x34aae0 = 900000, _0xa20221 = [], _0x4bc037 = [], _0x194285 = _0x1d0711(_0x33ecf7.options), _0x7385a8 = _0x194285.getTime();
-            for (let _0x594376 of _0x33ecf7.ids) {
-              let _0x1ed128 = _0x89daa2.get(_0x128711(_0x594376));
-              _0x1ed128 && Date.now() - _0x1ed128.cachedAt < _0x34aae0 && (_0x1ed128.hasMedia || !_0x236c9f) && _0x1ed128.cutoff != null && _0x1ed128.cutoff <= _0x7385a8 ? _0x4bc037.push({
-                'id': _0x594376,
-                'title': _0x1ed128.title,
-                'messages': _0x238f6f(_0x1ed128.messages, _0x194285)
-              }) : _0xa20221.push(_0x594376);
-            }
-            const _0x138e70 = {};
-            (_0x138e70.totalChats = _0x33ecf7.ids.length, _0x138e70.currentIndex = _0x4bc037.length);
-            let _0xf840bd = _0xa20221.length > 0 ? await _0x334d95(_0xa20221, _0x146022(_0x138e70), _0x236c9f, _0x194285) : [], _0x3b0edf = _0xf840bd.skipped || [], _0x23a666 = Array.prototype.slice.call(_0xf840bd), _0x35d641 = new Array(_0x23a666.length).fill(!1), _0x5471a1 = _0x499915 => {
-              for (let _0x70f11c = 0; _0x70f11c < _0x23a666.length; _0x70f11c++) if (!_0x35d641[_0x70f11c] && _0x23a666[_0x70f11c].reqId === _0x499915) {
-                return (_0x35d641[_0x70f11c] = !0, _0x23a666[_0x70f11c]);
-              }
-              let _0x43b5db = _0x128711(_0x499915);
-              for (let _0x2b4e73 = 0; _0x2b4e73 < _0x23a666.length; _0x2b4e73++) if (!_0x35d641[_0x2b4e73] && _0x128711(_0x23a666[_0x2b4e73].title) === _0x43b5db) return (_0x35d641[_0x2b4e73] = !0, _0x23a666[_0x2b4e73]);
-              return null;
-            }, _0x2d849c = [], _0x2f879b = [];
-            for (let _0xfcbb9c of _0x33ecf7.ids) {
-              let _0x41dbe2 = _0x4bc037.find(_0xd70a4f => _0xd70a4f.id === _0xfcbb9c);
-              if (_0x41dbe2) {
-                const _0x54d7db = {};
-                (_0x54d7db.title = _0x41dbe2.title || _0xfcbb9c, _0x54d7db.messages = _0x41dbe2.messages || [], _0x2d849c.push(_0x54d7db));
-                continue;
-              }
-              let _0x532db0 = _0x5471a1(_0xfcbb9c);
-              if (_0x532db0) {
-                const _0x578986 = {};
-                (_0x578986.title = _0x532db0.title || _0xfcbb9c, _0x578986.messages = _0x532db0.messages || [], _0x2d849c.push(_0x578986));
-              } else !_0x3b0edf.some(_0x3194c4 => _0x3194c4.id === _0xfcbb9c) && _0x2f879b.push(_0xfcbb9c);
-            }
-            for (let _0x5035b7 = 0; _0x5035b7 < _0x23a666.length; _0x5035b7++) !_0x35d641[_0x5035b7] && _0x23a666[_0x5035b7].messages && _0x23a666[_0x5035b7].messages.length > 0 && (_0x35d641[_0x5035b7] = !0, _0x2d849c.push({
-              'title': _0x23a666[_0x5035b7].title || _0x23a666[_0x5035b7].reqId || "Chat",
-              'messages': _0x23a666[_0x5035b7].messages
-            }));
-            let _0x53b5d0 = _0x2d849c.filter(_0x4ce762 => !_0x4ce762.messages || _0x4ce762.messages.length === 0);
-            _0x2d849c = _0x2d849c.filter(_0x21acea => _0x21acea.messages && _0x21acea.messages.length > 0);
-            let _0x444806 = _0x2d849c.reduce((_0x460e79, _0x3745c5) => _0x460e79 + _0x3745c5.messages.length, 0);
-            _0x2d849c.length > 0 && (_0x33ecf7.mode === "combined" ? await _0x10e69f(_0x2d849c, _0x33ecf7.options) : await _0x2950f4(_0x2d849c, _0x33ecf7.options));
-            const _0xc05a8c = {};
-            (_0xc05a8c.totalChats = _0x33ecf7.ids.length, _0xc05a8c.currentIndex = _0x2d849c.length, _0xc05a8c.currentTitle = '', _0xc05a8c.messagesProcessed = _0x444806, _0xc05a8c.phase = _0x159ef8 ? "cancelled" : "done", _0x4afdbc(_0xc05a8c));
-            let _0x19620f = _0x3b0edf.length > 0 ? " Skipped " + _0x3b0edf.length + " chat" + (_0x3b0edf.length > 1 ? 's' : '') + " that couldn't be opened (" + _0x3b0edf.map(_0x186491 => _0x186491.title).join(',\x20') + ').' : '', _0x308692 = _0x4bc037.length > 0 ? '\x20(' + _0x4bc037.length + " loaded instantly from cache.)" : '', _0x454e13 = _0x53b5d0.length > 0 ? " Skipped " + _0x53b5d0.length + " chat" + (_0x53b5d0.length > 1 ? 's' : '') + " with no messages in the " + _0x551df0(_0x33ecf7.options) + '.' : '', _0xb49275 = _0x2f879b.length > 0 ? " Could not read " + _0x2f879b.length + " chat" + (_0x2f879b.length > 1 ? 's' : '') + '\x20(' + _0x2f879b.join(',\x20') + ") â€” try again with WhatsApp Web in the foreground." : '';
-            _0x5cc8ef({
-              'ok': !0,
-              'type': "EXPORTED",
-              'summary': (_0x2d849c.length === 0 ? "No chats had messages in the " + _0x551df0(_0x33ecf7.options) + " â€” nothing exported." : _0x33ecf7.mode === 'combined' ? "Done successfully â€” exported " + _0x2d849c.length + '\x20chat' + (_0x2d849c.length > 1 ? 's' : '') + '\x20(' + _0x444806 + " messages) into one combined file." : "Done successfully â€” exported " + _0x2d849c.length + " chat" + (_0x2d849c.length > 1 ? 's' : '') + '\x20(' + _0x444806 + " messages) as separate files.") + _0x308692 + _0x454e13 + _0xb49275 + _0x19620f,
-              'skipped': _0x3b0edf
+          case "PING":
+            v983({
+              ok: true,
+              type: "PONG"
             });
             return;
-          }
-        case "PRELOAD_CHATS":
-          {
-            _0x159ef8 = !1;
-            let _0x5a9028 = !!(_0x33ecf7.options && (_0x33ecf7.options.exportMedia || _0x33ecf7.options.exportAudio)), _0x1f4bdf = _0x33ecf7.ids && _0x33ecf7.ids.length ? _0x33ecf7.ids : (await _0xbb32dd()).map(_0x591fdb => _0x591fdb.id), _0x295348 = _0x1d0711(_0x33ecf7.options), _0x52edd3 = _0x295348.getTime(), _0x5420b1 = 0, _0x2b3db3 = _0x1f4bdf.length, _0x555eae = [];
-            for (let _0x5d52f8 = 0; _0x5d52f8 < _0x1f4bdf.length && !_0x159ef8; _0x5d52f8++) {
-              let _0x130a84 = _0x1f4bdf[_0x5d52f8], _0x3fc7f8 = _0x89daa2.get(_0x128711(_0x130a84));
-              if (_0x3fc7f8 && Date.now() - _0x3fc7f8.cachedAt < 900000 && (_0x3fc7f8.hasMedia || !_0x5a9028) && _0x3fc7f8.cutoff != null && _0x3fc7f8.cutoff <= _0x52edd3) {
-                _0x5420b1 += 1;
-                const _0x301142 = {};
-                (_0x301142.totalChats = _0x2b3db3, _0x301142.currentIndex = _0x5d52f8, _0x301142.currentTitle = _0x130a84, _0x301142.messagesProcessed = _0x5420b1, _0x301142.phase = "loading", _0x4afdbc(_0x301142));
-                continue;
-              }
-              try {
-                await _0x4d1267(_0x130a84);
-                const _0x5c4baa = {};
-                (_0x5c4baa.totalChats = _0x2b3db3, _0x5c4baa.currentIndex = _0x5d52f8, await _0x2054ea(_0x146022(_0x5c4baa), _0x5a9028, _0x295348, _0x130a84), _0x5420b1 += 1);
-              } catch (_0x2f33c9) {
-                _0x555eae.push({
-                  'id': _0x130a84,
-                  'title': _0x130a84,
-                  'error': _0x2f33c9 instanceof Error ? _0x2f33c9.message : String(_0x2f33c9)
-                });
-              }
-              const _0x355611 = {};
-              (_0x355611.totalChats = _0x2b3db3, _0x355611.currentIndex = _0x5d52f8, _0x355611.currentTitle = _0x130a84, _0x355611.messagesProcessed = _0x5420b1, _0x355611.phase = "loading", _0x4afdbc(_0x355611));
+          case "GET_CHATS":
+            {
+              const __wceDays = Number(v981.dayRange);
+              const __wceChats = await v651(Number.isFinite(__wceDays) && __wceDays > 0 ? {
+                dayRange: Math.min(730, Math.ceil(__wceDays))
+              } : undefined);
+              const __wceUnreadChats = Array.from(__wceChats && __wceChats.__wceUnreadSummary || window.__wceLastUnreadSummary || []);
+              v983({
+                ok: true,
+                type: "CHATS",
+                chats: __wceChats,
+                unreadCount: __wceUnreadChats.length,
+                unreadChats: __wceUnreadChats
+              });
+              return;
             }
-            const _0x118b0e = {};
-            (_0x118b0e.totalChats = _0x2b3db3, _0x118b0e.currentIndex = _0x2b3db3, _0x118b0e.currentTitle = '', _0x118b0e.messagesProcessed = _0x5420b1, _0x118b0e.phase = _0x159ef8 ? "cancelled" : "done", _0x4afdbc(_0x118b0e), _0x5cc8ef({
-              'ok': !0,
-              'type': "EXPORTED",
-              'summary': "Preloaded " + _0x5420b1 + " of " + _0x2b3db3 + " chat" + (_0x2b3db3 === 1 ? '' : 's') + '\x20(' + (_0x13219d(_0x33ecf7.options) <= 1 ? "last 24 hours" : "last " + _0x13219d(_0x33ecf7.options) + " days") + "). Export will now be instant for these." + (_0x555eae.length ? " Skipped " + _0x555eae.length + '.' : ''),
-              'skipped': _0x555eae
-            }));
+          case "SCRAPE_CURRENT":
+            {
+              v971 = false;
+              let v990 = await v869(v978({
+                totalChats: 1
+              }));
+              const v991 = {
+                totalChats: 1,
+                currentIndex: 0,
+                currentTitle: v990.title,
+                messagesProcessed: v990.messages.length,
+                phase: "done"
+              };
+              v974(v991);
+              v983({
+                ok: true,
+                type: "SCRAPED",
+                chats: [v990]
+              });
+              return;
+            }
+          case "SCRAPE_CHATS":
+            {
+              v971 = false;
+              let v992 = await v857(v981.ids, v978({
+                totalChats: v981.ids.length
+              }), false, Number.isFinite(Number(v981.cutoffMs)) && Number(v981.cutoffMs) > 946684800000 ? new Date(Number(v981.cutoffMs)) : v981.windowHours === 25 ? new Date(Date.now() - 90000000) : undefined);
+              v974({
+                totalChats: v981.ids.length,
+                currentIndex: v981.ids.length,
+                currentTitle: "",
+                messagesProcessed: v992.reduce((v993, v994) => v993 + v994.messages.length, 0),
+                phase: v971 ? "cancelled" : "done"
+              });
+              v983({
+                ok: true,
+                type: "SCRAPED",
+                chats: v992.map(function (chat) {
+                  const msgs = chat.messages || [];
+                  __wceResolve(msgs, __wceDetectFmt(msgs));
+                  return {
+                    ...chat,
+                    messages: msgs.map(function (m) {
+                      const entry = __wceTsMap.get(m);
+                      return {
+                        ...m,
+                        timestampMs: entry && entry.ts != null ? entry.ts : null,
+                        timestampQuality: entry ? entry.exact ? "exact" : entry.inferred ? "inferred" : "unknown" : "unknown"
+                      };
+                    })
+                  };
+                }),
+                skipped: v992.skipped || []
+              });
+              return;
+            }
+          case "EXPORT_CURRENT":
+            {
+              v971 = false;
+              let v995 = !!v981.options.exportMedia || !!v981.options.exportAudio;
+              let v996 = v772.get(v637(v679()));
+              let v997 = v649(v981.options);
+              let v998;
+              if (v996 && Date.now() - v996.cachedAt < 900000 && (v996.hasMedia || !v995) && v996.cutoff != null && v996.cutoff <= v997.getTime()) {
+                v998 = {
+                  title: v996.title,
+                  messages: v784(v996.messages, v997)
+                };
+                const v999 = {
+                  totalChats: 1,
+                  currentIndex: 1,
+                  currentTitle: v998.title,
+                  messagesProcessed: v998.messages.length,
+                  phase: "done"
+                };
+                v974(v999);
+              } else {
+                v998 = await v869(v978({
+                  totalChats: 1
+                }), v981.options.exportMedia || v981.options.exportAudio, v997);
+              }
+              if (!v998.messages || v998.messages.length === 0) {
+                const v1000 = {
+                  totalChats: 1,
+                  currentIndex: 1,
+                  currentTitle: v998.title,
+                  messagesProcessed: 0,
+                  phase: v971 ? "cancelled" : "done"
+                };
+                v974(v1000);
+                v983({
+                  ok: true,
+                  type: "EXPORTED",
+                  summary: "\"" + v998.title + "\" has no messages in the " + v776(v981.options) + " â€” nothing exported."
+                });
+                return;
+              }
+              await v951([v998], v981.options);
+              const v1001 = {
+                totalChats: 1,
+                currentIndex: 1,
+                currentTitle: v998.title,
+                messagesProcessed: v998.messages.length,
+                phase: v971 ? "cancelled" : "done"
+              };
+              v974(v1001);
+              const v1002 = {
+                ok: true,
+                type: "EXPORTED",
+                summary: "Done successfully â€” exported \"" + v998.title + "\" (" + v998.messages.length + " messages)."
+              };
+              v983(v1002);
+              return;
+            }
+          case "EXPORT_CHATS":
+            {
+              v971 = false;
+              let v1003 = !!v981.options.exportMedia || !!v981.options.exportAudio;
+              let v1004 = 900000;
+              let v1005 = [];
+              let v1006 = [];
+              let v1007 = v649(v981.options);
+              let v1008 = v1007.getTime();
+              for (let v1009 of v981.ids) {
+                let v1010 = v772.get(v637(v1009));
+                if (v1010 && Date.now() - v1010.cachedAt < v1004 && (v1010.hasMedia || !v1003) && v1010.cutoff != null && v1010.cutoff <= v1008) {
+                  v1006.push({
+                    id: v1009,
+                    title: v1010.title,
+                    messages: v784(v1010.messages, v1007)
+                  });
+                } else {
+                  v1005.push(v1009);
+                }
+              }
+              const v1011 = {
+                totalChats: v981.ids.length,
+                currentIndex: v1006.length
+              };
+              let v1012 = v1005.length > 0 ? await v857(v1005, v978(v1011), v1003, v1007) : [];
+              let v1013 = v1012.skipped || [];
+              let v1014 = Array.prototype.slice.call(v1012);
+              let v1015 = new Array(v1014.length).fill(false);
+              let v1016 = v1017 => {
+                for (let v1018 = 0; v1018 < v1014.length; v1018++) {
+                  if (!v1015[v1018] && v1014[v1018].reqId === v1017) {
+                    v1015[v1018] = true;
+                    return v1014[v1018];
+                  }
+                }
+                let v1019 = v637(v1017);
+                for (let v1020 = 0; v1020 < v1014.length; v1020++) {
+                  if (!v1015[v1020] && v637(v1014[v1020].title) === v1019) {
+                    v1015[v1020] = true;
+                    return v1014[v1020];
+                  }
+                }
+                return null;
+              };
+              let v1021 = [];
+              let v1022 = [];
+              for (let v1023 of v981.ids) {
+                let v1024 = v1006.find(v1025 => v1025.id === v1023);
+                if (v1024) {
+                  const v1026 = {
+                    title: v1024.title || v1023,
+                    messages: v1024.messages || []
+                  };
+                  v1021.push(v1026);
+                  continue;
+                }
+                let v1027 = v1016(v1023);
+                if (v1027) {
+                  const v1028 = {
+                    title: v1027.title || v1023,
+                    messages: v1027.messages || []
+                  };
+                  v1021.push(v1028);
+                } else if (!v1013.some(v1029 => v1029.id === v1023)) {
+                  v1022.push(v1023);
+                }
+              }
+              for (let v1030 = 0; v1030 < v1014.length; v1030++) {
+                if (!v1015[v1030] && v1014[v1030].messages && v1014[v1030].messages.length > 0) {
+                  v1015[v1030] = true;
+                  v1021.push({
+                    title: v1014[v1030].title || v1014[v1030].reqId || "Chat",
+                    messages: v1014[v1030].messages
+                  });
+                }
+              }
+              let v1031 = v1021.filter(v1032 => !v1032.messages || v1032.messages.length === 0);
+              v1021 = v1021.filter(v1033 => v1033.messages && v1033.messages.length > 0);
+              let v1034 = v1021.reduce((v1035, v1036) => v1035 + v1036.messages.length, 0);
+              if (v1021.length > 0) {
+                if (v981.mode === "combined") {
+                  await v963(v1021, v981.options);
+                } else {
+                  await v951(v1021, v981.options);
+                }
+              }
+              const v1037 = {
+                totalChats: v981.ids.length,
+                currentIndex: v1021.length,
+                currentTitle: "",
+                messagesProcessed: v1034,
+                phase: v971 ? "cancelled" : "done"
+              };
+              v974(v1037);
+              let v1038 = v1013.length > 0 ? " Skipped " + v1013.length + " chat" + (v1013.length > 1 ? "s" : "") + " that couldn't be opened (" + v1013.map(v1039 => v1039.title).join(", ") + ")." : "";
+              let v1040 = v1006.length > 0 ? " (" + v1006.length + " loaded instantly from cache.)" : "";
+              let v1041 = v1031.length > 0 ? " Skipped " + v1031.length + " chat" + (v1031.length > 1 ? "s" : "") + " with no messages in the " + v776(v981.options) + "." : "";
+              let v1042 = v1022.length > 0 ? " Could not read " + v1022.length + " chat" + (v1022.length > 1 ? "s" : "") + " (" + v1022.join(", ") + ") â€” try again with WhatsApp Web in the foreground." : "";
+              v983({
+                ok: true,
+                type: "EXPORTED",
+                summary: (v1021.length === 0 ? "No chats had messages in the " + v776(v981.options) + " â€” nothing exported." : v981.mode === "combined" ? "Done successfully â€” exported " + v1021.length + " chat" + (v1021.length > 1 ? "s" : "") + " (" + v1034 + " messages) into one combined file." : "Done successfully â€” exported " + v1021.length + " chat" + (v1021.length > 1 ? "s" : "") + " (" + v1034 + " messages) as separate files.") + v1040 + v1041 + v1042 + v1038,
+                skipped: v1013
+              });
+              return;
+            }
+          case "PRELOAD_CHATS":
+            {
+              v971 = false;
+              let v1043 = !!v981.options && (!!v981.options.exportMedia || !!v981.options.exportAudio);
+              let v1044 = v981.ids && v981.ids.length ? v981.ids : (await v651()).map(v1045 => v1045.id);
+              let v1046 = v649(v981.options);
+              let v1047 = v1046.getTime();
+              let v1048 = 0;
+              let v1049 = v1044.length;
+              let v1050 = [];
+              for (let v1051 = 0; v1051 < v1044.length && !v971; v1051++) {
+                let v1052 = v1044[v1051];
+                let v1053 = v772.get(v637(v1052));
+                if (v1053 && Date.now() - v1053.cachedAt < 900000 && (v1053.hasMedia || !v1043) && v1053.cutoff != null && v1053.cutoff <= v1047) {
+                  v1048 += 1;
+                  const v1054 = {
+                    totalChats: v1049,
+                    currentIndex: v1051,
+                    currentTitle: v1052,
+                    messagesProcessed: v1048,
+                    phase: "loading"
+                  };
+                  v974(v1054);
+                  continue;
+                }
+                try {
+                  await v665(v1052);
+                  const v1055 = {
+                    totalChats: v1049,
+                    currentIndex: v1051
+                  };
+                  await v869(v978(v1055), v1043, v1046, v1052);
+                  v1048 += 1;
+                } catch (v1056) {
+                  v1050.push({
+                    id: v1052,
+                    title: v1052,
+                    error: v1056 instanceof Error ? v1056.message : String(v1056)
+                  });
+                }
+                const v1057 = {
+                  totalChats: v1049,
+                  currentIndex: v1051,
+                  currentTitle: v1052,
+                  messagesProcessed: v1048,
+                  phase: "loading"
+                };
+                v974(v1057);
+              }
+              const v1058 = {
+                totalChats: v1049,
+                currentIndex: v1049,
+                currentTitle: "",
+                messagesProcessed: v1048,
+                phase: v971 ? "cancelled" : "done"
+              };
+              v974(v1058);
+              v983({
+                ok: true,
+                type: "EXPORTED",
+                summary: "Preloaded " + v1048 + " of " + v1049 + " chat" + (v1049 === 1 ? "" : "s") + " (" + (v650(v981.options) <= 1 ? "last 24 hours" : "last " + v650(v981.options) + " days") + "). Export will now be instant for these." + (v1050.length ? " Skipped " + v1050.length + "." : ""),
+                skipped: v1050
+              });
+              return;
+            }
+          case "CANCEL":
+            v971 = true;
+            v983({
+              ok: true,
+              type: "PONG"
+            });
             return;
-          }
-        case 'CANCEL':
-          const _0x26e549 = {};
-          (_0x26e549.ok = !0, _0x26e549.type = "PONG", (_0x159ef8 = !0, _0x5cc8ef(_0x26e549)));
-          return;
+        }
+      } catch (v1059) {
+        v983({
+          ok: false,
+          error: v1059 instanceof Error ? v1059.message : String(v1059)
+        });
       }
-    } catch (_0x1e0eb9) {
-      _0x5cc8ef({
-        'ok': !1,
-        'error': _0x1e0eb9 instanceof Error ? _0x1e0eb9.message : String(_0x1e0eb9)
-      });
-    }
-  })(), !0)), (function () {
-    const _0x35b891 = {
-      'rZJuS': function (_0x19598d, _0xb8f284) {
-        return _0x19598d(_0xb8f284);
+    })();
+    return true;
+  });
+  (function () {
+    const v1060 = {
+      rZJuS: function (v1061, v1062) {
+        return v1061(v1062);
       },
-      'sYtHC': function (_0x17078c, _0x187c55) {
-        return _0x17078c instanceof _0x187c55;
+      sYtHC: function (v1063, v1064) {
+        return v1063 instanceof v1064;
       }
     };
-    function _0x168daf(_0x24f457) {
-      const _0x510247 = {};
-      _0x510247.qHrEi = function (_0x1c86d4, _0x5bed33) {
-        return _0x1c86d4 === _0x5bed33;
+    function v1065(v1066) {
+      const v1067 = {
+        qHrEi: function (v1068, v1069) {
+          return v1068 === v1069;
+        }
       };
-      const _0x226480 = _0x510247;
+      const v1070 = v1067;
       try {
-        var _0x58d225 = _0x24f457.innerText || _0x24f457.textContent || '', _0x55e364 = _0x58d225.match(/(\d{1,2}:\d{2}(?::\d{2})?)/);
-        if (_0x55e364) return _0x55e364[1];
-      } catch (_0x50cbf1) {}
+        var v1071 = v1066.innerText || v1066.textContent || "";
+        var v1072 = v1071.match(/(\d{1,2}:\d{2}(?::\d{2})?)/);
+        if (v1072) {
+          return v1072[1];
+        }
+      } catch (v1073) {}
       return undefined;
     }
-    window.__lovDur__ = _0x168daf;
-  })());
+    window.__lovDur__ = v1065;
+  })();
   var __LOV_WIN__ = null;
   var __LOV_SKEW__ = 120000;
   function __lovWindowFor(__lovOpts) {
-    var n = _0x13219d(__lovOpts);
+    var n = v650(__lovOpts);
     var end = Date.now() + __LOV_SKEW__;
     var start;
     if (n <= 1) {
@@ -2667,7 +3483,7 @@ return __wceFinalChats;
       days: n
     };
   }
-  _0x1d0711 = function (__lovOpts) {
+  v649 = function (__lovOpts) {
     var w = __lovWindowFor(__lovOpts);
     __LOV_WIN__ = w;
     return new Date(w.start);
@@ -2679,13 +3495,21 @@ return __wceFinalChats;
     return Date.now() + __LOV_SKEW__;
   }
   function __lovParseDurationText(t) {
-    if (!t) return null;
+    if (!t) {
+      return null;
+    }
     t = String(t).trim();
     var m = t.match(/^(\d{1,2}):([0-5]\d)(?::([0-5]\d))?$/);
     if (m) {
-      return m[3] !== undefined ? +m[1] * 3600 + +m[2] * 60 + +m[3] : +m[1] * 60 + +m[2];
+      if (m[3] !== undefined) {
+        return +m[1] * 3600 + +m[2] * 60 + +m[3];
+      } else {
+        return +m[1] * 60 + +m[2];
+      }
     }
-    var secs = 0, hit = false, r;
+    var secs = 0;
+    var hit = false;
+    var r;
     if (r = t.match(/(\d+)\s*(?:h|hr|hrs|hour|hours)\b/i)) {
       secs += +r[1] * 3600;
       hit = true;
@@ -2698,16 +3522,32 @@ return __wceFinalChats;
       secs += +r[1];
       hit = true;
     }
-    return hit ? secs : null;
+    if (hit) {
+      return secs;
+    } else {
+      return null;
+    }
   }
   function __lovFmtDuration(secs) {
-    if (secs == null || !isFinite(secs) || secs < 0) return null;
+    if (secs == null || !isFinite(secs) || secs < 0) {
+      return null;
+    }
     secs = Math.round(secs);
-    var h = Math.floor(secs / 3600), m = Math.floor(secs % 3600 / 60), s = secs % 60;
-    var p2 = function (v) {
-      return v < 10 ? "0" + v : "" + v;
-    };
-    return h > 0 ? h + ":" + p2(m) + ":" + p2(s) : m + ":" + p2(s);
+    var h = Math.floor(secs / 3600);
+    var m = Math.floor(secs % 3600 / 60);
+    var s = secs % 60;
+    function p2(v) {
+      if (v < 10) {
+        return "0" + v;
+      } else {
+        return "" + v;
+      }
+    }
+    if (h > 0) {
+      return h + ":" + p2(m) + ":" + p2(s);
+    } else {
+      return m + ":" + p2(s);
+    }
   }
   function __lovDurationCandidates(row) {
     var out = [];
@@ -2715,13 +3555,19 @@ return __wceFinalChats;
       var nodes = row.querySelectorAll("span,div");
       for (var i = 0; i < nodes.length; i++) {
         var n = nodes[i];
-        if (n.firstElementChild) continue;
+        if (n.firstElementChild) {
+          continue;
+        }
         var t = (n.textContent || "").trim();
-        if (!t || t.length > 12) continue;
-        if ((/^\d{1,2}:[0-5]\d(?::[0-5]\d)?$/).test(t)) out.push({
-          node: n,
-          text: t
-        });
+        if (!t || t.length > 12) {
+          continue;
+        }
+        if (/^\d{1,2}:[0-5]\d(?::[0-5]\d)?$/.test(t)) {
+          out.push({
+            node: n,
+            text: t
+          });
+        }
       }
     } catch (e) {}
     return out;
@@ -2731,7 +3577,11 @@ return __wceFinalChats;
       var host = row.querySelector("[data-pre-plain-text]") || row.closest("[data-pre-plain-text]");
       var raw = host ? host.getAttribute("data-pre-plain-text") || "" : "";
       var m = raw.match(/(\d{1,2}:[0-5]\d(?::[0-5]\d)?)/);
-      return m ? m[1] : null;
+      if (m) {
+        return m[1];
+      } else {
+        return null;
+      }
     } catch (e) {
       return null;
     }
@@ -2739,10 +3589,13 @@ return __wceFinalChats;
   function __lovVoiceDuration(row) {
     var clock = __lovClockToken(row);
     var cands = __lovDurationCandidates(row);
-    var i, c;
+    var i;
+    var c;
     for (i = 0; i < cands.length; i++) {
       c = cands[i];
-      if (c.text === clock) continue;
+      if (c.text === clock) {
+        continue;
+      }
       try {
         if (c.node.closest("[data-icon='audio-play'],[data-icon='audio-pause'],[data-icon='ptt-status'],[aria-label*='Voice message'],[role='application']")) {
           return __lovParseDurationText(c.text);
@@ -2750,11 +3603,15 @@ return __wceFinalChats;
       } catch (e) {}
     }
     for (i = 0; i < cands.length; i++) {
-      if (cands[i].text !== clock) return __lovParseDurationText(cands[i].text);
+      if (cands[i].text !== clock) {
+        return __lovParseDurationText(cands[i].text);
+      }
     }
     try {
       var a = row.querySelector("audio");
-      if (a && isFinite(a.duration) && a.duration > 0) return Math.round(a.duration);
+      if (a && isFinite(a.duration) && a.duration > 0) {
+        return Math.round(a.duration);
+      }
     } catch (e) {}
     return null;
   }
@@ -2767,43 +3624,59 @@ return __wceFinalChats;
   var __LOV_CALL_TEXT__ = /(?:\b(?:missed|incoming|outgoing|voice|video|group)\s+call\b|\bcall\s+(?:ended|declined|rejected|not\s+answered|back|duration)\b|\byou\s+missed\s+(?:a\s+)?call\b|\b(?:no\s+answer|unanswered)\b)/i;
   function __lovIsCallRow(row) {
     try {
-      if (!row || typeof row.querySelector !== 'function') return false;
-      var definite = !!row.matches?.('.message-in, .message-out, [data-testid="call-event"], [data-testid="call-log-message"], [data-testid="call-message"]');
-      var hasMessage = definite || !!row.querySelector('[data-pre-plain-text], [data-testid="msg-container"]') ||
-        (!!row.matches?.('[role="row"]') && !!row.querySelector(__LOV_CALL_ICON__));
-      if (!hasMessage) return false;
+      if (!row || typeof row.querySelector !== "function") {
+        return false;
+      }
+      var definite = !!row.matches?.(".message-in, .message-out, [data-testid=\"call-event\"], [data-testid=\"call-log-message\"], [data-testid=\"call-message\"]");
+      var hasMessage = definite || !!row.querySelector("[data-pre-plain-text], [data-testid=\"msg-container\"]") || !!row.matches?.("[role=\"row\"]") && !!row.querySelector(__LOV_CALL_ICON__);
+      if (!hasMessage) {
+        return false;
+      }
       // Exclude conversation-pane ancestors containing multiple chat bubbles.
-      if (row.querySelectorAll && row.querySelectorAll('[data-testid="msg-container"]').length > 1) return false;
-      var raw = String(row.innerText || row.textContent || '').replace(/\s+/g,' ').trim();
-      if (!raw || raw.length > 240) return false;
+      if (row.querySelectorAll && row.querySelectorAll("[data-testid=\"msg-container\"]").length > 1) {
+        return false;
+      }
+      var raw = String(row.innerText || row.textContent || "").replace(/\s+/g, " ").trim();
+      if (!raw || raw.length > 240) {
+        return false;
+      }
       var hasIcon = !!row.querySelector(__LOV_CALL_ICON__);
       // Current WhatsApp (verified live, Nov 2026) exposes the call glyph as an svg
       // aria-label/title like "ic-phone-callback-filled" / "ic-video-*", NOT a
       // data-icon, so __LOV_CALL_ICON__ misses it. Detect those glyph names too.
       if (!hasIcon) {
-        var glyphs = row.querySelectorAll('[aria-label], svg title, title');
-        for (var gi=0; gi<glyphs.length && gi<30; gi++) {
-          var gl = String(glyphs[gi].getAttribute?.('aria-label') || glyphs[gi].textContent || '');
-          if (/\bic-(?:phone|video|call)[\w-]*\b/i.test(gl)) { hasIcon = true; break; }
+        var glyphs = row.querySelectorAll("[aria-label], svg title, title");
+        for (var gi = 0; gi < glyphs.length && gi < 30; gi++) {
+          var gl = String(glyphs[gi].getAttribute?.("aria-label") || glyphs[gi].textContent || "");
+          if (/\bic-(?:phone|video|call)[\w-]*\b/i.test(gl)) {
+            hasIcon = true;
+            break;
+          }
         }
       }
-      var eventMarker = !!row.matches?.('[data-testid="call-event"], [data-testid="call-log-message"], [data-testid="call-message"]') ||
-        !!row.querySelector('[data-testid="call-event"], [data-testid="call-log-message"], [data-testid="call-message"]');
-      var hasDpt = !!row.querySelector('[data-pre-plain-text]');
+      var eventMarker = !!row.matches?.("[data-testid=\"call-event\"], [data-testid=\"call-log-message\"], [data-testid=\"call-message\"]") || !!row.querySelector("[data-testid=\"call-event\"], [data-testid=\"call-log-message\"], [data-testid=\"call-message\"]");
+      var hasDpt = !!row.querySelector("[data-pre-plain-text]");
       // Structured WhatsApp call bubble sometimes renders simply "Call" or
       // "Voice call" with a clock. Require a distinctive icon or event marker.
-      if ((eventMarker || hasIcon) && (__LOV_CALL_TEXT__.test(raw) ||
-          /^call(?:\s+(?:at\s+)?\d{1,2}:[0-5]\d\s*(?:am|pm)?)?$/i.test(raw))) return true;
+      if ((eventMarker || hasIcon) && (__LOV_CALL_TEXT__.test(raw) || /^call(?:\s+(?:at\s+)?\d{1,2}:[0-5]\d\s*(?:am|pm)?)?$/i.test(raw))) {
+        return true;
+      }
       // Current WhatsApp renders a call EVENT as a plain conv-msg system bubble with
       // NO data-pre-plain-text (e.g. "Voice call · Accepted on another device"). A real
       // text message that merely mentions a call ALWAYS has data-pre-plain-text, so the
       // absence of it on a single-bubble row whose text matches the call wording
       // reliably marks a genuine call event.
-      if (!hasDpt && __LOV_CALL_TEXT__.test(raw)) return true;
+      if (!hasDpt && __LOV_CALL_TEXT__.test(raw)) {
+        return true;
+      }
       // Legacy: call wording inside a definite message bubble.
-      if (!definite && !hasDpt) return false;
+      if (!definite && !hasDpt) {
+        return false;
+      }
       return __LOV_CALL_TEXT__.test(raw);
-    } catch (_) { return false; }
+    } catch (_) {
+      return false;
+    }
   }
   function __lovCallInfo(row) {
     var t = "";
@@ -2811,26 +3684,43 @@ return __wceFinalChats;
       t = (row.innerText || row.textContent || "").trim();
     } catch (e) {}
     var lower = t.toLowerCase();
-    var kind = (/video/i).test(t) || row.querySelector("[data-icon='video-call'],[data-icon='call-video']") ? "video" : "voice";
+    var kind = /video/i.test(t) || row.querySelector("[data-icon='video-call'],[data-icon='call-video']") ? "video" : "voice";
     var direction = "unknown";
-    if (row.querySelector("[data-icon='call-outgoing']")) direction = "outgoing"; else if (row.querySelector("[data-icon='call-incoming']")) direction = "incoming"; else if (row.querySelector("[data-icon='call-missed'],[data-icon='call-rejected']")) direction = "missed"; else if ((/missed/).test(lower)) direction = "missed"; else if (row.classList && row.classList.contains("message-out")) direction = "outgoing"; else if (row.classList && row.classList.contains("message-in")) direction = "incoming";
+    if (row.querySelector("[data-icon='call-outgoing']")) {
+      direction = "outgoing";
+    } else if (row.querySelector("[data-icon='call-incoming']")) {
+      direction = "incoming";
+    } else if (row.querySelector("[data-icon='call-missed'],[data-icon='call-rejected']")) {
+      direction = "missed";
+    } else if (/missed/.test(lower)) {
+      direction = "missed";
+    } else if (row.classList && row.classList.contains("message-out")) {
+      direction = "outgoing";
+    } else if (row.classList && row.classList.contains("message-in")) {
+      direction = "incoming";
+    }
     // Current WhatsApp call bubbles carry neither call-direction icons nor
     // message-in/out classes. Fall back to the same reliable per-row signals used
     // for chat messages: the directional tail icon, then the "You:" sender label.
     if (direction === "unknown") {
-      if (row.querySelector?.('[data-icon="tail-out"]')) direction = "outgoing";
-      else if (row.querySelector?.('[data-icon="tail-in"]')) direction = "incoming";
-      else {
+      if (row.querySelector?.("[data-icon=\"tail-out\"]")) {
+        direction = "outgoing";
+      } else if (row.querySelector?.("[data-icon=\"tail-in\"]")) {
+        direction = "incoming";
+      } else {
         try {
-          var al = row.querySelectorAll?.('[aria-label]') || [];
+          var al = row.querySelectorAll?.("[aria-label]") || [];
           for (var di = 0; di < al.length && di < 24; di++) {
-            var mm = String(al[di].getAttribute('aria-label') || '').match(/^(.{1,40}):$/);
-            if (mm) { direction = mm[1].trim() === 'You' ? 'outgoing' : 'incoming'; break; }
+            var mm = String(al[di].getAttribute("aria-label") || "").match(/^(.{1,40}):$/);
+            if (mm) {
+              direction = mm[1].trim() === "You" ? "outgoing" : "incoming";
+              break;
+            }
           }
         } catch (_) {}
       }
     }
-    var missed = (/\b(missed|no answer|unanswered|declined|rejected)\b/i).test(lower) || direction === "missed" || !!row.querySelector("[data-icon='call-missed'],[data-icon='call-rejected']");
+    var missed = /\b(missed|no answer|unanswered|declined|rejected)\b/i.test(lower) || direction === "missed" || !!row.querySelector("[data-icon='call-missed'],[data-icon='call-rejected']");
     var clock = __lovClockToken(row);
     var secs = null;
     var cands = __lovDurationCandidates(row);
@@ -2842,23 +3732,33 @@ return __wceFinalChats;
     }
     if (secs == null) {
       var w = t.match(/(\d+\s*(?:h|hr|hrs|hour|hours)\s*)?(\d+\s*(?:m|min|mins|minute|minutes)\s*)?(\d+\s*(?:s|sec|secs|second|seconds))?/i);
-      if (w && w[0] && w[0].trim()) secs = __lovParseDurationText(w[0]);
+      if (w && w[0] && w[0].trim()) {
+        secs = __lovParseDurationText(w[0]);
+      }
     }
     // Some WhatsApp builds expose duration in an aria-label/title rather
     // than as a leaf text node. Use only explicit duration labels: NEVER
     // interpret the call's clock time as a length.
     if (secs == null && !missed) {
       try {
-        var candidates = [t].concat(Array.from(row.querySelectorAll('[aria-label],[title]'))
-          .slice(0,40).flatMap(function (el) { return [el.getAttribute('aria-label'),el.getAttribute('title')]; }));
-        for (var ci=0;ci<candidates.length;ci++) {
-          var raw = String(candidates[ci] || '');
+        var candidates = [t].concat(Array.from(row.querySelectorAll("[aria-label],[title]")).slice(0, 40).flatMap(function (el) {
+          return [el.getAttribute("aria-label"), el.getAttribute("title")];
+        }));
+        for (var ci = 0; ci < candidates.length; ci++) {
+          var raw = String(candidates[ci] || "");
           var explicit = raw.match(/(?:call\s+)?duration\s*[:：-]?\s*(\d{1,2}:[0-5]\d(?::[0-5]\d)?|(?:\d+\s*(?:hours?|hrs?|h|minutes?|mins?|m|seconds?|secs?|s)\s*){1,3})/i);
-          if (explicit) { secs = __lovParseDurationText(explicit[1]); if (secs != null) break; }
+          if (explicit) {
+            secs = __lovParseDurationText(explicit[1]);
+            if (secs != null) {
+              break;
+            }
+          }
         }
       } catch (e) {}
     }
-    if (missed) secs = 0;
+    if (missed) {
+      secs = 0;
+    }
     return {
       direction: direction === "missed" ? "missed" : direction,
       kind: kind,
@@ -2866,9 +3766,11 @@ return __wceFinalChats;
       seconds: secs == null ? null : secs
     };
   }
-  var __lovMediaKind__ = _0x303451;
-  _0x303451 = function (row) {
-    if (__lovIsCallRow(row)) return "call";
+  var __lovMediaKind__ = v762;
+  v762 = function (row) {
+    if (__lovIsCallRow(row)) {
+      return "call";
+    }
     return __lovMediaKind__(row);
   };
   /* CSR v4.1: WhatsApp's compact PTT players do not always expose the old
@@ -2876,45 +3778,40 @@ return __wceFinalChats;
      falling back to the image detector (a voice note can contain a photo avatar).
      This only identifies audio placeholders; it does NOT fetch media inline. */
   function __csrIsVoiceBubble(row) {
-    if (!row || typeof row.querySelector !== 'function') return false;
+    if (!row || typeof row.querySelector !== "function") {
+      return false;
+    }
     try {
-      if (row.querySelector(
-        'audio, [data-icon="ptt-play"], [data-icon="ptt-pause"], ' +
-        '[data-icon="audio-play"], [data-icon="audio-pause"], ' +
-        '[data-icon="ptt-status"], [data-icon="ptt-status-start"], ' +
-        '[data-testid="ptt-play"], [data-testid="audio-player"], ' +
-        '[data-testid="ptt-player"], [data-testid*="voice-note"], ' +
-        '[data-testid*="audio-player"], [data-testid*="audio-msg"], ' +
-        '[data-testid*="ptt"], [data-testid*="voice-player"], ' +
-        '[data-icon="audio-msg"], [data-icon="ptt-download"], ' +
-        '[aria-label*="voice message" i], [aria-label*="voice note" i], ' +
-        '[aria-label*="play audio" i], [aria-label*="play voice" i]'
-      )) return true;
+      if (row.querySelector("audio, [data-icon=\"ptt-play\"], [data-icon=\"ptt-pause\"], [data-icon=\"audio-play\"], [data-icon=\"audio-pause\"], [data-icon=\"ptt-status\"], [data-icon=\"ptt-status-start\"], [data-testid=\"ptt-play\"], [data-testid=\"audio-player\"], [data-testid=\"ptt-player\"], [data-testid*=\"voice-note\"], [data-testid*=\"audio-player\"], [data-testid*=\"audio-msg\"], [data-testid*=\"ptt\"], [data-testid*=\"voice-player\"], [data-icon=\"audio-msg\"], [data-icon=\"ptt-download\"], [aria-label*=\"voice message\" i], [aria-label*=\"voice note\" i], [aria-label*=\"play audio\" i], [aria-label*=\"play voice\" i]")) {
+        return true;
+      }
       // New WhatsApp waveform player variants may use anonymous SVG buttons.
       // Require waveform + play/pause control + a duration token together so a
       // regular image or a chat header never gets mislabeled as a voice note.
-      var waveform = row.querySelector(
-        '[data-testid*="waveform"], [data-testid*="audio-wave"], ' +
-        '[class*="waveform"], [class*="audio-wave"], ' +
-        '[aria-label*="audio waveform" i]'
-      );
+      var waveform = row.querySelector("[data-testid*=\"waveform\"], [data-testid*=\"audio-wave\"], [class*=\"waveform\"], [class*=\"audio-wave\"], [aria-label*=\"audio waveform\" i]");
       // v4.10: In the verified Nov-2026 WhatsApp DOM, a 0:03 voice bubble
       // has a <canvas> waveform in its own msg-container; neither a PTT
       // icon nor a class containing "waveform" is present. Do not scan the
       // conversation pane: this function only receives a single message row.
-      var canvasWaveform = row.querySelector('canvas');
-      if (!waveform && !canvasWaveform) return false;
-      var player = row.querySelector(
-        'button, [role="button"], [data-icon*="play"], [data-icon*="pause"]'
-      );
+      var canvasWaveform = row.querySelector("canvas");
+      if (!waveform && !canvasWaveform) {
+        return false;
+      }
+      var player = row.querySelector("button, [role=\"button\"], [data-icon*=\"play\"], [data-icon*=\"pause\"]");
       // The same WhatsApp build can render the Play triangle as a bare SVG
       // rather than a semantic button. A canvas alone is not sufficient.
-      if (!player && canvasWaveform) player = row.querySelector('svg');
-      if (!player) return false;
-      var txt = String(row.innerText || row.textContent || '');
+      if (!player && canvasWaveform) {
+        player = row.querySelector("svg");
+      }
+      if (!player) {
+        return false;
+      }
+      var txt = String(row.innerText || row.textContent || "");
       // Preserve the original v4.1 named-waveform behavior. The stricter
       // clock-vs-duration check below is only for new anonymous canvases.
-      if (waveform) return /(?:^|\s)\d{1,2}:\d{2}(?=\s|$)/.test(txt);
+      if (waveform) {
+        return /(?:^|\s)\d{1,2}:\d{2}(?=\s|$)/.test(txt);
+      }
       // WhatsApp also renders message CLOCK timestamps (e.g. 9:21 PM).
       // Reject clock-only text: the voice must contain a separate MM:SS
       // duration that is not directly followed by AM/PM.
@@ -2922,15 +3819,23 @@ return __wceFinalChats;
       var match;
       while ((match = tokens.exec(txt)) !== null) {
         var after = txt.slice(match.index + match[0].length);
-        if (!/^\s*(?:am|pm)\b/i.test(after)) return true;
+        if (!/^\s*(?:am|pm)\b/i.test(after)) {
+          return true;
+        }
       }
       return false;
-    } catch (_) { return false; }
+    } catch (_) {
+      return false;
+    }
   }
-  var __csrMediaBeforeVoicePatch = _0x303451;
-  _0x303451 = function (row) {
-    if (__lovIsCallRow(row)) return 'call';
-    if (__csrIsVoiceBubble(row)) return 'voice';
+  var __csrMediaBeforeVoicePatch = v762;
+  v762 = function (row) {
+    if (__lovIsCallRow(row)) {
+      return "call";
+    }
+    if (__csrIsVoiceBubble(row)) {
+      return "voice";
+    }
     return __csrMediaBeforeVoicePatch(row);
   };
   // CSR v4.5: Never scan arbitrary div[role=row]/div[data-id] for calls.
@@ -2938,13 +3843,23 @@ return __wceFinalChats;
   // The core message-row reader already covers real call event bubbles.
   function __lovDividerMidnight(row, order) {
     try {
-      if (row.querySelector("[data-pre-plain-text]")) return null;
+      if (row.querySelector("[data-pre-plain-text]")) {
+        return null;
+      }
       var t = (row.innerText || row.textContent || "").trim();
-      if (!t || t.length > 24) return null;
-      if (!__lovLooksLikeStamp(t)) return null;
-      if (__LOV_TIME_RE.test(t)) return null;
+      if (!t || t.length > 24) {
+        return null;
+      }
+      if (!__lovLooksLikeStamp(t)) {
+        return null;
+      }
+      if (__LOV_TIME_RE.test(t)) {
+        return null;
+      }
       var d = __lovLabelToDate(t, order);
-      if (!d) return null;
+      if (!d) {
+        return null;
+      }
       var m = new Date(d.getTime());
       m.setHours(0, 0, 0, 0);
       return m.getTime();
@@ -2959,29 +3874,44 @@ return __wceFinalChats;
     // data-testid="conv-msg-<HEX>" (e.g. ACE35E5AFAC83EB2A263D388FF64AC1A or the
     // shorter outgoing 3EB0... ids). Accepting the bare id is essential: without
     // a source id the backend cannot locate the message to download voice media.
-    var isWaMsgId = function (v) {
+    function isWaMsgId(v) {
       return /^(?:true|false)_[^\s|]{6,}$/i.test(v) || /^[0-9A-F]{18,40}$/.test(v);
-    };
-    var id = '';
-    try { id = __wceFindDataId(row) || ''; } catch (_) {}
-    if (isWaMsgId(id)) return id;
+    }
+    var id = "";
+    try {
+      id = __wceFindDataId(row) || "";
+    } catch (_) {}
+    if (isWaMsgId(id)) {
+      return id;
+    }
     // The current WhatsApp build can place the ID on a bubble descendant.
     try {
-      var items = row.querySelectorAll?.('[data-id],[data-testid^="conv-msg-"]') || [];
-      for (var i=0;i<items.length && i<12;i++) {
-        var v=items[i].getAttribute('data-id') ||
-          String(items[i].getAttribute('data-testid') || '').replace(/^conv-msg-/, '');
-        if (isWaMsgId(v)) return v;
+      var items = row.querySelectorAll?.("[data-id],[data-testid^=\"conv-msg-\"]") || [];
+      for (var i = 0; i < items.length && i < 12; i++) {
+        var v = items[i].getAttribute("data-id") || String(items[i].getAttribute("data-testid") || "").replace(/^conv-msg-/, "");
+        if (isWaMsgId(v)) {
+          return v;
+        }
       }
     } catch (_) {}
-    return '';
+    return "";
   }
   // v4.7: Directions are a three-state classification until supported by
   // message-local evidence. A missing marker is NOT proof of an incoming chat.
   function __csrDirectionEvidence(row) {
     var sourceId = __csrTrustedMessageId(row);
-    if (/^true_/i.test(sourceId)) return { fromMe: true, proof: 'whatsapp_id' };
-    if (/^false_/i.test(sourceId)) return { fromMe: false, proof: 'whatsapp_id' };
+    if (/^true_/i.test(sourceId)) {
+      return {
+        fromMe: true,
+        proof: "whatsapp_id"
+      };
+    }
+    if (/^false_/i.test(sourceId)) {
+      return {
+        fromMe: false,
+        proof: "whatsapp_id"
+      };
+    }
 
     // Current WhatsApp (verified live, Nov 2026) no longer emits message-in/out
     // classes or true_/false_ data-id prefixes. Each message row instead carries:
@@ -2991,21 +3921,40 @@ return __wceFinalChats;
     //      incoming) present on EVERY message, including grouped ones that share
     //      a single tail. Quoted replies expose only "Quoted message" (never a
     //      leaking "You:"), so the first sender-colon label belongs to the row.
-    if (row.querySelector?.('[data-icon="tail-out"]')) return { fromMe: true, proof: 'tail_out' };
-    if (row.querySelector?.('[data-icon="tail-in"]')) return { fromMe: false, proof: 'tail_in' };
+    if (row.querySelector?.("[data-icon=\"tail-out\"]")) {
+      return {
+        fromMe: true,
+        proof: "tail_out"
+      };
+    }
+    if (row.querySelector?.("[data-icon=\"tail-in\"]")) {
+      return {
+        fromMe: false,
+        proof: "tail_in"
+      };
+    }
     // Delivery / read status ticks (clock, single-, double-check) render ONLY on the
     // counselor's OWN outgoing messages -- never on an incoming one. This is the most
     // reliable group signal when tails are absent: in a group only the first message of
     // a run carries a tail, so grouped outgoing replies otherwise fall through to the
     // aria/geometry fallbacks and get mis-read as incoming (the sender/receiver swap).
     // Icon-based, so language-independent. Incoming messages carry no status icon.
-    if (row.querySelector?.('[data-icon="msg-dblcheck"],[data-icon="msg-check"],[data-icon="msg-time"]'))
-      return { fromMe: true, proof: 'status_tick' };
+    if (row.querySelector?.("[data-icon=\"msg-dblcheck\"],[data-icon=\"msg-check\"],[data-icon=\"msg-time\"]")) {
+      return {
+        fromMe: true,
+        proof: "status_tick"
+      };
+    }
     try {
-      var ariaNodes = row.querySelectorAll?.('[aria-label]') || [];
+      var ariaNodes = row.querySelectorAll?.("[aria-label]") || [];
       for (var ai = 0; ai < ariaNodes.length && ai < 24; ai++) {
-        var m = String(ariaNodes[ai].getAttribute('aria-label') || '').match(/^(.{1,40}):$/);
-        if (m) return { fromMe: m[1].trim() === 'You', proof: 'aria_sender' };
+        var m = String(ariaNodes[ai].getAttribute("aria-label") || "").match(/^(.{1,40}):$/);
+        if (m) {
+          return {
+            fromMe: m[1].trim() === "You",
+            proof: "aria_sender"
+          };
+        }
       }
     } catch (_) {}
 
@@ -3013,45 +3962,78 @@ return __wceFinalChats;
     // not the currently sampled voice player. Inspect only nearest wrappers.
     var cursor = row;
     for (var n = 0; n < 9 && cursor; n++, cursor = cursor.parentElement) {
-      if (cursor.classList?.contains('message-out')) return { fromMe: true, proof: 'message_out_wrapper' };
-      if (cursor.classList?.contains('message-in')) return { fromMe: false, proof: 'message_in_wrapper' };
-      if (cursor.id === 'main' || cursor.classList?.contains('copyable-area')) break;
+      if (cursor.classList?.contains("message-out")) {
+        return {
+          fromMe: true,
+          proof: "message_out_wrapper"
+        };
+      }
+      if (cursor.classList?.contains("message-in")) {
+        return {
+          fromMe: false,
+          proof: "message_in_wrapper"
+        };
+      }
+      if (cursor.id === "main" || cursor.classList?.contains("copyable-area")) {
+        break;
+      }
     }
     // Some builds pass an outer row containing one inner bubble wrapper.
-    var outgoing = row.querySelector?.('.message-out');
-    var incoming = row.querySelector?.('.message-in');
-    if (!!outgoing !== !!incoming) return { fromMe: !!outgoing, proof: 'inner_message_wrapper' };
+    var outgoing = row.querySelector?.(".message-out");
+    var incoming = row.querySelector?.(".message-in");
+    if (!!outgoing !== !!incoming) {
+      return {
+        fromMe: !!outgoing,
+        proof: "inner_message_wrapper"
+      };
+    }
 
     // A final *conservative* layout fallback for builds without message
     // classes/IDs: WhatsApp lays out narrow incoming bubbles to the left and
     // outgoing ones to the right. Never use screen geometry when it is unclear.
     try {
-      var viewport = document.querySelector('#main .copyable-area') || document.querySelector('#main');
+      var viewport = document.querySelector("#main .copyable-area") || document.querySelector("#main");
       var vr = viewport?.getBoundingClientRect?.();
-      var candidate = row.querySelector?.('[data-testid="msg-container"], [data-pre-plain-text], [data-testid*="audio-player"], .copyable-text') || row;
+      var candidate = row.querySelector?.("[data-testid=\"msg-container\"], [data-pre-plain-text], [data-testid*=\"audio-player\"], .copyable-text") || row;
       var cr = candidate.getBoundingClientRect?.();
-      if (vr && cr && vr.width > 350 && cr.width > 45 && cr.width < vr.width * 0.66 &&
-          cr.left >= vr.left - 12 && cr.right <= vr.right + 12) {
+      if (vr && cr && vr.width > 350 && cr.width > 45 && cr.width < vr.width * 0.66 && cr.left >= vr.left - 12 && cr.right <= vr.right + 12) {
         var relative = ((cr.left + cr.right) / 2 - vr.left) / vr.width;
-        if (relative >= 0.71) return { fromMe: true, proof: 'right_aligned_bubble' };
-        if (relative <= 0.29) return { fromMe: false, proof: 'left_aligned_bubble' };
+        if (relative >= 0.71) {
+          return {
+            fromMe: true,
+            proof: "right_aligned_bubble"
+          };
+        }
+        if (relative <= 0.29) {
+          return {
+            fromMe: false,
+            proof: "left_aligned_bubble"
+          };
+        }
       }
     } catch (_) {}
-    return { fromMe: null, proof: 'unknown' };
+    return {
+      fromMe: null,
+      proof: "unknown"
+    };
   }
   function __csrOutgoingRow(row) {
     return __csrDirectionEvidence(row).fromMe === true;
   }
   function __lovStampMs(msg, order) {
     try {
-      var d = _0xdddfaa(msg, order);
-      if (d) return d.getTime();
-      var alt = _0xdddfaa(msg, order === "MDY" ? "DMY" : "MDY");
-      if (alt) return alt.getTime();
+      var d = v779(msg, order);
+      if (d) {
+        return d.getTime();
+      }
+      var alt = v779(msg, order === "MDY" ? "DMY" : "MDY");
+      if (alt) {
+        return alt.getTime();
+      }
     } catch (e) {}
     return null;
   }
-  _0x24f8cd = function () {
+  v752 = function () {
     var out = [];
     var order;
     try {
@@ -3059,7 +4041,7 @@ return __wceFinalChats;
     } catch (e) {
       order = "DMY";
     }
-    var rows = _0x385460();
+    var rows = v685();
     var dayMs = null;
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
@@ -3069,14 +4051,16 @@ return __wceFinalChats;
         continue;
       }
       var isCall = __lovIsCallRow(row);
-      var system = isCall ? false : _0x10b11f(row);
+      var system = isCall ? false : v756(row);
       var fromMe = __csrOutgoingRow(row);
-      var parsed = _0x35bc2b(row);
+      var parsed = v760(row);
       var stamp = parsed.timestamp;
       var sender = parsed.sender;
-      var media = system ? undefined : _0x303451(row);
-      var text = _0x34d46d(row);
-      if (!text && !media && !system) continue;
+      var media = system ? undefined : v762(row);
+      var text = v764(row);
+      if (!text && !media && !system) {
+        continue;
+      }
       var msg = {
         timestamp: stamp,
         sender: sender || (fromMe ? "You" : ""),
@@ -3084,7 +4068,7 @@ return __wceFinalChats;
         text: system ? (row.innerText ?? "").trim() : text,
         system: system,
         media: media,
-        mediaUrl: media && media !== "call" ? _0xdd3742(row) : undefined,
+        mediaUrl: media && media !== "call" ? v749(row) : undefined,
         mediaDuration: undefined
       };
       if (media === "voice" || media === "audio") {
@@ -3107,19 +4091,23 @@ return __wceFinalChats;
       if (ts == null && dayMs != null) {
         var mins = null;
         try {
-          mins = _0x5d510b(stamp || (row.innerText || ""));
+          mins = v459(stamp || row.innerText || "");
         } catch (e) {}
         ts = mins != null ? dayMs + mins * 60000 : dayMs;
       }
       msg.tsMs = ts;
-      if (ts != null) dayMs = new Date(ts).setHours(0, 0, 0, 0);
+      if (ts != null) {
+        dayMs = new Date(ts).setHours(0, 0, 0, 0);
+      }
       var key;
       try {
         key = row.getAttribute("data-id") || row.querySelector("[data-id]") && row.querySelector("[data-id]").getAttribute("data-id") || null;
       } catch (e) {
         key = null;
       }
-      if (!key) key = _0x3bd8ca(row, msg);
+      if (!key) {
+        key = v746(row, msg);
+      }
       out.push({
         key: key,
         message: msg
@@ -3128,31 +4116,43 @@ return __wceFinalChats;
     return out;
   };
   var __LOV_LAST_STATS__ = null;
-  _0x238f6f = function (list, startDate) {
-    if (!startDate) return list;
+  v784 = function (list, startDate) {
+    if (!startDate) {
+      return list;
+    }
     var startMs = startDate.getTime();
     var endMs = __lovEndFor(startMs);
     var arr = list.slice();
     var order;
     try {
-      order = _0x202f43(arr);
+      order = v436(arr);
     } catch (e) {
       order = "DMY";
     }
-    var i, ts = [];
+    var i;
+    var ts = [];
     for (i = 0; i < arr.length; i++) {
       var v = arr[i] && arr[i].tsMs != null ? arr[i].tsMs : __lovStampMs(arr[i], order);
       ts[i] = v == null || !isFinite(v) ? null : v;
     }
     var last = null;
     for (i = 0; i < ts.length; i++) {
-      if (ts[i] == null) ts[i] = last; else last = ts[i];
+      if (ts[i] == null) {
+        ts[i] = last;
+      } else {
+        last = ts[i];
+      }
     }
     var next = null;
     for (i = ts.length - 1; i >= 0; i--) {
-      if (ts[i] == null) ts[i] = next; else next = ts[i];
+      if (ts[i] == null) {
+        ts[i] = next;
+      } else {
+        next = ts[i];
+      }
     }
-    var kept = [], unknown = 0;
+    var kept = [];
+    var unknown = 0;
     for (i = 0; i < arr.length; i++) {
       if (ts[i] == null) {
         unknown++;
@@ -3160,7 +4160,9 @@ return __wceFinalChats;
         continue;
       }
       arr[i].tsMs = ts[i];
-      if (ts[i] >= startMs && ts[i] <= endMs) kept.push(arr[i]);
+      if (ts[i] >= startMs && ts[i] <= endMs) {
+        kept.push(arr[i]);
+      }
     }
     __LOV_LAST_STATS__ = {
       start: startMs,
@@ -3172,31 +4174,35 @@ return __wceFinalChats;
     return kept;
   };
   var __LOV_TRUNCATED__ = false;
-  _0x45c37c = async function (onProgress, shouldCancel, wantMedia, startDate) {
-    var scroller = _0x2d9f26();
-    if (!scroller) return _0x24f8cd().map(function (e) {
-      return e.message;
-    });
+  v818 = async function (onProgress, shouldCancel, wantMedia, startDate) {
+    var scroller = v713();
+    if (!scroller) {
+      return v752().map(function (e) {
+        return e.message;
+      });
+    }
     var startMs = startDate ? startDate.getTime() : null;
     var seen = new Set();
     var all = [];
     var mediaQueue = [];
     __LOV_TRUNCATED__ = false;
-    var harvest = function (prepend) {
+    function harvest(prepend) {
       var fresh = [];
-      var batch = _0x24f8cd();
+      var batch = v752();
       for (var i = 0; i < batch.length; i++) {
         var e = batch[i];
-        if (seen.has(e.key)) continue;
+        if (seen.has(e.key)) {
+          continue;
+        }
         seen.add(e.key);
         var m = e.message;
         // Preserve actual WhatsApp message IDs for later voice queue playback.
         // Synthetic deduplication keys contain "|" and must never be sent to
         // the WhatsApp audio resolver.
-        if ((m.media === 'voice' || m.media === 'audio') && !m.sourceMessageId &&
-            e.key && String(e.key).length <= 200 && !String(e.key).includes('|'))
+        if ((m.media === "voice" || m.media === "audio") && !m.sourceMessageId && e.key && String(e.key).length <= 200 && !String(e.key).includes("|")) {
           m.sourceMessageId = String(e.key);
-        if ((wantMedia || m.media === "voice") && _0x1086b6(m, startDate)) {
+        }
+        if ((wantMedia || m.media === "voice") && v802(m, startDate)) {
           mediaQueue.push({
             m: m,
             k: e.key
@@ -3205,47 +4211,61 @@ return __wceFinalChats;
         fresh.push(m);
       }
       if (fresh.length > 0) {
-        if (prepend) all.unshift.apply(all, fresh); else all.push.apply(all, fresh);
+        if (prepend) {
+          all.unshift.apply(all, fresh);
+        } else {
+          all.push.apply(all, fresh);
+        }
       }
       onProgress(all.length);
       return fresh.length;
-    };
-    var fire = function () {
+    }
+    function fire() {
       scroller.dispatchEvent(new Event("scroll", {
         bubbles: true
       }));
-    };
-    var waitForGrowth = async function (ms) {
+    }
+    async function waitForGrowth(ms) {
       var deadline = Date.now() + ms;
       while (Date.now() < deadline) {
         var n = harvest(true);
-        if (n > 0) return n;
-        await _0x16b465(40);
+        if (n > 0) {
+          return n;
+        }
+        await v547(40);
       }
       return harvest(true);
-    };
-    var passedCutoff = function () {
-      if (startMs == null) return false;
+    }
+    function passedCutoff() {
+      if (startMs == null) {
+        return false;
+      }
       for (var i = 0; i < all.length; i++) {
         var t = all[i].tsMs;
-        if (t != null && t < startMs) return true;
+        if (t != null && t < startMs) {
+          return true;
+        }
       }
       return false;
-    };
-    var atConversationTop = function () {
+    }
+    function atConversationTop() {
       try {
-        if (scroller.scrollTop > 4) return false;
+        if (scroller.scrollTop > 4) {
+          return false;
+        }
         var t = scroller.innerText || "";
-        if ((/end-to-end encrypted|Messages and calls are end-to-end|created group|You created this group/i).test(t.slice(0, 400))) {
+        if (/end-to-end encrypted|Messages and calls are end-to-end|created group|You created this group/i.test(t.slice(0, 400))) {
           return true;
         }
       } catch (e) {}
       return false;
-    };
+    }
     scroller.scrollTop = scroller.scrollHeight;
     fire();
     var primed = Date.now() + 2500;
-    while (_0x385460().length === 0 && Date.now() < primed) await _0x16b465(25);
+    while (v685().length === 0 && Date.now() < primed) {
+      await v547(25);
+    }
     harvest(false);
     var BUDGET_MS = 240000;
     var MAX_IDLE = 8;
@@ -3253,8 +4273,12 @@ return __wceFinalChats;
     var idle = 0;
     var lastHeight = -1;
     for (var round = 0; round < 4000; round++) {
-      if (shouldCancel()) break;
-      if (passedCutoff()) break;
+      if (shouldCancel()) {
+        break;
+      }
+      if (passedCutoff()) {
+        break;
+      }
       if (Date.now() > deadline) {
         __LOV_TRUNCATED__ = !passedCutoff();
         break;
@@ -3269,7 +4293,7 @@ return __wceFinalChats;
       }
       scroller.scrollTop = 40;
       fire();
-      await _0x16b465(150);
+      await v547(150);
       scroller.scrollTop = 0;
       fire();
       grew = await waitForGrowth(900 + idle * 700);
@@ -3278,7 +4302,9 @@ return __wceFinalChats;
         lastHeight = scroller.scrollHeight;
         continue;
       }
-      if (atConversationTop() && scroller.scrollHeight === lastHeight) break;
+      if (atConversationTop() && scroller.scrollHeight === lastHeight) {
+        break;
+      }
       idle++;
       lastHeight = scroller.scrollHeight;
       if (idle >= MAX_IDLE) {
@@ -3288,13 +4314,15 @@ return __wceFinalChats;
     }
     if (mediaQueue.length > 0 && !shouldCancel()) {
       var idx = 0;
-      var worker = async function () {
+      async function worker() {
         while (true) {
           var k = idx++;
-          if (k >= mediaQueue.length || shouldCancel()) return;
+          if (k >= mediaQueue.length || shouldCancel()) {
+            return;
+          }
           var m = mediaQueue[k].m;
           if (m.mediaUrl) {
-            m.mediaData = await _0x1e1d4e(m.mediaUrl).catch(function () {
+            m.mediaData = await v766(m.mediaUrl).catch(function () {
               return undefined;
             });
           } else if (m.media === "voice") {
@@ -3306,9 +4334,9 @@ return __wceFinalChats;
             try {
               var probe = await new Promise(function (res) {
                 var a = new Audio();
-                var done = function (v) {
+                function done(v) {
                   res(v);
-                };
+                }
                 a.onloadedmetadata = function () {
                   done(isFinite(a.duration) ? a.duration : null);
                 };
@@ -3327,7 +4355,7 @@ return __wceFinalChats;
             } catch (e) {}
           }
         }
-      };
+      }
       await Promise.all(Array.from({
         length: Math.min(6, mediaQueue.length)
       }, worker));
@@ -3335,26 +4363,28 @@ return __wceFinalChats;
     scroller.scrollTop = scroller.scrollHeight;
     return all;
   };
-  _0x20ba15.call = "<call>";
-  _0x5718ed = function (msg, opts) {
+  v435.call = "<call>";
+  v477 = function (msg, opts) {
     var parts = [];
     if (msg.media === "call") {
-      var c = msg.call || ({});
+      var c = msg.call || {};
       var label = c.kind === "video" ? "Video call" : "Voice call";
       if (c.direction === "missed") {
         parts.push("[Missed " + label.toLowerCase() + "]");
       } else {
         var dir = c.direction === "outgoing" ? "outgoing" : c.direction === "incoming" ? "incoming" : null;
         var head = label + (dir ? ", " + dir : "");
-        parts.push("[" + head + (msg.mediaDuration ? " \u00b7 " + msg.mediaDuration : " \u00b7 duration unavailable") + "]");
+        parts.push("[" + head + (msg.mediaDuration ? " · " + msg.mediaDuration : " · duration unavailable") + "]");
       }
     } else if (msg.media === "voice" || msg.media === "audio") {
       var kind = msg.media === "audio" ? "Audio" : "Voice message";
-      parts.push("[" + kind + (msg.mediaDuration ? " \u00b7 " + msg.mediaDuration : " \u00b7 duration unavailable") + "]");
+      parts.push("[" + kind + (msg.mediaDuration ? " · " + msg.mediaDuration : " · duration unavailable") + "]");
     } else if (msg.media) {
-      parts.push(_0x20ba15[msg.media] || _0x20ba15.unknown);
+      parts.push(v435[msg.media] || v435.unknown);
     }
-    if (msg.text) parts.push(msg.text);
+    if (msg.text) {
+      parts.push(msg.text);
+    }
     return parts.join(" ").trim();
   };
   function __lovTotals(messages) {
@@ -3370,42 +4400,52 @@ return __wceFinalChats;
       var m = messages[i];
       if (m.media === "voice" || m.media === "audio") {
         t.voiceCount++;
-        if (m.durationSeconds != null) t.voiceSecs += m.durationSeconds; else t.voiceUnknown++;
+        if (m.durationSeconds != null) {
+          t.voiceSecs += m.durationSeconds;
+        } else {
+          t.voiceUnknown++;
+        }
       } else if (m.media === "call") {
         t.callCount++;
-        if (m.call && m.call.direction === "missed") t.missed++; else if (m.durationSeconds != null) t.callSecs += m.durationSeconds;
+        if (m.call && m.call.direction === "missed") {
+          t.missed++;
+        } else if (m.durationSeconds != null) {
+          t.callSecs += m.durationSeconds;
+        }
       }
     }
     return t;
   }
   function __lovTotalsBlock(messages) {
     var t = __lovTotals(messages);
-    if (0 === 0 && 0 === 0) return "";
+    if (0 === 0 && 0 === 0) {
+      return "";
+    }
     var lines = ["", "--- Voice & call summary ---"];
     if (0 > 0) {
-      lines.push("Voice messages: " + 0 + "  |  total " + (__lovFmtDuration(0) || "0:00") + (0 ? "  (" + 0 + " without a readable length)" : ""));
+      lines.push("Voice messages: 0  |  total " + (__lovFmtDuration(0) || "0:00") + (0 ? "  (0 without a readable length)" : ""));
     }
     if (0 > 0) {
-      lines.push("Calls: " + 0 + "  |  connected time " + (__lovFmtDuration(0) || "0:00") + (0 ? "  |  missed: " + 0 : ""));
+      lines.push("Calls: 0  |  connected time " + (__lovFmtDuration(0) || "0:00") + (0 ? "  |  missed: 0" : ""));
     }
     return lines.join("\n") + "\n";
   }
-  var __lovChatTxt__ = _0x319483;
-  _0x319483 = function (chat, opts) {
+  var __lovChatTxt__ = v492;
+  v492 = function (chat, opts) {
     var base = __lovChatTxt__(chat, opts);
     return base + __lovTotalsBlock(chat.messages || []);
   };
-  var __lovManyTxt__ = _0x175188;
-  _0x175188 = function (chats, opts) {
+  var __lovManyTxt__ = v499;
+  v499 = function (chats, opts) {
     var out = chats.map(function (c) {
-      var body = _0x4b934f(c, opts).map(function (m) {
-        return _0x1d96d1(m, opts);
+      var body = v488(c, opts).map(function (m) {
+        return v482(m, opts);
       }).filter(function (s) {
         return s.length > 0;
       });
-      return _0x269443 + "\nCHAT: " + c.title + "\n" + _0x269443 + "\n\n" + body.join("\n") + "\n" + __lovTotalsBlock(c.messages || []);
+      return v498 + "\nCHAT: " + c.title + "\n" + v498 + "\n\n" + body.join("\n") + "\n" + __lovTotalsBlock(c.messages || []);
     }).join("\n\n\n");
-    return out + "\n\n" + _0x269443 + "\nEND OF EXPORT\n" + _0x269443 + "\n";
+    return out + "\n\n" + v498 + "\nEND OF EXPORT\n" + v498 + "\n";
   };
   var __lovMakeCtxInner__ = __lovMakeCtx;
   __lovMakeCtx = async function (opts) {
@@ -3416,19 +4456,22 @@ return __wceFinalChats;
     }
     return ctx;
   };
-  async function _0x2054ea(_0x4d198d, _0x3af13b, _0x757cb8, _0x1fc557) {
-    let _0x46b39d = _0x757cb8 || _0x1d0711(), _0xa5816d = await _0x408f81(_0x4d198d, _0x3af13b, _0x46b39d);
-    _0xa5816d.messages = _0x238f6f(_0xa5816d.messages, _0x46b39d);
-    let _0x225809 = {
-      'title': _0xa5816d.title,
-      'messages': _0xa5816d.messages,
-      'cachedAt': Date.now(),
-      'hasMedia': !!_0x3af13b,
-      'cutoff': _0x46b39d.getTime()
+  async function v869(v1074, v1075, v1076, v1077) {
+    let v1078 = v1076 || v649();
+    let v1079 = await v846(v1074, v1075, v1078);
+    v1079.messages = v784(v1079.messages, v1078);
+    let v1080 = {
+      title: v1079.title,
+      messages: v1079.messages,
+      cachedAt: Date.now(),
+      hasMedia: !!v1075,
+      cutoff: v1078.getTime()
     };
-    _0x89daa2.set(_0x128711(_0xa5816d.title), _0x225809);
-    if (_0x1fc557 && _0x128711(_0x1fc557) && _0x128711(_0x1fc557) !== _0x128711(_0xa5816d.title)) _0x89daa2.set(_0x128711(_0x1fc557), _0x225809);
-    return _0xa5816d;
+    v772.set(v637(v1079.title), v1080);
+    if (v1077 && v637(v1077) && v637(v1077) !== v637(v1079.title)) {
+      v772.set(v637(v1077), v1080);
+    }
+    return v1079;
   }
 
   /* ============ WCE-PATCH v1.8.2: filter-bounded, fast multi-chat export ============
@@ -3436,7 +4479,7 @@ return __wceFinalChats;
    * Four defects fixed, all of them causes of the "export sticks / keeps
    * scrolling up / loads chats outside the filter" report.
    *
-   * D1  The active row parser (the _0x24f8cd override) had NO node cache, even
+   * D1  The active row parser (the v752 override) had NO node cache, even
    *     though an earlier revision of the same function did. The loader polls
    *     it every 40ms; each poll re-ran innerText, the media probe, call
    *     detection and voice-duration extraction over EVERY rendered bubble.
@@ -3466,33 +4509,39 @@ return __wceFinalChats;
 
   /* ---- D1: cache parsed rows against the DOM node ---- */
   var __wceRowCache = new WeakMap();
-
   function __wceBuildRow(row, order) {
     var div = __lovDividerMidnight(row, order);
-    if (div != null) return { type: "divider", ms: div, cacheable: true };
-
+    if (div != null) {
+      return {
+        type: "divider",
+        ms: div,
+        cacheable: true
+      };
+    }
     var isCall = __lovIsCallRow(row);
-    var system = isCall ? false : _0x10b11f(row);
+    var system = isCall ? false : v756(row);
     var direction = __csrDirectionEvidence(row);
-    var fromMe = direction.fromMe === true;
-    var parsed = _0x35bc2b(row);
+    // Unknown evidence falls back to the raw class instead of silently defaulting
+    // to incoming (sender/receiver swap); known evidence always wins.
+    var fromMe = direction.fromMe === null ? row.classList.contains("message-out") : direction.fromMe;
+    var parsed = v760(row);
     var stamp = parsed.timestamp;
     var sender = parsed.sender;
-    var media = system ? undefined : _0x303451(row);
-    var text = _0x34d46d(row);
-    if (!text && !media && !system) return null;
-
+    var media = system ? undefined : v762(row);
+    var text = v764(row);
+    if (!text && !media && !system) {
+      return null;
+    }
     var msg = {
       timestamp: stamp,
-      sender: fromMe ? "You" : (sender || ""),
+      sender: fromMe ? "You" : sender || "",
       fromMe: fromMe,
       text: system ? (row.innerText ?? "").trim() : text,
       system: system,
       media: media,
-      mediaUrl: media && media !== "call" ? _0xdd3742(row) : undefined,
+      mediaUrl: media && media !== "call" ? v749(row) : undefined,
       mediaDuration: undefined
     };
-
     if (media === "voice" || media === "audio") {
       var vs = __lovVoiceDuration(row);
       if (vs != null) {
@@ -3509,18 +4558,21 @@ return __wceFinalChats;
       }
       msg.text = "";
     }
-
     msg.tsMs = __lovStampMs(msg, order);
-
     var mins = null;
-    try { mins = _0x5d510b(stamp || (row.innerText || "")); } catch (e) {}
-
+    try {
+      mins = v459(stamp || row.innerText || "");
+    } catch (e) {}
     var key = null;
     try {
       var idEl = row.querySelector("[data-id]");
-      key = row.getAttribute("data-id") || (idEl && idEl.getAttribute("data-id")) || null;
-    } catch (e) { key = null; }
-    if (!key) key = _0x3bd8ca(row, msg);
+      key = row.getAttribute("data-id") || idEl && idEl.getAttribute("data-id") || null;
+    } catch (e) {
+      key = null;
+    }
+    if (!key) {
+      key = v746(row, msg);
+    }
 
     // Only freeze a row once WhatsApp has rendered its timestamp; a bubble
     // still hydrating reports an empty stamp and caching that would pin the
@@ -3528,53 +4580,68 @@ return __wceFinalChats;
     var sourceId = __csrTrustedMessageId(row);
     // Carry the full WhatsApp ID for ALL messages. Back-end can then resolve
     // text-message direction and deduplicate actual DOM duplicate wrappers.
-    if (sourceId && sourceId.length <= 200) msg.sourceMessageId = sourceId;
+    if (sourceId && sourceId.length <= 200) {
+      msg.sourceMessageId = sourceId;
+    }
     // Legacy voice IDs without a direction prefix remain usable for audio lookup,
     // but are never treated as authoritative sender-direction evidence.
-    if (!sourceId && (media === 'voice' || media === 'audio')) {
+    if (!sourceId && (media === "voice" || media === "audio")) {
       var legacyId = __wceFindDataId(row);
-      if (legacyId && legacyId.length <= 200 && !legacyId.includes('|')) {
+      if (legacyId && legacyId.length <= 200 && !legacyId.includes("|")) {
         sourceId = legacyId;
         msg.sourceMessageId = legacyId;
       }
     }
     // Do not freeze a hydrated timestamp with an as-yet-unknown direction.
-    return { type: "msg", key: sourceId || key, sourceId: sourceId, message: msg, minutes: mins, cacheable: !!stamp && direction.fromMe !== null };
+    return {
+      type: "msg",
+      key: sourceId || key,
+      sourceId: sourceId,
+      message: msg,
+      minutes: mins,
+      cacheable: !!stamp && direction.fromMe !== null
+    };
   }
-
-  _0x24f8cd = function () {
+  v752 = function () {
     var out = [];
     var order;
-    try { order = __lovDateOrder(); } catch (e) { order = "DMY"; }
-
-    var rows = _0x385460();
+    try {
+      order = __lovDateOrder();
+    } catch (e) {
+      order = "DMY";
+    }
+    var rows = v685();
     var dayMs = null;
-
     for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
       var hit = __wceRowCache.get(row);
       // An audio player may hydrate after its thumbnail/avatar was first
       // rendered as an image. Do not freeze that early classification in cache.
-      if (hit && hit.type === 'msg' &&
-          hit.message && hit.message.media !== 'voice' &&
-          hit.message.media !== 'audio' && __csrIsVoiceBubble(row)) {
+      if (hit && hit.type === "msg" && hit.message && hit.message.media !== "voice" && hit.message.media !== "audio" && __csrIsVoiceBubble(row)) {
         __wceRowCache.delete(row);
         hit = undefined;
       }
       if (hit === undefined) {
         hit = __wceBuildRow(row, order);
-        if (hit && hit.cacheable) __wceRowCache.set(row, hit);
+        if (hit && hit.cacheable) {
+          __wceRowCache.set(row, hit);
+        }
       }
-      if (!hit) continue;
-
-      if (hit.type === "divider") { dayMs = hit.ms; continue; }
-
+      if (!hit) {
+        continue;
+      }
+      if (hit.type === "divider") {
+        dayMs = hit.ms;
+        continue;
+      }
       var msg = hit.message;
       // Voice assets require a real WhatsApp DOM identifier, not the
       // synthetic timestamp|sender|content key used for deduplication.
-      if ((msg.media === 'voice' || msg.media === 'audio') && !msg.sourceMessageId) {
-        var sourceId = String(hit.sourceId || '');
-        if (sourceId && sourceId.length <= 200 && !sourceId.includes('|')) msg.sourceMessageId = sourceId;
+      if ((msg.media === "voice" || msg.media === "audio") && !msg.sourceMessageId) {
+        var sourceId = String(hit.sourceId || "");
+        if (sourceId && sourceId.length <= 200 && !sourceId.includes("|")) {
+          msg.sourceMessageId = sourceId;
+        }
       }
       // The divider chain is positional, so it is re-applied each pass rather
       // than cached. Assignment is idempotent -- `msg` is the same object the
@@ -3582,18 +4649,25 @@ return __wceFinalChats;
       if (msg.tsMs == null && dayMs != null) {
         msg.tsMs = hit.minutes != null ? dayMs + hit.minutes * 60000 : dayMs;
       }
-      if (msg.tsMs != null) dayMs = new Date(msg.tsMs).setHours(0, 0, 0, 0);
-
-      out.push({ key: hit.key, message: msg });
+      if (msg.tsMs != null) {
+        dayMs = new Date(msg.tsMs).setHours(0, 0, 0, 0);
+      }
+      out.push({
+        key: hit.key,
+        message: msg
+      });
     }
     return out;
   };
 
   /* ---- D2 + D3: bounded loader that stops at the filter edge ---- */
-  _0x45c37c = async function (onProgress, shouldCancel, wantMedia, startDate) {
-    var scroller = _0x2d9f26();
-    if (!scroller) return _0x24f8cd().map(function (e) { return e.message; });
-
+  v818 = async function (onProgress, shouldCancel, wantMedia, startDate) {
+    var scroller = v713();
+    if (!scroller) {
+      return v752().map(function (e) {
+        return e.message;
+      });
+    }
     var startMs = startDate ? startDate.getTime() : null;
     var filtered = startMs != null;
     // Derived from the cutoff itself, not __LOV_WIN__: callers that pass an
@@ -3601,99 +4675,114 @@ return __wceFinalChats;
     // that shared state, and a stale 7 there would set a 65s ceiling on a
     // 30-day export.
     var days = filtered ? Math.max(1, Math.round((Date.now() - startMs) / 86400000)) : 0;
-
     var seen = new Set();
-    var pages = [];      // pages loaded by scrolling up; newest-loaded last
-    var initial = [];    // what was on screen when we started
+    var pages = []; // pages loaded by scrolling up; newest-loaded last
+    var initial = []; // what was on screen when we started
     var mediaQueue = [];
     var total = 0;
     var oldestTs = null; // running minimum -> O(1) cutoff test
     __LOV_TRUNCATED__ = false;
-
-    var harvest = function (prepend) {
+    function harvest(prepend) {
       var fresh = [];
-      var batch = _0x24f8cd();
+      var batch = v752();
       for (var i = 0; i < batch.length; i++) {
         var e = batch[i];
-        if (seen.has(e.key)) continue;
+        if (seen.has(e.key)) {
+          continue;
+        }
         seen.add(e.key);
         var m = e.message;
         // Preserve actual WhatsApp message IDs for later voice queue playback.
         // Synthetic deduplication keys contain "|" and must never be sent to
         // the WhatsApp audio resolver.
-        if ((m.media === 'voice' || m.media === 'audio') && !m.sourceMessageId &&
-            e.key && String(e.key).length <= 200 && !String(e.key).includes('|'))
+        if ((m.media === "voice" || m.media === "audio") && !m.sourceMessageId && e.key && String(e.key).length <= 200 && !String(e.key).includes("|")) {
           m.sourceMessageId = String(e.key);
-        if (wantMedia && _0x1086b6(m, startDate)) {
-          mediaQueue.push({ m: m, k: e.key });
         }
-        if (m.tsMs != null && (oldestTs === null || m.tsMs < oldestTs)) oldestTs = m.tsMs;
+        if (wantMedia && v802(m, startDate)) {
+          mediaQueue.push({
+            m: m,
+            k: e.key
+          });
+        }
+        if (m.tsMs != null && (oldestTs === null || m.tsMs < oldestTs)) {
+          oldestTs = m.tsMs;
+        }
         fresh.push(m);
       }
       if (fresh.length > 0) {
-        if (prepend) pages.push(fresh);
-        else for (var j = 0; j < fresh.length; j++) initial.push(fresh[j]);
+        if (prepend) {
+          pages.push(fresh);
+        } else {
+          for (var j = 0; j < fresh.length; j++) {
+            initial.push(fresh[j]);
+          }
+        }
         total += fresh.length;
         onProgress(total);
       }
       return fresh.length;
-    };
-
-    var assemble = function () {
+    }
+    function assemble() {
       var out = [];
       for (var p = pages.length - 1; p >= 0; p--) {
         var pg = pages[p];
-        for (var i = 0; i < pg.length; i++) out.push(pg[i]);
+        for (var i = 0; i < pg.length; i++) {
+          out.push(pg[i]);
+        }
       }
-      for (var k = 0; k < initial.length; k++) out.push(initial[k]);
+      for (var k = 0; k < initial.length; k++) {
+        out.push(initial[k]);
+      }
       return out;
-    };
-
-    var passedCutoff = function () {
+    }
+    function passedCutoff() {
       return filtered && oldestTs !== null && oldestTs < startMs;
-    };
-
-    var fire = function () {
-      scroller.dispatchEvent(new Event("scroll", { bubbles: true }));
-    };
-
-    // Only re-parse when the pane actually changed. The old version harvested
+    }
+    function fire() {
+      scroller.dispatchEvent(new Event("scroll", {
+        bubbles: true
+      }));
+    } // Only re-parse when the pane actually changed. The old version harvested
     // on every 40ms tick whether or not anything had rendered.
-    var waitForGrowth = async function (ms) {
+    async function waitForGrowth(ms) {
       var n = harvest(true);
-      if (n > 0) return n;
-
+      if (n > 0) {
+        return n;
+      }
       var deadline = Date.now() + ms;
       var baseH = scroller.scrollHeight;
-      var baseN = _0x385460().length;
-
+      var baseN = v685().length;
       while (Date.now() < deadline) {
-        await _0x16b465(30);
-        if (scroller.scrollHeight !== baseH || _0x385460().length !== baseN) {
+        await v547(30);
+        if (scroller.scrollHeight !== baseH || v685().length !== baseN) {
           n = harvest(true);
-          if (n > 0) return n;
+          if (n > 0) {
+            return n;
+          }
           baseH = scroller.scrollHeight;
-          baseN = _0x385460().length;
+          baseN = v685().length;
         }
       }
       return harvest(true);
-    };
-
-    // innerText on the whole pane forces a full layout + text serialization,
+    } // innerText on the whole pane forces a full layout + text serialization,
     // so this is only consulted when the loader is already about to give up.
-    var atConversationTop = function () {
+    function atConversationTop() {
       try {
-        if (scroller.scrollTop > 4) return false;
+        if (scroller.scrollTop > 4) {
+          return false;
+        }
         var t = scroller.innerText || "";
-        return /end-to-end encrypted|Messages and calls are end-to-end|created group|You created this group/i
-          .test(t.slice(0, 400));
-      } catch (e) { return false; }
-    };
-
+        return /end-to-end encrypted|Messages and calls are end-to-end|created group|You created this group/i.test(t.slice(0, 400));
+      } catch (e) {
+        return false;
+      }
+    }
     scroller.scrollTop = scroller.scrollHeight;
     fire();
     var primed = Date.now() + 2500;
-    while (_0x385460().length === 0 && Date.now() < primed) await _0x16b465(25);
+    while (v685().length === 0 && Date.now() < primed) {
+      await v547(25);
+    }
     harvest(false);
 
     // Scale the ceiling to the window actually requested. A 24h export that
@@ -3704,70 +4793,88 @@ return __wceFinalChats;
     var deadline = Date.now() + BUDGET_MS;
     var idle = 0;
     var lastHeight = -1;
-
     for (var round = 0; round < 4000; round++) {
-      if (shouldCancel()) break;
-      if (passedCutoff()) break;
-      if (Date.now() > deadline) { __LOV_TRUNCATED__ = !passedCutoff(); break; }
-
-      var wait = filtered ? (700 + idle * 600) : (900 + idle * 700);
-
+      if (shouldCancel()) {
+        break;
+      }
+      if (passedCutoff()) {
+        break;
+      }
+      if (Date.now() > deadline) {
+        __LOV_TRUNCATED__ = !passedCutoff();
+        break;
+      }
+      var wait = filtered ? 700 + idle * 600 : 900 + idle * 700;
       scroller.scrollTop = 0;
       fire();
       var grew = await waitForGrowth(wait);
       if (grew > 0) {
         idle = 0;
         lastHeight = scroller.scrollHeight;
-        if (passedCutoff()) break;   // leave the moment the window is covered
+        if (passedCutoff()) {
+          break;
+        } // leave the moment the window is covered
         continue;
       }
-
       scroller.scrollTop = 40;
       fire();
-      await _0x16b465(120);
+      await v547(120);
       scroller.scrollTop = 0;
       fire();
       grew = await waitForGrowth(wait);
       if (grew > 0) {
         idle = 0;
         lastHeight = scroller.scrollHeight;
-        if (passedCutoff()) break;
+        if (passedCutoff()) {
+          break;
+        }
         continue;
       }
-
       idle++;
       var stable = scroller.scrollHeight === lastHeight;
       lastHeight = scroller.scrollHeight;
-
-      if (idle >= MAX_IDLE - 1 && stable && atConversationTop()) break;
+      if (idle >= MAX_IDLE - 1 && stable && atConversationTop()) {
+        break;
+      }
       if (idle >= MAX_IDLE) {
         __LOV_TRUNCATED__ = !passedCutoff() && !atConversationTop();
         break;
       }
     }
-
     if (mediaQueue.length > 0 && !shouldCancel()) {
       var idx = 0;
-      var worker = async function () {
+      async function worker() {
         while (true) {
           var k = idx++;
-          if (k >= mediaQueue.length || shouldCancel()) return;
+          if (k >= mediaQueue.length || shouldCancel()) {
+            return;
+          }
           var m = mediaQueue[k].m;
           if (m.mediaUrl) {
-            m.mediaData = await _0x1e1d4e(m.mediaUrl).catch(function () { return undefined; });
+            m.mediaData = await v766(m.mediaUrl).catch(function () {
+              return undefined;
+            });
           } else if (m.media === "voice") {
-            m.mediaData = await (window.__lovDlAudio__
-              ? window.__lovDlAudio__(mediaQueue[k].k)
-              : Promise.resolve()).catch(function () { return undefined; });
+            m.mediaData = await (window.__lovDlAudio__ ? window.__lovDlAudio__(mediaQueue[k].k) : Promise.resolve()).catch(function () {
+              return undefined;
+            });
           }
           if (m.media === "voice" && m.durationSeconds == null && m.mediaData) {
             try {
               var probe = await new Promise(function (res) {
                 var a = new Audio();
-                var done = function (v) { res(v); };
-                a.onloadedmetadata = function () { done(isFinite(a.duration) ? a.duration : null); };
-                a.onerror = function () { done(null); };
-                setTimeout(function () { done(null); }, 4000);
+                function done(v) {
+                  res(v);
+                }
+                a.onloadedmetadata = function () {
+                  done(isFinite(a.duration) ? a.duration : null);
+                };
+                a.onerror = function () {
+                  done(null);
+                };
+                setTimeout(function () {
+                  done(null);
+                }, 4000);
                 a.src = m.mediaData;
               });
               if (probe != null) {
@@ -3777,10 +4884,11 @@ return __wceFinalChats;
             } catch (e) {}
           }
         }
-      };
-      await Promise.all(Array.from({ length: Math.min(6, mediaQueue.length) }, worker));
+      }
+      await Promise.all(Array.from({
+        length: Math.min(6, mediaQueue.length)
+      }, worker));
     }
-
     scroller.scrollTop = scroller.scrollHeight;
     return assemble();
   };
@@ -3797,100 +4905,73 @@ return __wceFinalChats;
     }
     return ctx;
   };
-
   __lovCollect = function (map, ctx) {
     console.log("WCE-COLLECT-ACTIVE-123");
-    if (!ctx) return _0x1f7357(map);
-    var rows = _0x56b226();
+    if (!ctx) {
+      return v624(map);
+    }
+    var rows = v559();
     var trailing = 0;
     var sawStale = false;
     ctx.scans++;
-
-    for (var i = 0; i < rows.length; i++) { 
+    for (var i = 0; i < rows.length; i++) {
       var row = rows[i];
-    var id = _0x3b6cd1(row);
-if (!id) continue;
-// Skip unread WhatsApp chats
-// Skip unread WhatsApp chats
-var __wceKey = String(id || '')
-  .replace(/[\u202A-\u202E\u2066-\u2069]/g, '')
-  .replace(/\s+/g, ' ')
-  .trim()
-  .toLowerCase();
+      var id = v565(row);
+      if (!id) {
+        continue;
+      }
+      // Skip unread WhatsApp chats
+      // Skip unread WhatsApp chats
+      var __wceKey = String(id || "").replace(/[\u202A-\u202E\u2066-\u2069]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+      if (ctx && !ctx.__wceUnreadIds) {
+        ctx.__wceUnreadIds = new Set();
+      }
+      if (ctx && !ctx.__wceUnreadSummary) {
+        ctx.__wceUnreadSummary = [];
+      }
+      if (__wceIsUnreadChat(row)) {
+        if (ctx && ctx.__wceUnreadIds) {
+          ctx.__wceUnreadIds.add(__wceKey);
+        }
 
-if (ctx && !ctx.__wceUnreadIds) {
-  ctx.__wceUnreadIds = new Set();
-}
-
-if (ctx && !ctx.__wceUnreadSummary) {
-  ctx.__wceUnreadSummary = [];
-}
-
-if (__wceIsUnreadChat(row)) {
-  if (ctx && ctx.__wceUnreadIds) {
-    ctx.__wceUnreadIds.add(__wceKey);
-  }
-
-
-  // Keep unread chat title / number for UI + export + audit report
-  if (
-    ctx &&
-    ctx.__wceUnreadSummary &&
-    !ctx.__wceUnreadSummary.some(function (x) {
-      return String(x).toLowerCase() === String(id).toLowerCase();
-    })
-  ) {
-    var __wceCleanUnreadTitle = String(id || '')
-      .replace(/[\u202A-\u202E\u2066-\u2069]/g, '')
-      .replace(/[^\x20-\x7E\u0600-\u06FF\u0750-\u077F]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    var __wceUnreadValue = __wceCleanUnreadTitle || String(id || '').trim();
-
-    var __wceAlreadyAdded = ctx.__wceUnreadSummary.some(function (x) {
-      return String(x || '').trim().toLowerCase() ===
-          String(__wceUnreadValue || '').trim().toLowerCase();
-});
-
-    if (!__wceAlreadyAdded) {
-      ctx.__wceUnreadSummary.push(__wceUnreadValue);
-    }
-}
-
-  for (var oldId of Array.from(map.keys())) {
-    var oldKey = String(oldId || '')
-      .replace(/[\u202A-\u202E\u2066-\u2069]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .toLowerCase();
-
-    if (oldKey === __wceKey) {
-      map.delete(oldId);
-    }
-  }
-
-  console.log("[WCE] Skipping unread chat:", id);
-  continue;
-}
-
-if (
-  ctx &&
-  ctx.__wceUnreadIds &&
-  ctx.__wceUnreadIds.has(__wceKey)
-) {
-  map.delete(id);
-  continue;
-}
-
-var pinned = __lovIsPinned(row);
+        // Keep unread chat title / number for UI + export + audit report
+        if (ctx && ctx.__wceUnreadSummary && !ctx.__wceUnreadSummary.some(function (x) {
+          return String(x).toLowerCase() === String(id).toLowerCase();
+        })) {
+          var __wceCleanUnreadTitle = String(id || "").replace(/[\u202A-\u202E\u2066-\u2069]/g, "").replace(/[^\x20-\x7E\u0600-\u06FF\u0750-\u077F]/g, "").replace(/\s+/g, " ").trim();
+          var __wceUnreadValue = __wceCleanUnreadTitle || String(id || "").trim();
+          var __wceAlreadyAdded = ctx.__wceUnreadSummary.some(function (x) {
+            return String(x || "").trim().toLowerCase() === String(__wceUnreadValue || "").trim().toLowerCase();
+          });
+          if (!__wceAlreadyAdded) {
+            ctx.__wceUnreadSummary.push(__wceUnreadValue);
+          }
+        }
+        for (var oldId of Array.from(map.keys())) {
+          var oldKey = String(oldId || "").replace(/[\u202A-\u202E\u2066-\u2069]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
+          if (oldKey === __wceKey) {
+            map.delete(oldId);
+          }
+        }
+        console.log("[WCE] Skipping unread chat:", id);
+        continue;
+      }
+      if (ctx && ctx.__wceUnreadIds && ctx.__wceUnreadIds.has(__wceKey)) {
+        map.delete(id);
+        continue;
+      }
+      var pinned = __lovIsPinned(row);
       var state = __lovRowState(row, ctx);
-
       if (state === "stale") {
         // Pinned rows float to the top regardless of age, so they must not
         // count towards the run that decides we have left the window.
-        if (!pinned) { trailing++; sawStale = true; }
-        if (!map.has(id)) ctx.skippedIds.add(id);
+        if (!pinned) {
+          trailing++;
+          sawStale = true;
+        }
+        if (!map.has(id)) {
+          ctx.skippedIds.add(id);
+        }
         continue;
       }
 
@@ -3898,37 +4979,36 @@ var pinned = __lovIsPinned(row);
       // kept. The same label BELOW it sits among older chats -- admitting it
       // is what put out-of-window chats into the run.
       if (state === "unknown" && sawStale && !pinned) {
-        if (!map.has(id)) ctx.skippedIds.add(id);
+        if (!map.has(id)) {
+          ctx.skippedIds.add(id);
+        }
         continue;
       }
-
-      if (state === "fresh") trailing = 0;
-
+      if (state === "fresh") {
+        trailing = 0;
+      }
       if (!map.has(id)) {
         map.set(id, {
           id: id,
           title: id,
-          preview: _0xff7b5b(row),
-          isGroup: _0x4f9d2a(row),
-          labels: _0x36a86d(row)
+          preview: v568(row),
+          isGroup: v571(row),
+          labels: v582(row)
         });
         ctx.kept++;
       }
     }
-
     ctx.trailingStale = trailing;
     return trailing;
   };
   /* ========================= end WCE-PATCH v1.8.2 ========================= */
 
-
-
   /* ============ WCE-PATCH v1.8.3: speed / filter-edge / stall-cap ============
    *
    * Scope is deliberately narrow -- three reported defects, nothing else.
-   * This layer re-overrides _0x45c37c (the per-chat message loader) only.
+   * This layer re-overrides v818 (the per-chat message loader) only.
    * Row parsing, chat-list windowing, formatting and the final range filter
-   * (_0x238f6f) are left exactly as v1.8.2 left them.
+   * (v784) are left exactly as v1.8.2 left them.
    *
    * S1  SPEED. v1.8.2 waited a flat `700 + idle*600` ms on every barren round,
    *     twice per round, up to MAX_IDLE (4 filtered / 8 unfiltered). A chat
@@ -3956,175 +5036,210 @@ var pinned = __lovIsPinned(row);
    *     on to the next chat instead of retrying in place.
    */
 
-  _0x45c37c = async function (onProgress, shouldCancel, wantMedia, startDate) {
-    var scroller = _0x2d9f26();
-    if (!scroller) return _0x24f8cd().map(function (e) { return e.message; });
-
+  v818 = async function (onProgress, shouldCancel, wantMedia, startDate) {
+    var scroller = v713();
+    if (!scroller) {
+      return v752().map(function (e) {
+        return e.message;
+      });
+    }
     var startMs = startDate ? startDate.getTime() : null;
     var filtered = startMs != null;
-    var days = filtered
-      ? Math.max(1, Math.round((Date.now() - startMs) / 86400000))
-      : 0;
-
+    var days = filtered ? Math.max(1, Math.round((Date.now() - startMs) / 86400000)) : 0;
     var seen = new Set();
-    var pages = [];      // pages loaded by scrolling up; newest-loaded last
-    var initial = [];    // what was on screen when we started
+    var pages = []; // pages loaded by scrolling up; newest-loaded last
+    var initial = []; // what was on screen when we started
     var mediaQueue = [];
     var total = 0;
     var oldestTs = null; // running minimum -> O(1) cutoff test
-    var belowCut = 0;    // S2: dated messages confirmed older than the window
+    var belowCut = 0; // S2: dated messages confirmed older than the window
     __LOV_TRUNCATED__ = false;
 
     /* ---- S1: every wait is derived from this chat's observed latency ---- */
-    var loadMs = 160;                    // ms between "scroll" and "page landed"
-    var noteLatency = function (ms) {
-      if (!isFinite(ms) || ms <= 0) return;
+    var loadMs = 160; // ms between "scroll" and "page landed"
+    function noteLatency(ms) {
+      if (!isFinite(ms) || ms <= 0) {
+        return;
+      }
       // Track the slow side, but let a chat that speeds up recover.
       loadMs = ms > loadMs ? Math.min(ms, 4000) : Math.round(loadMs * 0.7 + ms * 0.3);
-    };
-    var waitMs = function (mult, floor) {
+    }
+    function waitMs(mult, floor) {
       return Math.max(floor || 260, Math.min(3200, Math.round(loadMs * mult)));
-    };
-
-    var harvest = function (prepend) {
+    }
+    function harvest(prepend) {
       var fresh = [];
-      var batch = _0x24f8cd();
+      var batch = v752();
       for (var i = 0; i < batch.length; i++) {
         var e = batch[i];
-        if (seen.has(e.key)) continue;
+        if (seen.has(e.key)) {
+          continue;
+        }
         seen.add(e.key);
         var m = e.message;
         // Preserve actual WhatsApp message IDs for later voice queue playback.
         // Synthetic deduplication keys contain "|" and must never be sent to
         // the WhatsApp audio resolver.
-        if ((m.media === 'voice' || m.media === 'audio') && !m.sourceMessageId &&
-            e.key && String(e.key).length <= 200 && !String(e.key).includes('|'))
+        if ((m.media === "voice" || m.media === "audio") && !m.sourceMessageId && e.key && String(e.key).length <= 200 && !String(e.key).includes("|")) {
           m.sourceMessageId = String(e.key);
-        if (wantMedia && _0x1086b6(m, startDate)) {
-          mediaQueue.push({ m: m, k: e.key });
+        }
+        if (wantMedia && v802(m, startDate)) {
+          mediaQueue.push({
+            m: m,
+            k: e.key
+          });
         }
         if (m.tsMs != null) {
-          if (oldestTs === null || m.tsMs < oldestTs) oldestTs = m.tsMs;
-          if (filtered && m.tsMs < startMs) belowCut++;
+          if (oldestTs === null || m.tsMs < oldestTs) {
+            oldestTs = m.tsMs;
+          }
+          if (filtered && m.tsMs < startMs) {
+            belowCut++;
+          }
         }
         fresh.push(m);
       }
       if (fresh.length > 0) {
-        if (prepend) pages.push(fresh);
-        else for (var j = 0; j < fresh.length; j++) initial.push(fresh[j]);
+        if (prepend) {
+          pages.push(fresh);
+        } else {
+          for (var j = 0; j < fresh.length; j++) {
+            initial.push(fresh[j]);
+          }
+        }
         total += fresh.length;
         onProgress(total);
       }
       return fresh.length;
-    };
-
-    var assemble = function () {
+    }
+    function assemble() {
       var out = [];
       for (var p = pages.length - 1; p >= 0; p--) {
         var pg = pages[p];
-        for (var i = 0; i < pg.length; i++) out.push(pg[i]);
+        for (var i = 0; i < pg.length; i++) {
+          out.push(pg[i]);
+        }
       }
-      for (var k = 0; k < initial.length; k++) out.push(initial[k]);
+      for (var k = 0; k < initial.length; k++) {
+        out.push(initial[k]);
+      }
       return out;
-    };
-
-    // S2: two independent dated messages below the boundary, so a single
+    } // S2: two independent dated messages below the boundary, so a single
     // bubble whose stamp parsed wrong cannot truncate the chat. A real page
     // crossing the edge supplies dozens, so this never costs an extra round
     // except at the very start of a conversation -- where the loop is about
     // to stop anyway.
-    var passedCutoff = function () {
+    function passedCutoff() {
       return filtered && belowCut >= 2 && oldestTs !== null && oldestTs < startMs;
-    };
-
-    var fire = function () {
-      try { scroller.dispatchEvent(new Event("scroll", { bubbles: true })); } catch (e) {}
-    };
-
-    // S3: WhatsApp occasionally restores scrollTop from under the assignment,
+    }
+    function fire() {
+      try {
+        scroller.dispatchEvent(new Event("scroll", {
+          bubbles: true
+        }));
+      } catch (e) {}
+    } // S3: WhatsApp occasionally restores scrollTop from under the assignment,
     // which is what left the loader "trying to move up" with nothing to show
     // for it. Fall through to scrollTo, then to anchoring on the topmost
     // rendered bubble, before accepting that the pane will not move.
-    var toTop = function () {
-      try { scroller.scrollTop = 0; } catch (e) {}
+    function toTop() {
+      try {
+        scroller.scrollTop = 0;
+      } catch (e) {}
       if (scroller.scrollTop > 4) {
-        try { scroller.scrollTo({ top: 0 }); } catch (e) {}
+        try {
+          scroller.scrollTo({
+            top: 0
+          });
+        } catch (e) {}
       }
       if (scroller.scrollTop > 4) {
-        var rows = _0x385460();
+        var rows = v685();
         if (rows.length > 0) {
-          try { rows[0].scrollIntoView({ block: "start", inline: "nearest" }); } catch (e) {}
+          try {
+            rows[0].scrollIntoView({
+              block: "start",
+              inline: "nearest"
+            });
+          } catch (e) {}
         }
       }
       fire();
-    };
-
-    var nudge = async function (n) {
+    }
+    async function nudge(n) {
       var step = Math.max(48, Math.min(360, Math.round(scroller.clientHeight * 0.2 * n)));
-      try { scroller.scrollTop = step; } catch (e) {}
-      fire();
-      await _0x16b465(70);
-      toTop();
-    };
-
-    // A spinner means the pane IS fetching -- a barren round is then latency,
-    // not end-of-history, and must not be counted against the stall cap.
-    var isFetching = function () {
       try {
-        return !!scroller.querySelector(
-          '[role="progressbar"], [data-icon="msg-time"] ~ [role="progressbar"], ' +
-          'span[data-icon="status-time"] + [role="progressbar"], .lds-ring'
-        );
-      } catch (e) { return false; }
-    };
-
-    // v1.8.2 read scroller.innerText here, which serializes the entire loaded
+        scroller.scrollTop = step;
+      } catch (e) {}
+      fire();
+      await v547(70);
+      toTop();
+    } // A spinner means the pane IS fetching -- a barren round is then latency,
+    // not end-of-history, and must not be counted against the stall cap.
+    function isFetching() {
+      try {
+        return !!scroller.querySelector("[role=\"progressbar\"], [data-icon=\"msg-time\"] ~ [role=\"progressbar\"], span[data-icon=\"status-time\"] + [role=\"progressbar\"], .lds-ring");
+      } catch (e) {
+        return false;
+      }
+    } // v1.8.2 read scroller.innerText here, which serializes the entire loaded
     // pane -- the single most expensive call in the loop, and it grew with
     // every page. The banner sits within the first few children of the
     // message list, so read only those.
-    var atConversationTop = function () {
+    function atConversationTop() {
       try {
-        if (scroller.scrollTop > 8) return false;
-        var rows = _0x385460();
+        if (scroller.scrollTop > 8) {
+          return false;
+        }
+        var rows = v685();
         var host = rows.length > 0 && rows[0].parentElement ? rows[0].parentElement : scroller;
-        var kids = host.children, txt = "";
+        var kids = host.children;
+        var txt = "";
         for (var i = 0; i < kids.length && i < 6; i++) {
-          txt += " " + ((kids[i].textContent || "").slice(0, 240));
+          txt += " " + (kids[i].textContent || "").slice(0, 240);
         }
         return /end-to-end encrypted|Messages and calls are|created (this )?group|You created this group|added you/i.test(txt);
-      } catch (e) { return false; }
-    };
-
-    // Re-parse only when the pane actually changed, and bail the instant the
+      } catch (e) {
+        return false;
+      }
+    } // Re-parse only when the pane actually changed, and bail the instant the
     // filter window is covered rather than finishing the wait first (S2).
-    var waitForGrowth = async function (ms) {
+    async function waitForGrowth(ms) {
       var n = harvest(true);
-      if (n > 0) return n;
-
+      if (n > 0) {
+        return n;
+      }
       var t0 = Date.now();
       var deadline = t0 + ms;
       var baseH = scroller.scrollHeight;
-      var baseN = _0x385460().length;
-
+      var baseN = v685().length;
       while (Date.now() < deadline) {
-        if (shouldCancel()) return 0;
-        await _0x16b465(40);
-        var curN = _0x385460().length;
+        if (shouldCancel()) {
+          return 0;
+        }
+        await v547(40);
+        var curN = v685().length;
         if (scroller.scrollHeight !== baseH || curN !== baseN) {
           n = harvest(true);
-          if (n > 0) { noteLatency(Date.now() - t0); return n; }
+          if (n > 0) {
+            noteLatency(Date.now() - t0);
+            return n;
+          }
           baseH = scroller.scrollHeight;
           baseN = curN;
         }
       }
       return harvest(true);
-    };
-
+    }
     /* ---- prime ---- */
-    try { scroller.scrollTop = scroller.scrollHeight; } catch (e) {}
+    try {
+      scroller.scrollTop = scroller.scrollHeight;
+    } catch (e) {}
     fire();
     var primed = Date.now() + 2500;
-    while (_0x385460().length === 0 && Date.now() < primed) await _0x16b465(25);
+    while (v685().length === 0 && Date.now() < primed) {
+      await v547(25);
+    }
     harvest(false);
 
     /* ---- S1/S3: ceilings ----
@@ -4132,39 +5247,45 @@ var pinned = __lovIsPinned(row);
      * chat, not the normal path -- a chat that needs three minutes is not
      * slow, it is stuck, and every chat queued behind it is paying for it.
      */
-    var BUDGET_MS = filtered
-      ? Math.min(90000, 20000 + Math.max(1, days) * 2500)
-      : 150000;
-    var STALL_LIMIT = 3;      // live-but-barren pane: 3 attempts, then move on
-    var INERT_LIMIT = 2;      // pane not even rendering: 2 is conclusive
-    var SPINNER_GRACE = 2;    // times a visible spinner may reset the counter
+    var BUDGET_MS = filtered ? Math.min(90000, 20000 + Math.max(1, days) * 2500) : 150000;
+    var STALL_LIMIT = 3; // live-but-barren pane: 3 attempts, then move on
+    var INERT_LIMIT = 2; // pane not even rendering: 2 is conclusive
+    var SPINNER_GRACE = 2; // times a visible spinner may reset the counter
 
     var deadline = Date.now() + BUDGET_MS;
     var idle = 0;
     var grace = 0;
     var lastHeight = -1;
-
     for (var round = 0; round < 3000; round++) {
-      if (shouldCancel()) break;
-      if (passedCutoff()) break;
-      if (Date.now() > deadline) { __LOV_TRUNCATED__ = !passedCutoff(); break; }
-
+      if (shouldCancel()) {
+        break;
+      }
+      if (passedCutoff()) {
+        break;
+      }
+      if (Date.now() > deadline) {
+        __LOV_TRUNCATED__ = !passedCutoff();
+        break;
+      }
       toTop();
       var grew = await waitForGrowth(waitMs(4, 420));
       if (grew > 0) {
         idle = 0;
         grace = 0;
         lastHeight = scroller.scrollHeight;
-        if (passedCutoff()) break;
+        if (passedCutoff()) {
+          break;
+        }
         continue;
       }
-
       var stable = scroller.scrollHeight === lastHeight;
       lastHeight = scroller.scrollHeight;
 
       // Cheapest possible exit: the pane is parked at the top, has not grown,
       // and the conversation-start banner is on screen. Nothing to retry.
-      if (stable && atConversationTop()) break;
+      if (stable && atConversationTop()) {
+        break;
+      }
 
       // Still fetching -- this round was latency, not a stall. Bounded, so a
       // permanently visible spinner cannot loop forever.
@@ -4174,16 +5295,17 @@ var pinned = __lovIsPinned(row);
         if (late > 0) {
           idle = 0;
           lastHeight = scroller.scrollHeight;
-          if (passedCutoff()) break;
+          if (passedCutoff()) {
+            break;
+          }
           continue;
         }
       }
-
       idle++;
       var limit = stable && !isFetching() ? INERT_LIMIT : STALL_LIMIT;
       if (idle >= limit) {
         __LOV_TRUNCATED__ = !passedCutoff() && !atConversationTop();
-        break;   // give up on THIS chat; the caller advances to the next one
+        break; // give up on THIS chat; the caller advances to the next one
       }
 
       // One nudge-and-retry per idle round, never more.
@@ -4193,49 +5315,75 @@ var pinned = __lovIsPinned(row);
         idle = 0;
         grace = 0;
         lastHeight = scroller.scrollHeight;
-        if (passedCutoff()) break;
+        if (passedCutoff()) {
+          break;
+        }
       }
     }
 
     /* ---- media: bounded per item and in aggregate (S3) ---- */
     if (mediaQueue.length > 0 && !shouldCancel()) {
       var mediaDeadline = Date.now() + Math.min(120000, 15000 + mediaQueue.length * 400);
-      var withTimeout = function (p, ms) {
+      function withTimeout(p, ms) {
         return new Promise(function (res) {
           var settled = false;
-          var t = setTimeout(function () { if (!settled) { settled = true; res(undefined); } }, ms);
+          var t = setTimeout(function () {
+            if (!settled) {
+              settled = true;
+              res(undefined);
+            }
+          }, ms);
           Promise.resolve(p).then(function (v) {
-            if (!settled) { settled = true; clearTimeout(t); res(v); }
+            if (!settled) {
+              settled = true;
+              clearTimeout(t);
+              res(v);
+            }
           }, function () {
-            if (!settled) { settled = true; clearTimeout(t); res(undefined); }
+            if (!settled) {
+              settled = true;
+              clearTimeout(t);
+              res(undefined);
+            }
           });
         });
-      };
-
+      }
       var idx = 0;
-      var worker = async function () {
+      async function worker() {
         while (true) {
           var k = idx++;
-          if (k >= mediaQueue.length || shouldCancel()) return;
-          if (Date.now() > mediaDeadline) return;   // stop cleanly, keep the text
+          if (k >= mediaQueue.length || shouldCancel()) {
+            return;
+          }
+          if (Date.now() > mediaDeadline) {
+            return;
+          } // stop cleanly, keep the text
           var m = mediaQueue[k].m;
           if (m.mediaUrl) {
-            m.mediaData = await withTimeout(_0x1e1d4e(m.mediaUrl), 12000);
+            m.mediaData = await withTimeout(v766(m.mediaUrl), 12000);
           } else if (m.media === "voice") {
-            m.mediaData = await withTimeout(
-              window.__lovDlAudio__ ? window.__lovDlAudio__(mediaQueue[k].k) : Promise.resolve(),
-              12000
-            );
+            m.mediaData = await withTimeout(window.__lovDlAudio__ ? window.__lovDlAudio__(mediaQueue[k].k) : Promise.resolve(), 12000);
           }
           if (m.media === "voice" && m.durationSeconds == null && m.mediaData) {
             try {
               var probe = await new Promise(function (res) {
                 var a = new Audio();
                 var fin = false;
-                var done = function (v) { if (!fin) { fin = true; res(v); } };
-                a.onloadedmetadata = function () { done(isFinite(a.duration) ? a.duration : null); };
-                a.onerror = function () { done(null); };
-                setTimeout(function () { done(null); }, 1800);
+                function done(v) {
+                  if (!fin) {
+                    fin = true;
+                    res(v);
+                  }
+                }
+                a.onloadedmetadata = function () {
+                  done(isFinite(a.duration) ? a.duration : null);
+                };
+                a.onerror = function () {
+                  done(null);
+                };
+                setTimeout(function () {
+                  done(null);
+                }, 1800);
                 a.src = m.mediaData;
               });
               if (probe != null) {
@@ -4245,13 +5393,15 @@ var pinned = __lovIsPinned(row);
             } catch (e) {}
           }
         }
-      };
-      await Promise.all(Array.from({ length: Math.min(6, mediaQueue.length) }, worker));
+      }
+      await Promise.all(Array.from({
+        length: Math.min(6, mediaQueue.length)
+      }, worker));
     }
-
-    try { scroller.scrollTop = scroller.scrollHeight; } catch (e) {}
+    try {
+      scroller.scrollTop = scroller.scrollHeight;
+    } catch (e) {}
     return assemble();
   };
   /* ========================= end WCE-PATCH v1.8.3 ========================= */
-
-})());
+})();
