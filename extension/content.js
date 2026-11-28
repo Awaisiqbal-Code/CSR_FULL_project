@@ -94,7 +94,7 @@
   window.__wceRequestActiveChatId = function () {
     return new Promise(function (resolve) {
       var id = "aid_" + (++__aidSeq) + "_" + Date.now();
-      var t = setTimeout(function () { delete __aidReqs[id]; resolve(null); }, 1500);
+      var t = setTimeout(function () { delete __aidReqs[id]; resolve(null); }, 1000);
       __aidReqs[id] = { resolve: resolve, t: t };
       window.postMessage({ source: "lov-wa-active-chat-request", reqId: id }, "*");
     });
@@ -2811,7 +2811,15 @@
           }, v860, v861, v858[v864]);
           // The chat is open now, so read its stable WhatsApp id (JID/@lid) from
           // WhatsApp's internals — the identity that keeps same-name contacts apart.
-          try { if (v867) v867.waId = await window.__wceRequestActiveChatId(); } catch (e) {}
+          // Retry once if the open chat is still settling, so a bulk sync captures
+          // the id for EVERY chat, not just the ones that happened to be ready.
+          try {
+            if (v867) {
+              var __wid = await window.__wceRequestActiveChatId();
+              if (!__wid) { await v547(300); __wid = await window.__wceRequestActiveChatId(); }
+              v867.waId = __wid;
+            }
+          } catch (e) {}
           v866 = null;
           break;
         } catch (v871) {
