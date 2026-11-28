@@ -23,6 +23,9 @@ def create_tables():
         # Additive, nullable overrides; never rewrite old chats or audit PDFs.
         conn.execute(text("ALTER TABLE conversations ADD COLUMN IF NOT EXISTS display_name_override VARCHAR(200)"))
         conn.execute(text("ALTER TABLE conversations ADD COLUMN IF NOT EXISTS contact_number_override VARCHAR(60)"))
+        # Stable WhatsApp id + reversible archive flag (hide superseded duplicates).
+        conn.execute(text("ALTER TABLE conversations ADD COLUMN IF NOT EXISTS wa_id VARCHAR(80)"))
+        conn.execute(text("ALTER TABLE conversations ADD COLUMN IF NOT EXISTS archived BOOLEAN DEFAULT FALSE"))
         # Audit reporting window (additive, nullable; preserves existing audit rows).
         conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS range_start TIMESTAMPTZ"))
         conn.execute(text("ALTER TABLE audit_jobs ADD COLUMN IF NOT EXISTS range_end TIMESTAMPTZ"))

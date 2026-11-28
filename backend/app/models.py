@@ -39,6 +39,11 @@ class Conversation(Base):
     # Admin-verified display details are separate from collector-supplied raw fields.
     display_name_override: Mapped[str | None] = mapped_column(String(200), nullable=True)
     contact_number_override: Mapped[str | None] = mapped_column(String(60), nullable=True)
+    # Stable WhatsApp id (JID / @lid) read from WhatsApp internals; lets same-name
+    # contacts stay apart and marks a conversation as identity-resolved.
+    wa_id: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    # Hidden from the admin + audit without deleting any data (reversible).
+    archived: Mapped[bool] = mapped_column(Boolean, default=False)
     state: Mapped[str] = mapped_column(String(30), default='unclassified')
     needs_review: Mapped[bool] = mapped_column(Boolean, default=False)
     review_reason: Mapped[str] = mapped_column(String(300), default='')

@@ -375,12 +375,16 @@ def sync_chats(data:SyncIn,user:models.User=Depends(current_user),db:Session=Dep
     for chat in data.chats:
         external=(chat.id or chat.title).strip().casefold()
         key=hashlib.sha256(external.encode('utf-8')).hexdigest()
+        # When the collector supplied a stable WhatsApp id (JID/@lid), record it so
+        # same-name duplicates can be told apart and superseded leftovers archived.
+        wa_id=external if external.endswith(('@c.us','@g.us','@lid')) else None
         c=db.scalar(select(models.Conversation).where(models.Conversation.employee_id==user.id,models.Conversation.external_key==key))
         if not c:
-            c=models.Conversation(employee_id=user.id,external_key=key,title=chat.title,contact_number=chat.contact_number,needs_review=chat.needs_review,review_reason=chat.review_reason)
+            c=models.Conversation(employee_id=user.id,external_key=key,title=chat.title,contact_number=chat.contact_number,needs_review=chat.needs_review,review_reason=chat.review_reason,wa_id=wa_id)
             db.add(c);db.flush()
         else:
             c.title=chat.title
+            if wa_id:c.wa_id=wa_id
             if chat.contact_number:c.contact_number=chat.contact_number
             # Successful extraction can clear an earlier needs_review marker.
             c.needs_review=bool(chat.needs_review and not chat.messages)
@@ -775,7 +779,7 @@ def conversations(employee_id:int|None=None,start:date|None=None,end:date|None=N
     if employee_id is not None:
         u=db.get(models.User,employee_id)
         if not u or u.role!='employee':raise HTTPException(404,'Employee not found')
-    q=select(models.Conversation)
+    q=select(models.Conversation).where(models.Conversation.archived.is_(False))
     if employee_id is not None:q=q.where(models.Conversation.employee_id==employee_id)
     if state=='needs_review':q=q.where(models.Conversation.needs_review.is_(True))
     elif state:q=q.where(models.Conversation.state==state)
@@ -1038,6 +1042,46 @@ def audit_drill_pdf(job_id:int,data:DrillPdf,user:models.User=Depends(admin_only
     pdf=reporting.generate_drill_pdf(name,data.label[:120],period,generated.isoformat() if generated else None,cols,rows)
     return Response(pdf,media_type='application/pdf',headers={'Content-Disposition':f'attachment; filename="csr-audit-detail-{job.id}.pdf"','Cache-Control':'no-store'})
 
+
+def _archive_superseded(db,dry_run=True):
+    """Hide (archive) old name-merged conversations that a stable-id (@lid)
+    conversation now supersedes: within one employee + same title, if any
+    conversation has a wa_id and any other has none, the ones WITHOUT a wa_id are
+    the leftovers. NON-DESTRUCTIVE — it only sets archived=True (reversible)."""
+    from collections import defaultdict
+    report={'dry_run':dry_run,'conversations':0,'groups_with_leftovers':0,'archived':0,'titles':[]}
+    convs=db.scalars(select(models.Conversation).where(models.Conversation.archived.is_(False))).all()
+    report['conversations']=len(convs)
+    groups=defaultdict(list)
+    for c in convs:
+        groups[(c.employee_id,' '.join(str(c.title or '').split()).casefold())].append(c)
+    leftovers=[]
+    for group in groups.values():
+        if any(c.wa_id for c in group) and any(not c.wa_id for c in group):
+            report['groups_with_leftovers']+=1
+            leftovers.extend(c for c in group if not c.wa_id)
+    report['archived']=len(leftovers)
+    report['titles']=sorted({' '.join(str(c.title or '').split()) for c in leftovers})[:50]
+    if not dry_run:
+        for c in leftovers:c.archived=True
+        db.commit()
+    return report
+
+@app.post('/admin/archive-superseded')
+def admin_archive_superseded(dry_run:bool=Query(True),user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    """Archive (hide, NEVER delete) old name-merged conversations now superseded by a
+    stable-id (@lid) conversation. dry_run=true (default) reports what it would hide;
+    ?dry_run=false applies it. Reversible via /admin/conversations/{id}/archived."""
+    return _archive_superseded(db,dry_run=dry_run)
+
+@app.post('/admin/conversations/{conversation_id}/archived')
+def admin_set_conversation_archived(conversation_id:int,archived:bool=Query(True),user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    """Manually archive/unarchive one conversation (reversible hide, no deletion)."""
+    c=db.get(models.Conversation,conversation_id)
+    if not c:raise HTTPException(404,'Conversation not found')
+    assert_scope(user,c.employee_id)
+    c.archived=bool(archived);db.commit()
+    return {'id':c.id,'title':c.title,'archived':c.archived}
 
 @app.get('/admin/analytics')
 def admin_analytics(start:date|None=None,end:date|None=None,

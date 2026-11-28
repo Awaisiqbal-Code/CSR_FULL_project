@@ -209,6 +209,7 @@ def build_summary(db: Session, employee_id: int, hours: int | None = None,
     # per-chat logic is unchanged.
     conversations = db.scalars(select(Conversation).where(
         Conversation.employee_id==employee_id,
+        Conversation.archived.is_(False),
         not_(group_conversation_condition()),
         select(Message.id).where(
             Message.conversation_id==Conversation.id,
