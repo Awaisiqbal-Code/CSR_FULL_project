@@ -762,4 +762,42 @@
       }, "*");
     });
   });
+  // Active chat id (JID / @lid) from the OPEN chat's React fiber — the only stable
+  // identity available when WhatsApp message ids are bare hex. Lets the collector
+  // keep two same-name contacts (e.g. two "Hammad"s) in separate conversations.
+  function __wceActiveChatId() {
+    var JID = /\b\d[\d-]*@(?:c\.us|g\.us|lid)\b/;
+    var main = document.querySelector("#main");
+    if (!main) return null;
+    var fk = Object.keys(main).find(function (k) { return k.indexOf("__reactFiber$") === 0; });
+    var root = fk ? main[fk] : null;
+    if (!root) return null;
+    var seen = new Set(), stack = [root], n = 0;
+    while (stack.length && n++ < 8000) {
+      var f = stack.pop();
+      if (!f || seen.has(f)) continue;
+      seen.add(f);
+      var p = f.memoizedProps;
+      if (p && typeof p === "object") {
+        for (var key in p) {
+          try {
+            var v = p[key];
+            if (v && typeof v === "object") {
+              var s = v._serialized || (v.id && v.id._serialized) || (v.wid && v.wid._serialized);
+              if (typeof s === "string" && JID.test(s)) return s;
+            }
+          } catch (e) {}
+        }
+      }
+      if (f.child) stack.push(f.child);
+      if (f.sibling) stack.push(f.sibling);
+    }
+    return null;
+  }
+  window.addEventListener("message", function (ev) {
+    if (ev.source !== window || !ev.data || ev.data.source !== "lov-wa-active-chat-request") return;
+    var jid = null;
+    try { jid = __wceActiveChatId(); } catch (e) {}
+    window.postMessage({ source: "lov-wa-active-chat-response", reqId: ev.data.reqId, jid: jid }, "*");
+  });
 })();

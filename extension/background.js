@@ -134,7 +134,10 @@ async function collectAndSync(){
         if(!names.has(key)||processed.has(key))continue;
         processed.add(key);
         const messages=Array.isArray(c.messages)?c.messages:[];
-        rows.push({id:key,title:preferredTitle(names.get(key),c.title),
+        // Identity: the stable WhatsApp id (JID/@lid) the collector read from
+        // WhatsApp's internals when available, so two same-name contacts stay in
+        // separate conversations; otherwise the name-based matching key as before.
+        rows.push({id:(c.waId?normalized(c.waId):key),title:preferredTitle(names.get(key),c.title),
           contact_number:visiblePhone(c.contactNumber,c.contact_number,c.phone,names.get(key),c.title),
           messages:messages.map(m=>({sender:String(m.sender||'').slice(0,160),
             fromMe:Boolean(m.fromMe),text:String(m.text||'').slice(0,100000),

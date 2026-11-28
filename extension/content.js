@@ -78,6 +78,29 @@
   });
 })();
 (function () {
+  // Bridge to page-inject (MAIN world): the OPEN chat's stable WhatsApp id
+  // (JID / @lid), read from WhatsApp's React internals. This is the only stable
+  // identity when message ids are bare hex, so it lets the collector keep two
+  // same-name contacts (e.g. two "Hammad"s) in separate conversations.
+  var __aidReqs = {}, __aidSeq = 0;
+  window.addEventListener("message", function (ev) {
+    if (ev.source !== window || !ev.data || ev.data.source !== "lov-wa-active-chat-response") return;
+    var h = __aidReqs[ev.data.reqId];
+    if (!h) return;
+    delete __aidReqs[ev.data.reqId];
+    clearTimeout(h.t);
+    h.resolve(ev.data.jid || null);
+  });
+  window.__wceRequestActiveChatId = function () {
+    return new Promise(function (resolve) {
+      var id = "aid_" + (++__aidSeq) + "_" + Date.now();
+      var t = setTimeout(function () { delete __aidReqs[id]; resolve(null); }, 1500);
+      __aidReqs[id] = { resolve: resolve, t: t };
+      window.postMessage({ source: "lov-wa-active-chat-request", reqId: id }, "*");
+    });
+  };
+})();
+(function () {
   const v34 = {
     GLSlD: function (v35, v36) {
       return v35 > v36;
@@ -2786,6 +2809,9 @@
             }),
             shouldCancel: v859.shouldCancel
           }, v860, v861, v858[v864]);
+          // The chat is open now, so read its stable WhatsApp id (JID/@lid) from
+          // WhatsApp's internals — the identity that keeps same-name contacts apart.
+          try { if (v867) v867.waId = await window.__wceRequestActiveChatId(); } catch (e) {}
           v866 = null;
           break;
         } catch (v871) {
