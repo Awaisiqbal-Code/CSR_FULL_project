@@ -1083,6 +1083,21 @@ def admin_set_conversation_archived(conversation_id:int,archived:bool=Query(True
     c.archived=bool(archived);db.commit()
     return {'id':c.id,'title':c.title,'archived':c.archived}
 
+@app.post('/admin/unarchive-all')
+def admin_unarchive_all(user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    """Reverse ALL archiving — make every hidden conversation visible again. No data
+    was ever deleted, so this fully restores anything the cleanup hid."""
+    n=db.execute(update(models.Conversation).where(models.Conversation.archived.is_(True)).values(archived=False)).rowcount
+    db.commit()
+    return {'unarchived':n}
+
+@app.get('/admin/archived')
+def admin_archived_list(user:models.User=Depends(admin_only),db:Session=Depends(get_db)):
+    """List currently-hidden conversations (id, title) so you can see what the cleanup
+    archived before reversing it."""
+    rows=db.scalars(select(models.Conversation).where(models.Conversation.archived.is_(True)).order_by(models.Conversation.title)).all()
+    return {'count':len(rows),'conversations':[{'id':c.id,'title':c.title,'employee_id':c.employee_id} for c in rows]}
+
 @app.get('/admin/analytics')
 def admin_analytics(start:date|None=None,end:date|None=None,
                     employee_id:int|None=None,bucket:str='day',
