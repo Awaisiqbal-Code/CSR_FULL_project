@@ -130,3 +130,48 @@ def test_migration_rekeys_single_jid_and_skips_bare():
     db.refresh(single); db.refresh(bare)
     assert single.external_key == ji.external_key_for('999@c.us') and single.contact_number == '999'
     assert bare.external_key == ji.external_key_for('unknown')  # untouched (no JID to prove identity)
+
+
+def test_migration_never_deletes_on_collision():
+    # Two conversations resolve to the SAME JID (e.g. a duplicate of one contact).
+    # The migration must SKIP the re-key, never merge-and-delete — no lost rows.
+    db = _session()
+    emp = User(full_name='Emp', email='e@t.invalid', employee_code='001', whatsapp_number='1',
+               role='employee', approved=True, active=True, password_hash='x')
+    db.add(emp); db.flush()
+    a = Conversation(employee_id=emp.id, external_key=ji.external_key_for('999@c.us'), title='X')
+    dupe = Conversation(employee_id=emp.id, external_key=ji.external_key_for('x-name'), title='X')
+    db.add_all([a, dupe]); db.flush()
+    db.add(Message(conversation_id=a.id, fingerprint='a1', source_message_id='false_999@c.us_A', media=''))
+    db.add(Message(conversation_id=dupe.id, fingerprint='d1', source_message_id='false_999@c.us_B', media=''))
+    db.flush()
+    before_convs = len(db.scalars(select(Conversation)).all())
+    before_msgs = len(db.scalars(select(Message)).all())
+    rep = ji.migrate_identity(db, dry_run=False)
+    assert rep['rekey_skipped_collision'] >= 1
+    assert len(db.scalars(select(Conversation)).all()) == before_convs  # nothing deleted
+    assert len(db.scalars(select(Message)).all()) == before_msgs        # no message lost
+
+
+def test_migration_recovers_a_merged_away_contact():
+    # The state an earlier destructive run could leave: ONE conversation already keyed
+    # to contact A's JID that also holds contact B's messages (B's own row was merged
+    # away). Re-running the fixed migration must split B back out, losing nothing.
+    db = _session()
+    emp = User(full_name='Emp', email='e@t.invalid', employee_code='001', whatsapp_number='1',
+               role='employee', approved=True, active=True, password_hash='x')
+    db.add(emp); db.flush()
+    merged = Conversation(employee_id=emp.id, external_key=ji.external_key_for('923111@c.us'), title='Hammad')
+    db.add(merged); db.flush()
+    for fp, sid in [('a1', 'false_923111@c.us_A1'), ('a2', 'false_923111@c.us_A2'), ('a3', 'false_923111@c.us_A3'),
+                    ('b1', 'false_923222@c.us_B1'), ('b2', 'false_923222@c.us_B2')]:
+        db.add(Message(conversation_id=merged.id, fingerprint=fp, source_message_id=sid, media=''))
+    db.flush()
+    before_msgs = len(db.scalars(select(Message)).all())
+    rep = ji.migrate_identity(db, dry_run=False)
+    assert rep['split'] == 1 and rep['new_conversations'] == 1
+    assert len(db.scalars(select(Message)).all()) == before_msgs  # recovered, not lost
+    convs = {c.external_key: c for c in db.scalars(select(Conversation)).all()}
+    assert set(convs) == {ji.external_key_for('923111@c.us'), ji.external_key_for('923222@c.us')}
+    b = convs[ji.external_key_for('923222@c.us')]
+    assert len(db.scalars(select(Message).where(Message.conversation_id == b.id)).all()) == 2

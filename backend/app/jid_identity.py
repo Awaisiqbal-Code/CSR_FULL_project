@@ -89,23 +89,19 @@ def number_from_jid(jid: str | None) -> str:
 
 
 # --------------------------------------------------------------------------
-# One-time migration. Idempotent and additive: it re-keys conversations to their
-# JID and splits name-merged ones; it never deletes a real message (only exact
-# fingerprint duplicates created by a merge). dry_run=True reports intended changes
-# without writing. Run via the admin endpoint once after deploy.
+# One-time migration. STRICTLY NON-DESTRUCTIVE: it NEVER deletes a conversation or
+# a message. It only (a) re-keys a conversation to its JID when that key is free,
+# and (b) moves messages into a new/existing JID conversation (split). On any key
+# collision it SKIPS rather than merge-and-delete, so no data can be lost. Re-running
+# is safe and also RECOVERS a conversation that an earlier version merged away, by
+# re-splitting the now-combined conversation on its minority JIDs. dry_run=True
+# reports intended changes without writing.
 # --------------------------------------------------------------------------
 
-def _delete_message(db, m):
-    from sqlalchemy import select
-    from .models import VoiceAsset
-    va = db.scalar(select(VoiceAsset).where(VoiceAsset.message_id == m.id))
-    if va:
-        db.delete(va)
-    db.delete(m)
-
-
 def _move_messages(db, message_rows, target, report):
-    """Move messages to target, dropping any that collide on (target, fingerprint)."""
+    """Move messages to target via the ORM relationship (keeps the session
+    consistent — no accidental cascade). A message that would collide on
+    (target, fingerprint) is LEFT where it is, never deleted."""
     from sqlalchemy import select
     from .models import Message
     for m in message_rows:
@@ -113,11 +109,10 @@ def _move_messages(db, message_rows, target, report):
             Message.conversation_id == target.id, Message.fingerprint == m.fingerprint,
             Message.id != m.id))
         if dup is not None:
-            _delete_message(db, m)
-            report['duplicates_removed'] += 1
-        else:
-            m.conversation_id = target.id
-            report['messages_moved'] += 1
+            report['duplicates_skipped'] += 1
+            continue
+        m.conversation = target  # updates both sides; no FK-only cascade surprise
+        report['messages_moved'] += 1
 
 
 def migrate_identity(db, *, dry_run: bool = True) -> dict:
@@ -126,8 +121,8 @@ def migrate_identity(db, *, dry_run: bool = True) -> dict:
     from sqlalchemy import select
     from .models import Conversation, Message
     report = {'dry_run': dry_run, 'conversations': 0, 'rekeyed': 0, 'split': 0,
-              'new_conversations': 0, 'messages_moved': 0, 'duplicates_removed': 0,
-              'merged_into_existing': 0, 'skipped_no_jid': 0, 'unchanged': 0}
+              'new_conversations': 0, 'messages_moved': 0, 'duplicates_skipped': 0,
+              'rekey_skipped_collision': 0, 'skipped_no_jid': 0, 'unchanged': 0}
     convs = db.scalars(select(Conversation)).all()
     report['conversations'] = len(convs)
     for conv in convs:
@@ -155,20 +150,17 @@ def migrate_identity(db, *, dry_run: bool = True) -> dict:
 
 def _apply_rekey(db, conv, jid, new_key, report, dry_run):
     from sqlalchemy import select
-    from .models import Conversation, Message
+    from .models import Conversation
     if conv.external_key == new_key:
         return
     existing = db.scalar(select(Conversation).where(
         Conversation.employee_id == conv.employee_id,
         Conversation.external_key == new_key, Conversation.id != conv.id))
     if existing is not None:
-        # The real JID conversation already exists: merge this one's messages into it.
-        report['merged_into_existing'] += 1
-        if not dry_run:
-            rows = db.scalars(select(Message).where(Message.conversation_id == conv.id)).all()
-            _move_messages(db, rows, existing, report)
-            db.flush()
-            db.delete(conv)
+        # The JID key is already taken by another conversation. Do NOT merge or
+        # delete anything — leave this conversation as-is (a harmless duplicate the
+        # user can review) rather than risk losing a distinct contact.
+        report['rekey_skipped_collision'] += 1
         return
     report['rekeyed'] += 1
     if not dry_run:
